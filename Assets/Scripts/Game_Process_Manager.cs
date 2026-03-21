@@ -4,7 +4,10 @@ using UnityEngine.InputSystem;
 
 public class Game_Process_Manager : MonoBehaviour
 {
+    private enum backgroundTime { day, afternoon, evening };
+    private enum backgroundSection { bedroom, driving, officeJob, officeBreakRoom, coffeeShop, jenns, saladDeli, livingRoom, gym, resturant, pub};
     [SerializeField] private Modal_Managment modalSystem;
+    [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
     private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
     private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
 
@@ -125,4 +128,21 @@ public class Game_Process_Manager : MonoBehaviour
 
         }
     }
+
+    //
+    // This class helps simplify the process of saving and using the background textures
+    //
+    [System.Serializable]
+    private class BackgroundSpriteInfo
+    {
+        [SerializeField] private Sprite sprite;
+        [SerializeField] private backgroundSection section;
+        [SerializeField] private backgroundTime time;
+
+        public Sprite getSprite() { return sprite; }
+        public backgroundSection getSection() { return section; }
+        public backgroundTime getTime() { return time; }
+    }
 }
+
+

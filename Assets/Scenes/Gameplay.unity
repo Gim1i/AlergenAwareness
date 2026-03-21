@@ -823,6 +823,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game_Process_Manager
   modalSystem: {fileID: 1704096187}
+  backgroundSheet:
+  - sprite: {fileID: -1878159205, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 0
+    time: 0
+  - sprite: {fileID: 2088033570, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 0
+    time: 2
+  - sprite: {fileID: -1251816906, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 4
+    time: 0
+  - sprite: {fileID: 602693035, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 1
+    time: 1
+  - sprite: {fileID: 1975584661, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 1
+    time: 0
+  - sprite: {fileID: -1244715685, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 1
+    time: 2
+  - sprite: {fileID: -664704893, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 8
+    time: 0
+  - sprite: {fileID: -1986691459, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 5
+    time: 0
+  - sprite: {fileID: 2118182510, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 7
+    time: 1
+  - sprite: {fileID: 1855772250, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 7
+    time: 0
+  - sprite: {fileID: -1474940811, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 3
+    time: 0
+  - sprite: {fileID: -2090445895, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 2
+    time: 0
+  - sprite: {fileID: -1345595427, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 10
+    time: 1
+  - sprite: {fileID: -1572571088, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 10
+    time: 2
+  - sprite: {fileID: -2112169216, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 9
+    time: 1
+  - sprite: {fileID: 130923886, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    section: 6
+    time: 0
 --- !u!114 &1453211059
 MonoBehaviour:
   m_ObjectHideFlags: 0

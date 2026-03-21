@@ -162,7 +162,7 @@ public static class impactArray
 }
 
 //
-// Classes to be used elsewhere
+// Classes to be used in multiple scripts (single script classes are stored in their respective script)
 //
 [System.Serializable]
 public class modalInformation //Simpler store for modal information (didnt wanna use a 3 value tuple across the whole game)

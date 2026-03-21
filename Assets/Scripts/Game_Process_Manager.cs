@@ -5,21 +5,23 @@ using UnityEngine.InputSystem;
 public class Game_Process_Manager : MonoBehaviour
 {
     [SerializeField] private Modal_Managment modalSystem;
-    
+    private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
+    private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
+
     public void HPressed()
     {
-        if (modalSystem.DoesModalExist(modalState.happy)) { //Check wether modal already exists
-            modalSystem.RemoveModal(modalState.happy); //Remove it if it exists
+        if (modalSystem.DoesModalExist(testHappymodal)) { //Check wether modal already exists
+            modalSystem.RemoveModal(testHappymodal); //Remove it if it exists
         } else {
-            modalSystem.CreateNewModal(modalState.happy); //Add it if its missing
+            modalSystem.CreateNewModal(testHappymodal); //Add it if its missing
         }
     }
     public void SPressed()
     {
-        if (modalSystem.DoesModalExist(modalState.sad)) { //Check wether modal already exists
-            modalSystem.RemoveModal(modalState.sad); //Remove it if it exists
+        if (modalSystem.DoesModalExist(testSadmodal)) { //Check wether modal already exists
+            modalSystem.RemoveModal(testSadmodal); //Remove it if it exists
         } else {
-            modalSystem.CreateNewModal(modalState.sad); //Add it if its missing
+            modalSystem.CreateNewModal(testSadmodal); //Add it if its missing
         }
     }
 

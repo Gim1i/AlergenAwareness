@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum modalState { happy, sad, angry, pain, tired, stress, bored, soreThroat }
+public enum modalVariant { happy, sad, angry, pain, tired, stress, bored, soreThroat }
 public enum emotionState { happy, sad, angry, pain, tired, stress, bored } //Possible emotion modals
 public enum afflictState { soreThroat } //Possible afflict modals
 public enum playerStatLevel { none, low, medium, high }
@@ -159,4 +159,37 @@ public static class impactArray
         new (daySection.afternoon, new (string rEvent, int chance)[0]),
         new (daySection.dayEnd, new (string rEvent, int chance)[0]),
     };
+}
+
+//
+// Classes to be used elsewhere
+//
+[System.Serializable]
+public class modalInformation //Simpler store for modal information (didnt wanna use a 3 value tuple across the whole game)
+{
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private modalVariant variant;
+    [SerializeField] private bool isEmotion;
+    [SerializeField] private playerStatLevel level;
+
+    public modalInformation(modalVariant variant, bool isEmotion, playerStatLevel level) { //Initalise with values
+        this.variant = variant;
+        this.isEmotion = isEmotion;
+        this.level = level;
+    }
+    public void addSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
+    public bool compaireWithoutSprite(modalInformation var1) { //Custom comparison script to account for sprites being optional in this class
+        if (var1.variant == this.variant && var1.isEmotion == this.isEmotion && var1.level == this.level) {
+            return true;
+        }
+        return false;
+    }
+
+    public Sprite getSprite() {return sprite; }
+    public modalVariant getVariant() { return variant; }
+    public bool getIsEmotion() { return isEmotion; }
+    public playerStatLevel getLevel() { return level; }
 }

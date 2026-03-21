@@ -2,19 +2,18 @@ using UnityEngine;
 
 public class Modal_Data : MonoBehaviour
 {
-    public modalState currentStatus { get; private set; } //Variable can be seen by any script but only altered by this one
     [SerializeField] private float movementStopLeway = 0.1f;
     [SerializeField] private float movementTime = 3f;
     [SerializeField] private GameObject statusSprite;
-    private modalState status;
+    private modalInformation state;
     private Vector3? v3MovingNeeded = null; //Using null as movement completed
     private bool movingNeeded = true; //Re-enables movement
     private Vector3 localEndPos = new Vector3(0, 0, 0);
 
-    public void Setup(Sprite statusSprite, modalState status) //Inital setup of modal (on instantiation)
+    public void Setup(modalInformation status) //Inital setup of modal (on instantiation)
     {
-        this.statusSprite.GetComponent<SpriteRenderer>().sprite = statusSprite;
-        this.status = status;
+        this.statusSprite.GetComponent<SpriteRenderer>().sprite = status.getSprite();
+        this.state = status;
     }
 
     private void Update() //Animated movment
@@ -38,7 +37,7 @@ public class Modal_Data : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public modalState ModalStatus() { return status; }
+    public modalInformation ModalStatus() { return state; }
     public void ResetMovement() { //Reset movement settings
         movingNeeded = true;
         v3MovingNeeded = null; //Force movement code to re-calculate destination

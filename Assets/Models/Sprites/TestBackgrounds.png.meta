@@ -44,7 +44,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TestBackgrounds_Bedroom_Day
+      name: TB_Bedroom_Day
       rect:
         serializedVersion: 2
         x: 0
-        y: 512
-        width: 192
-        height: 256
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6b595ae19735bb408d87970486f4ba1
-      internalID: -1878159205
+      spriteID: 5a7ac491d270dcd41b13db804517ca8f
+      internalID: 1339667165
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Driving_Day
+      name: TB_Driving_Day
       rect:
         serializedVersion: 2
-        x: 192
-        y: 512
-        width: 192
-        height: 256
+        x: 200
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b4a8841bc9086d4593d281ef68907d5
-      internalID: 1975584661
+      spriteID: bb182ebbf9d6fcf498692ca9f9a81446
+      internalID: 1304404298
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Officejob
+      name: TB_OfficeJob_Day
       rect:
         serializedVersion: 2
-        x: 384
-        y: 512
-        width: 192
-        height: 256
+        x: 400
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a824954b395dee646a112a3160dd3a81
-      internalID: -2090445895
+      spriteID: aea9811b55e0d8447befd04a40550fe9
+      internalID: 1454869064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Officebreakroom
+      name: TB_OfficeBreakRoom_Day
       rect:
         serializedVersion: 2
-        x: 576
-        y: 512
-        width: 192
-        height: 256
+        x: 600
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,20 +191,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7cea6a08d4ac3540b05c17a1d98b8bc
-      internalID: -1474940811
+      spriteID: b42db330bdc6b734d9018201711da6b8
+      internalID: -630093614
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Coffeeshop
+      name: TB_CoffeeShop_Day
       rect:
         serializedVersion: 2
-        x: 768
-        y: 512
-        width: 192
-        height: 256
+        x: 800
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4702ce674afe9545b8164bcbfca9274
-      internalID: -1251816906
+      spriteID: a86fa5c2539dc6441b07a34556696b43
+      internalID: 1727999959
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Jenns
+      name: TB_Jenns_Day
       rect:
         serializedVersion: 2
-        x: 960
-        y: 512
-        width: 192
-        height: 256
+        x: 998
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,20 +235,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f76200e674ebf647a298fc4b1aa1c58
-      internalID: -1986691459
+      spriteID: a1b1a9075883aec4faf9e6ebcc123167
+      internalID: 1267327800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_SaladDeli
+      name: TB_SaladDeli_Day
       rect:
         serializedVersion: 2
-        x: 1152
-        y: 512
-        width: 192
-        height: 256
+        x: 1200
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,20 +257,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 66713ab71300e3945be2186b00de1952
-      internalID: 130923886
+      spriteID: 59e0f2aaa89c30848975f9ebe9e20073
+      internalID: 1060934917
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Livingroom_Day
+      name: TB_LivingRoom_Day
       rect:
         serializedVersion: 2
-        x: 1344
-        y: 512
-        width: 192
-        height: 256
+        x: 1400
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -279,20 +279,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30a856ea5ed93ac4d97efe921c838c0b
-      internalID: 1855772250
+      spriteID: 4af42308fe152934c9e2491468012f32
+      internalID: -161793023
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Gym_Day
+      name: TB_Gym_Day
       rect:
         serializedVersion: 2
-        x: 1536
-        y: 512
-        width: 192
-        height: 256
+        x: 1600
+        y: 640
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -301,20 +301,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c84a8d0cd370f7488f2db8f936c9709
-      internalID: -664704893
+      spriteID: 7024f7b2d0f46fd49aea1dfad20a625f
+      internalID: -1389667162
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Driving_Afternoon
+      name: TB_Driving_Afternoon
       rect:
         serializedVersion: 2
-        x: 192
-        y: 256
-        width: 192
-        height: 256
+        x: 200
+        y: 320
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -323,20 +323,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 673b48aab1367a8489bf3790e452dcdd
-      internalID: 602693035
+      spriteID: 1e7402ec789910b4bbd9d3023be61925
+      internalID: 471770422
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Livingroom_Afternoon
+      name: TB_LivingRoom_Afternoon
       rect:
         serializedVersion: 2
-        x: 1344
-        y: 256
-        width: 192
-        height: 256
+        x: 1400
+        y: 320
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -345,20 +345,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f44732b0e51d88429ad57a0e1370476
-      internalID: 2118182510
+      spriteID: e9a15163d94e0144ba05e741a02ac602
+      internalID: -197650578
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Resturant
+      name: TB_Resturant_Afternoon
       rect:
         serializedVersion: 2
-        x: 1728
-        y: 256
-        width: 192
-        height: 256
+        x: 1800
+        y: 320
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -367,20 +367,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce7d6277a7b91e142b99847ac48740fb
-      internalID: -2112169216
+      spriteID: 47cad72f1953a954baa98294145f7eac
+      internalID: 445513299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Pub_Afternoon
+      name: TB_Pub_Afternoon
       rect:
         serializedVersion: 2
-        x: 1920
-        y: 256
-        width: 192
-        height: 256
+        x: 2000
+        y: 320
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -389,20 +389,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b45598eed4842bb489d690b07414c096
-      internalID: -1345595427
+      spriteID: 010c16186d1fef24e94ac60483cf732f
+      internalID: 1576913064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Bedroom_Evening
+      name: TB_Bedroom_Evening
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 192
-        height: 256
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -411,20 +411,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8df3ccc94ef54ff44a022b67a0e8b19f
-      internalID: 2088033570
+      spriteID: dfeafb457dcbbb342a272cb644d19ba3
+      internalID: 1283433664
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Driving_Evening
+      name: TB_Driving_Evening
       rect:
         serializedVersion: 2
-        x: 192
+        x: 198
         y: 0
-        width: 192
-        height: 256
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -433,20 +433,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 772a452da16d40946b23dac74b65de51
-      internalID: -1244715685
+      spriteID: 8931f3b8d335f9641a47836c19e17891
+      internalID: -488861455
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TestBackgrounds_Pub_Evening
+      name: TB_Pub_Evening
       rect:
         serializedVersion: 2
-        x: 1920
-        y: 0
-        width: 192
-        height: 256
+        x: 1991
+        y: 9
+        width: 200
+        height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -455,8 +455,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ca1c60160606504f949f8104c581236
-      internalID: -1572571088
+      spriteID: c179a33f1436496449c07fddde2b5d9b
+      internalID: 909340884
       vertices: []
       indices: 
       edges: []
@@ -475,38 +475,36 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":192.0,"y":256.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":200.0,"y":320.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      TestBackgrounds_10: 1658480569
+      TB_Bedroom_Day: 1339667165
+      TB_Bedroom_Evening: 1283433664
+      TB_CoffeeShop_Day: 1727999959
+      TB_Driving_Afternoon: 1658480569
+      TB_Driving_Day: 1304404298
+      TB_Driving_Evening: -488861455
+      TB_Gym_Day: -1389667162
+      TB_Jenns_Day: 1267327800
+      TB_LivingRoom_Afternoon: 1304239204
+      TB_LivingRoom_Day: -161793023
+      TB_LivingRoom_R: 445513299
+      TB_OfficeBreakRoom_Day: -630093614
+      TB_OfficeJob_Day: 1454869064
+      TB_Pub_Afternoon: 1725485402
+      TB_Pub_Evening: -605400512
+      TB_Resturant_Afternoon: 445513299
+      TB_SaladDeli_Day: 1060934917
       TestBackgrounds_11: 1876628038
+      TestBackgrounds_12: 1648989574
       TestBackgrounds_13: -1762800701
       TestBackgrounds_14: 1855618821
       TestBackgrounds_15: 1765756387
-      TestBackgrounds_16: 1304239204
       TestBackgrounds_17: 1967040818
-      TestBackgrounds_19: 1725485402
+      TestBackgrounds_22: -186099640
+      TestBackgrounds_23: -850006302
       TestBackgrounds_24: 1626266477
       TestBackgrounds_25: 253022157
-      TestBackgrounds_26: -605400512
-      TestBackgrounds_27: 1686601182
-      TestBackgrounds_28: -1974045063
       TestBackgrounds_9: -244141611
-      TestBackgrounds_Bedroom_Day: -1878159205
-      TestBackgrounds_Bedroom_Evening: 2088033570
-      TestBackgrounds_Coffeeshop: -1251816906
-      TestBackgrounds_Driving_Afternoon: 602693035
-      TestBackgrounds_Driving_Day: 1975584661
-      TestBackgrounds_Driving_Evening: -1244715685
-      TestBackgrounds_Gym_Day: -664704893
-      TestBackgrounds_Jenns: -1986691459
-      TestBackgrounds_Livingroom_Afternoon: 2118182510
-      TestBackgrounds_Livingroom_Day: 1855772250
-      TestBackgrounds_Officebreakroom: -1474940811
-      TestBackgrounds_Officejob: -2090445895
-      TestBackgrounds_Pub_Afternoon: -1345595427
-      TestBackgrounds_Pub_Evening: -1572571088
-      TestBackgrounds_Resturant: -2112169216
-      TestBackgrounds_SaladDeli: 130923886
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

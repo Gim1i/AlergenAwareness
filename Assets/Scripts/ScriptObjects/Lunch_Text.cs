@@ -4,7 +4,7 @@ using UnityEngine;
 public class Lunch_Text : ScriptableObject
 {
     private enum option { unchosen, one, two, three, four }; //Coppied from Game_Process_Manager to help with readability
-    public readonly bool[] sectionConfiguration = new[] { true, true }; //Wether these sections have choices or sub sections
+    public readonly bool[] sectionConfiguration = new[] { true, true, true }; //Wether these sections have choices, sub sections or random elements
     public readonly (daySection section,
         (int eventId, (string text, int choice)[])[] text,
         (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] choices,
@@ -13,6 +13,24 @@ public class Lunch_Text : ScriptableObject
     {
         (daySection.lunch, text, choiceText, subSectionText)
     };
+
+    static private string[] lunchComment = new[] {
+        "*Under breath* Needs more mayo",
+        "mmmm",
+        "...",
+        "...",
+        "...",
+        "...",
+        "Hmm, kinda plain"
+    };
+    static private string randomLunchComment = lunchComment[0];
+    static private int randomLunchOrderNumber = 242;
+
+    public void RegenerateRandomElements()
+    {
+        randomLunchComment = lunchComment[Random.Range(0, lunchComment.Length)];
+        randomLunchOrderNumber = Random.Range(100, 1000);
+    }
 
     //
     // All other text to display, sorted by section, if its event reliant and if its a player choice
@@ -40,19 +58,37 @@ public class Lunch_Text : ScriptableObject
     static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] choiceText = new[] {
         //Initial lunch choice
         new[] {                                             
-            ( "Local coffee shop",           (int)option.two,   foodReactionChance.coffeeShop, true, new string[0]),
-            ( "Jenns",                       (int)option.three, foodReactionChance.jenns,      true, new string[0]),
-            ( "Salad deli bar",              (int)option.four,  foodReactionChance.saladDeli,  true, new string[0]),
-            ( "Have prepared Lunch instead", (int)option.one,   foodReactionChance.none,       false, new [] {
+            ( "Local coffee shop",           (int)option.two,   foodReactionChance.coffeeShop, true,  new string[0]),
+            ( "Jenns",                       (int)option.three, foodReactionChance.jenns,      true,  new string[0]),
+            ( "Salad deli bar",              (int)option.four,  foodReactionChance.saladDeli,  true,  new string[0]),
+            ( "Have prepared Lunch instead", (int)option.one,   foodReactionChance.none,       false, new[] {
                     "...",
                     "...",
-                    "*Under breath* Needs more mayo",
+                    randomLunchComment,
                     "..."
                 })
         },
         //Coffee shop choice
         new[] {                                             
-            ( "Local coffee shop",           (int)option.two,   foodReactionChance.coffeeShop, true, new string[0])
+            ( "Coffee and a sandwitch",     (int)option.two,    foodReactionChance.none,        false, new[] {
+                    "Can I get a latte and a cheese & ham sandwitch",
+                    "Barista: You can! Would you like anything else?",
+                    "No thanks, thats all I want",
+                    "Barista: Ok, the coffee will be ready in 3 minutes and your number is "+randomLunchOrderNumber,
+                    "Thanks!",
+                    "...",
+                    "...",
+                    "Barista 2: "+randomLunchOrderNumber+"!",
+                    "Thats me, thanks",
+                    "Barista 2: have a good day!",
+                    "You too!"
+                }),
+            ( "Tea and cake",               (int)option.two,    foodReactionChance.none,        false, new[] {
+                    ""
+                }),
+            ( "Just a sandwitch",           (int)option.two,    foodReactionChance.none,        false, new[] {
+                    ""
+                })
         }
     };
     // All sub sections
@@ -61,7 +97,7 @@ public class Lunch_Text : ScriptableObject
         ((int)option.two, new [] {                           
             ("*Door bell dings*", -1),
             ("Barista: What can I do for you today?", -1),
-            ("What should I choose?", 0),
+            ("What should I choose?", 1),
         }),
         //Jenns
         ((int)option.three, new [] {                         

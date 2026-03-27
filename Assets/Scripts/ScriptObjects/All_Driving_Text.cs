@@ -4,7 +4,7 @@ using UnityEngine;
 public class All_Driving_Text : ScriptableObject
 {
     private enum option { unchosen, one, two, three, four }; //Coppied from Game_Process_Manager to help with readability
-    public readonly bool[] sectionConfiguration = new[] { false, false }; //Wether these sections have choices or sub sections
+    public readonly bool[] sectionConfiguration = new[] { false, false, false }; //Wether these sections have choices, sub sections or random elements
     public readonly (daySection section,
         (int eventId, (string text, int choice)[])[] text)[]
         sectionsCovered = new[] //Sections covered by this text store with their text, choices and sub sections after

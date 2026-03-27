@@ -4,7 +4,7 @@ using UnityEngine;
 public class All_Work_Text : ScriptableObject
 {
     private enum option { unchosen, one, two, three, four }; //Coppied from Game_Process_Manager to help with readability
-    public readonly bool[] sectionConfiguration = new[] { true, false }; //Wether these sections have choices or sub sections
+    public readonly bool[] sectionConfiguration = new[] { true, false, false }; //Wether these sections have choices, sub sections or random elements
     public readonly (daySection section,
         (int eventId, (string text, int choice)[])[] text,
         (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] choices)[]

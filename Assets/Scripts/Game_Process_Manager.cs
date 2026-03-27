@@ -9,7 +9,9 @@ public class Game_Process_Manager : MonoBehaviour
     [SerializeField] private Modal_Managment modalSystem;
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
     [SerializeField] private SpriteRenderer background;
-    [SerializeField] private Display_Text displayText;
+
+    [SerializeField] private ScriptableObject[] displayTexts = new ScriptableObject[5];
+
     private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
     private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
 
@@ -65,7 +67,7 @@ public class Game_Process_Manager : MonoBehaviour
     //
     private void Start()
     {
-        Debug.Log(displayText.testText);
+        Debug.Log(displayTexts);
         NextSectionProcessing(daysInfo.currentDaySection.section);
     }
 

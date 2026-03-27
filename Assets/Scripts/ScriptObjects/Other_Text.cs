@@ -1,0 +1,95 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "Other_Text", menuName = "Scriptable Objects/Other_Text")]
+public class Other_Text : ScriptableObject
+{
+    private enum option { unchosen, one, two, three, four }; //Coppied from Game_Process_Manager to help with readability
+    public readonly bool[] sectionConfiguration = new[] { true, false }; //Wether these sections have choices or sub sections
+    public readonly (daySection section,
+        (int eventId, (string text, int choice)[])[] text,
+        (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] choices)[]
+        sectionsCovered = new[] //Sections covered by this text store with their text, choices and sub sections after
+    { 
+        (daySection.dayStart, startText, startChoiceText),
+        (daySection.dayEnd, endText, endChoiceText)
+    }; 
+
+    //
+    // All other text to display, sorted by section, if its event reliant and if its a player choice
+    // Text formating (underscores mean anything here):
+    //    "-_"  = Naration
+    //    "*_*" = Narated actions
+    //
+
+    //
+    //  Day start
+    //
+    static public readonly (int eventId, (string text, int choice)[])[] startText = new[] {
+         //Regular Process
+        (-1, new [] {                                 
+            ("*Alarm beeping*", -1),
+            ("...", -1),
+            ("Uuurg, damn it", -1),
+            ("*Gets up and dressed for work*", -1),
+            ("Should I prepare lunch today?", 0),
+            ("Time to head to work then", -1)
+        }),
+        //Early Wake
+        (0, new [] {                                   
+            ("...", -1),
+            ("...", -1),
+            ("Why don't I hear my alarm?", -1),
+            ("*Jolts out of bed and checks the clock*", -1),
+            ("Oh I woke up early *Sigh*", -1),
+            ("*Gets dressed for work*", -1),
+            ("Should I prepare lunch today?", 0),
+            ("Time to head to work then", -1)
+        }),
+        //Late Wake
+        (1, new [] {                                   
+            ("...", -1),
+            ("...", -1),
+            ("Why don't I hear my alarm?", -1),
+            ("*Jolts out of bed and checks the clock*", -1),
+            ("Damn I'm late!", -1),
+            ("*Dressed for work as fast as possible*", -1),
+            ("Theres no time to prepare lunch today", -1),
+            ("*Rushes out the door*", -1)
+        })
+    };
+
+    // Lists the choices the player can make on day start, alongside all relevant information
+    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] startChoiceText = new[] {
+        //Lunch prep
+        new[] {                                             
+            ( "No", (int)option.two, foodReactionChance.none, false, new string[0]),
+            ( "Yes", (int)option.one, foodReactionChance.none, false,
+                new[] {
+                    "*Prepares lunch*"
+                })
+            },
+    };
+
+    //
+    //  Day end
+    //
+    static public readonly (int eventId, (string text, int choice)[])[] endText = new[] {
+        (-1, new [] {                                  //Regular Process
+            ("...", -1),
+        }),
+        (0, new [] {                                   //
+            ("...", -1),
+        }),
+        (1, new [] {                                   //
+            ("...", -1),
+        })
+    };
+
+    // Lists the choices the player can make on day start, alongside all relevant information
+    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] endChoiceText = new[] {
+        //Lunch prep
+        new[] {
+            ( "...", (int)option.two, foodReactionChance.none, false, new string[0])
+        }
+    };
+}

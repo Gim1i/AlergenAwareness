@@ -1091,7 +1091,12 @@ MonoBehaviour:
     time: 0
     section: 3
   background: {fileID: 759745769}
-  displayText: {fileID: 11400000, guid: d93629fe28d315142ba53a427d69c0a8, type: 2}
+  displayTexts:
+  - {fileID: 11400000, guid: d1da7786d694e94479bed6401eb695d5, type: 2}
+  - {fileID: 11400000, guid: 39d815d205ace5e47bc221e053679c0a, type: 2}
+  - {fileID: 11400000, guid: b233c956c3e53e74c9031b639c2efef7, type: 2}
+  - {fileID: 11400000, guid: 2450a858a9aeb0140b0eb618064f121a, type: 2}
+  - {fileID: 11400000, guid: fcf75994d0c5dc64eaf9050bd499ae32, type: 2}
 --- !u!114 &1453211059
 MonoBehaviour:
   m_ObjectHideFlags: 0

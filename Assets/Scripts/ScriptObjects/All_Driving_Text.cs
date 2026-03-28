@@ -3,10 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "All_Driving_Text", menuName = "Scriptable Objects/All_Driving_Text")]
 public class All_Driving_Text : ScriptableObject
 {
-    private enum option { unchosen, one, two, three, four }; //Coppied from Game_Process_Manager to help with readability
+    private enum option { unchosen, one, two, three, four, alergy }; //Coppied from Game_Process_Manager to help with readability
     public readonly bool[] sectionConfiguration = new[] { false, false, false }; //Wether these sections have choices, sub sections or random elements
     public readonly (daySection section,
-        (int eventId, (string text, int choice)[])[] text)[]
+        (int eventId, (string text, int choiceID)[])[] text)[]
         sectionsCovered = new[] //Sections covered by this text store with their text, choices and sub sections after
     {
         (daySection.workStartTravel, firstWorkDriveText),
@@ -24,7 +24,7 @@ public class All_Driving_Text : ScriptableObject
     //
     //  Drive to first work
     //
-    static public readonly (int eventId, (string text, int choice)[])[] firstWorkDriveText = new[] {
+    static public readonly (int eventId, (string text, int choiceID)[])[] firstWorkDriveText = new[] {
         //Regular Process
             (-1, new [] {                                   
                 ("", -1)
@@ -67,7 +67,7 @@ public class All_Driving_Text : ScriptableObject
     //
     //  Drive from second work
     //
-    static public readonly (int eventId, (string text, int choice)[])[] secondWorkDriveText = new[] {
+    static public readonly (int eventId, (string text, int choiceID)[])[] secondWorkDriveText = new[] {
         (-1, new [] {                                  //Regular Process
             ("...", -1),
         }),
@@ -82,7 +82,7 @@ public class All_Driving_Text : ScriptableObject
     //
     //  Drive home
     //
-    static public readonly (int eventId, (string text, int choice)[])[] homeDriveText = new[] {
+    static public readonly (int eventId, (string text, int choiceID)[])[] homeDriveText = new[] {
         (-1, new [] {                                  //Regular Process
             ("...", -1),
         }),

@@ -4,7 +4,7 @@ public class Game_Process_Manager : MonoBehaviour
 {
     private enum backgroundTime { day, afternoon, evening };
     private enum backgroundKind { bedroom, driving, officeJob, officeBreakRoom, coffeeShop, jenns, saladDeli, livingRoom, gym, resturant, pub};
-    private enum option { unchosen, one, two, three, four }; //If used as bool "one" is true and "two" is false
+    private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
 
     [SerializeField] private Modal_Managment modalSystem;
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;

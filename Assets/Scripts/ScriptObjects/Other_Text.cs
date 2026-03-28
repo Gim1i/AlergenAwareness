@@ -3,11 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Other_Text", menuName = "Scriptable Objects/Other_Text")]
 public class Other_Text : ScriptableObject
 {
-    private enum option { unchosen, one, two, three, four }; //Coppied from Game_Process_Manager to help with readability
+    private enum option { unchosen, one, two, three, four, alergy }; //Coppied from Game_Process_Manager to help with readability
     public readonly bool[] sectionConfiguration = new[] { true, false, false }; //Wether these sections have choices, sub sections or random elements
     public readonly (daySection section,
-        (int eventId, (string text, int choice)[])[] text,
-        (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] choices)[]
+        (int eventId, (string text, int choiceID)[])[] text,
+        (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] choices)[]
         sectionsCovered = new[] //Sections covered by this text store with their text, choices and sub sections after
     { 
         (daySection.dayStart, startText, startChoiceText),
@@ -24,7 +24,7 @@ public class Other_Text : ScriptableObject
     //
     //  Day start
     //
-    static public readonly (int eventId, (string text, int choice)[])[] startText = new[] {
+    static public readonly (int eventId, (string text, int choiceID)[])[] startText = new[] {
          //Regular Process
         (-1, new [] {                                 
             ("*Alarm beeping*", -1),
@@ -59,21 +59,18 @@ public class Other_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] startChoiceText = new[] {
+    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] startChoiceText = new[] {
         //Lunch prep
         new[] {                                             
-            ( "No", (int)option.two, foodReactionChance.none, false, new string[0]),
-            ( "Yes", (int)option.one, foodReactionChance.none, false,
-                new[] {
-                    "*Prepares lunch*"
-                })
-            },
+            ( "No", (int)option.two, foodReactionChance.none, -1, new string[0]),
+            ( "Yes", (int)option.one, foodReactionChance.none, -1, new[] { "*Prepares lunch*" })
+        },
     };
 
     //
     //  Day end
     //
-    static public readonly (int eventId, (string text, int choice)[])[] endText = new[] {
+    static public readonly (int eventId, (string text, int choiceID)[])[] endText = new[] {
         (-1, new [] {                                  //Regular Process
             ("...", -1),
         }),
@@ -86,10 +83,10 @@ public class Other_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] endChoiceText = new[] {
+    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] endChoiceText = new[] {
         //Lunch prep
         new[] {
-            ( "...", (int)option.two, foodReactionChance.none, false, new string[0])
+            ( "...", (int)option.two, foodReactionChance.none, -1, new string[0])
         }
     };
 }

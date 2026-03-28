@@ -3,11 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "All_Work_Text", menuName = "Scriptable Objects/All_Work_Text")]
 public class All_Work_Text : ScriptableObject
 {
-    private enum option { unchosen, one, two, three, four }; //Coppied from Game_Process_Manager to help with readability
+    private enum option { unchosen, one, two, three, four, alergy }; //Coppied from Game_Process_Manager to help with readability
     public readonly bool[] sectionConfiguration = new[] { true, false, false }; //Wether these sections have choices, sub sections or random elements
     public readonly (daySection section,
-        (int eventId, (string text, int choice)[])[] text,
-        (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] choices)[]
+        (int eventId, (string text, int choiceID)[])[] text,
+        (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] choices)[]
         sectionsCovered = new[] //Sections covered by this text store with their text, choices and sub sections after
     {
         (daySection.firstWork, firstWorkText, firstWorkChoiceText),
@@ -24,7 +24,7 @@ public class All_Work_Text : ScriptableObject
     //
     //  First work
     //
-    static public readonly (int eventId, (string text, int choice)[])[] firstWorkText = new[] {
+    static public readonly (int eventId, (string text, int choiceID)[])[] firstWorkText = new[] {
         //Regular Process
         (-1, new [] {                                   
             ("Hi Tyler. Anything important I should know?", -1),
@@ -69,48 +69,48 @@ public class All_Work_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] firstWorkChoiceText = new[] {
+    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] firstWorkChoiceText = new[] {
         //Brought in home-made food
         new[] {                                             
-            ( "No", (int)option.two, foodReactionChance.none, false,
+            ( "No", (int)option.two, foodReactionChance.none, -1,
                 new[] {
                     "I'll pass on that, but thanks for offering"
                 }),
-            ( "Yes", (int)option.one, foodReactionChance.homemadeFood, false,
+            ( "Yes", (int)option.one, foodReactionChance.homemadeFood, -1,
                 new[] {
                     "Will do!"
                 })
-            },
+        },
         //Brought in shop food
         new[] {                                             
-            ( "No", (int)option.two, foodReactionChance.none, false,
+            ( "No", (int)option.two, foodReactionChance.none, -1,
                 new[] {
                     "I'll pass on that, but thanks for offering"
                 }),
-            ( "Yes", (int)option.one, foodReactionChance.broughtInShopFood, false,
+            ( "Yes", (int)option.one, foodReactionChance.broughtInShopFood, -1,
                 new[] {
                     "Will do!"
                 })
-            },
+        },
         //Work party
         new[] {                                             
-            ( "No", (int)option.two, foodReactionChance.none, false,
+            ( "No", (int)option.two, foodReactionChance.none, -1,
                 new[] {
                     "I'll pass on that, but thanks for offering"
                 }),
-            ( "Yes", (int)option.one, foodReactionChance.workCelebration, false,
+            ( "Yes", (int)option.one, foodReactionChance.workCelebration, -1,
                 new[] {
                     "Will do! which do you recomend?",
                     "The pepperoni was quite good when I tried it, though margherita is always a solid choice"
                 })
-            },
+        },
 
     };
 
     //
     //  Second work
     //
-    static public readonly (int eventId, (string text, int choice)[])[] secondWorkText = new[] {
+    static public readonly (int eventId, (string text, int choiceID)[])[] secondWorkText = new[] {
         (-1, new [] {                                  //Regular Process
             ("...", -1),
         }),
@@ -123,10 +123,10 @@ public class All_Work_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, bool hasSubSection, string[] uniqueLinesAfter)[][] secondWorkChoiceText = new[] {
+    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] secondWorkChoiceText = new[] {
         //Lunch prep
         new[] {
-            ( "...", (int)option.two, foodReactionChance.none, false, new string[0])
+            ( "...", (int)option.two, foodReactionChance.none, -1, new string[0])
         }
     };
 }

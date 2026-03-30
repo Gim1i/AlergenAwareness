@@ -36,7 +36,7 @@ public class Lunch_Text : ScriptableObject
         new[] {                                             
             ( "Local coffee shop",           (int)option.two,   foodReactionChance.none, 0,  new string[0]),
             ( "Jenns",                       (int)option.three, foodReactionChance.none, 1,  new string[0]),
-            ( "Salad deli bar",              (int)option.four,  foodReactionChance.none, 3,  new string[0]),
+            ( "Salad deli bar",              (int)option.four,  foodReactionChance.none, 2,  new string[0]),
             ( "Have prepared Lunch instead", (int)option.one,   foodReactionChance.none, -1, new[] {
                     "...",
                     "...",
@@ -93,25 +93,72 @@ public class Lunch_Text : ScriptableObject
         //Jenns choices
         new[] {
             ( "Sausage roll and a coffee", (int)option.one, foodReactionChance.jenns, -1, new[] {
-                    ""
+                    "Can I get a sausage roll and a latte",
+                    "Jenns worker: You can although the latte will take a minute to be ready",
+                    "Ok. I don't mind that",
+                    "Jenns worker: I'll grab those for you now then",
+                    "...",
+                    "...",
+                    "Jenns worker: Heres your latte and sausage roll",
+                    "Jenns worker: Have a good day",
+                    "You too!"
                 }),
             ( "Baguete and a coffee", (int)option.two, foodReactionChance.jenns, -1, new[] {
                     "Can I get a "+randomBaguetteChoice+" and a latte",
-                    "Jenns worker: "
+                    "Jenns worker: Yes, I'll grab those for you now",
+                    "...",
+                    "...",
+                    "Jenns worker: Heres your latte and "+randomBaguetteChoice,
+                    "Jenns worker: Have a good day",
+                    "You too!"
                 }),
             ( "Sausage roll and a cookie", (int)option.three, foodReactionChance.jenns, -1, new[] {
-                    ""
+                    "Can I get a sausage roll and...",
+                    "What cookie options do you have?",
+                    "Jenns worker: We have double chocolate, milk chocolate and smarties cookies",
+                    "I'll take a "+randomCookieChoice+" too",
+                    "Jenns worker: So a sausage roll and a "+randomCookieChoice+"?",
+                    "Yep, thats right",
+                    "Jenns worker: Ok, I'll grab those for you then",
+                    "Jenns worker: Heres your "+randomCookieChoice+" and sausage roll",
+                    "Jenns worker: Have a good day",
+                    "You too!"
                 }),
-            ( "Ask about allergies", (int)option.alergy, foodReactionChance.none, 2, new[] {
+            ( "Ask about allergies", (int)option.alergy, foodReactionChance.none, -1, new[] {
                     "I have an allergy to nuts, how are nuts handled here?",
                     "Jenns worker: We are unable to garantee there are no nuts in our products due to us using nuts in our kitchen",
-                    "Jenns worker: But, we have an alergen table you could look though to see what you can have"
+                    "Jenns worker: But we do go though rigorous procedures to prevent cross-contamination in all of our food",
+                    "Jenns worker: We have an allergen table you could look though that I could get if you'd want",
+                    "Jenns worker: Would you like to see it?"
+                })
+        },
+        //Salad deli choices
+        new[] {
+            ( "Ask for table", (int)option.one, foodReactionChance.none, 3, new[] {
+                    "I'd like a table for one please",
+                    "Deli cashier: Perfect, we have a table over here for you!",
+                    "Deli cashier: Please follow me"
+                }),
+            ( "Ask about allergies", (int)option.alergy, foodReactionChance.none, -1, new[] {
+                    "I have an allergy to nuts, how are nuts handled here?",
+                    "Deli cashier: We are unable to garantee there are no nuts in our products due to us using nuts in our kitchen",
+                    "Deli cashier: And, while we do have procedures in place to prevent cross-contaimation in our kitchen...",
+                    "Deli cashier: we can't garentee any security with the salad bar",
+                    "Deli cashier: Would you like to see our allergen table?"
                 })
         },
         new[] {
-            ( "No", (int)option.two, foodReactionChance.none, -1, new[] { "No thanks" }),
-            ( "Yes", (int)option.one, foodReactionChance.none, -1, new[] { "Yes please" })
-        },
+            ( "Deli bar", (int)option.one, foodReactionChance.saladDeli, -1, new[] {
+                    "I'll have the deli bar option please",
+                    "Deli cashier: ",
+                }),
+            ( "Lasagne with chips", (int)option.two, foodReactionChance.saladDeli, -1, new[] {
+                    "..."
+                }),
+            ( "Mac & cheese", (int)option.three, foodReactionChance.saladDeli, -1, new[] {
+                    "..."
+                })
+        }
     };
 
     // All sub sections
@@ -127,12 +174,20 @@ public class Lunch_Text : ScriptableObject
             ("Jenns worker: Hello, welcome to Jenns! What can I get for you today?", -1),
             ("What should I choose?", 2)
         }),
-        (new [] {
-            ("Jenns worker: Would you like to see it?", 3)
-        }),
         //Salad deli
         (new [] {                          
-            ("...", -1)
+            ("Deli cashier: Welcome to Sarah's Salad Deli!", -1),
+            ("Deli cashier: What can I do for you?", 3)
+        }),
+        (new [] {
+            ( "Deli cashier: This table right here please", -1),
+            ( "Deli cashier: Heres the menu and someone will come around to get your order in approximately 5 minutes", -1),
+            ( "Deli cashier: Any questions?", -1),
+            ( "Nope, I'm good for now", -1),
+            ( "Deli cashier: Have a good meal then!", -1),
+            ( "...", -1),
+            ( "...", -1),
+            ( "Deli server: Hello, what can I get for you today?", 4)
         })
     };
 
@@ -145,6 +200,7 @@ public class Lunch_Text : ScriptableObject
         randomSandwitchChoice   = sandwitchChoice[Random.Range(0, sandwitchChoice.Length)];
         randomCakeChoice        = cakeChoice[Random.Range(0, cakeChoice.Length)];
         randomBaguetteChoice    = baguetteChoice[Random.Range(0, baguetteChoice.Length)];
+        randomCookieChoice      = cookieChoice[Random.Range(0, cookieChoice.Length)];
 
         randomLunchOrderNumber  = Random.Range(100, 1000);
     }
@@ -168,7 +224,7 @@ public class Lunch_Text : ScriptableObject
         "ham & cheese sandwitch",
         "ham & cheese sandwitch",
         "ham sandwitch",
-        "tuna salad sandwitch",
+        "tuna salad sandwitch"
     };
     static private string randomSandwitchChoice = sandwitchChoice[0];
     static private string[] cakeChoice = new[] {
@@ -180,13 +236,19 @@ public class Lunch_Text : ScriptableObject
 
     //Jenns choice
     static private string[] baguetteChoice = new[] {
-        "Spicy chicken baguette for once",
-        "Ham and cheese baguette",
-        "Ham and cheese baguette",
-        "Ham and cheese baguette",
-        "Ham baguette",
-        "Ham baguette",
-        "Bacon baguette",
+        "spicy chicken baguette for once",
+        "ham and cheese baguette",
+        "chicken and mayonase baguette",
+        "chicken and mayonase baguette",
+        "chicken salad baguette",
+        "ham baguette",
+        "bacon baguette"
     };
-    static private string randomBaguetteChoice = baguetteChoice[0];
+    static private string randomBaguetteChoice = baguetteChoice[0]; 
+    static private string[] cookieChoice = new[] {
+        "double chocolate",
+        "milk chocolate",
+        "smarties cookies"
+    };
+    static private string randomCookieChoice = cookieChoice[0];
 }

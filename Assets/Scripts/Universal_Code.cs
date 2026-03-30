@@ -103,12 +103,16 @@ public static class randomnessArray
     public static readonly (foodReactionChance source, (int choice, reactionRisk risk, int[] chance)[])[] foodReactionChances = //Chances are C/1000
     { //All potencial raction sources with their choice's chances for each reaction level and highest possible reaction
         (foodReactionChance.jenns, new[] {
-            (0, reactionRisk.minor, new[]{ 250          }),
-            (1, reactionRisk.minor, new[]{ 250          }),
-            (2, reactionRisk.minor, new[]{ 250          })
+            (0, reactionRisk.minor, new[]{ 250          }), //Sausage roll and a coffee
+            (1, reactionRisk.minor, new[]{ 250          }), //Baguete and a coffee
+            (2, reactionRisk.minor, new[]{ 250          })  //Sausage roll and a cookie
         }), 
-        /*(foodReactionChance.saladDeli,          reactionRisk.major, new[]{ 900, 75      }),
-        (foodReactionChance.resturaunt,         reactionRisk.major, new[]{ 300, 30      }),
+        (foodReactionChance.saladDeli, new[] {
+            (0, reactionRisk.minor, new[]{ 900, 75      }), //
+            (0, reactionRisk.minor, new[]{ 900, 75      }), //
+            (0, reactionRisk.minor, new[]{ 900, 75      })  //
+        }),
+        /*(foodReactionChance.resturaunt,         reactionRisk.major, new[]{ 300, 30      }),
         (foodReactionChance.lightDrinking,      reactionRisk.minor, new[]{ 320          }),
         (foodReactionChance.heavyDrinking,      reactionRisk.death, new[]{ 870, 280, 12 }),
         (foodReactionChance.pizza,              reactionRisk.minor, new[]{ 150          }),

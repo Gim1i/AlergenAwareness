@@ -54,17 +54,14 @@ public class All_Work_Text : ScriptableObject
             ("Tyler: Luckly they said they should be here tommorow", -1),
             ("Good to hear! Give them a get well soon from me next time you speak to them", -1),
             ("Tyler: Will do!", -1),
-            ("*Walk's of to start work*", -1)
+            ("*Walks of to start work*", -1)
         }),
         //Work celebration
         (3, new [] {                                   
             ("Hi Tyler. Why is the office is looking fun today?", -1),
             ("Tyler: Upper managment organised a party to celebrate us completing the project before the deadline", -1),
             ("Tyler: Theres free food and drinks if you want any", -1),
-            ("Should I eat the food?", 3),
-            ("Good to hear! Give them a get well soon from me next time you speak to them", -1),
-            ("Tyler: Will do!", -1),
-            ("*Walk's of to start work*", -1)
+            ("Should I get some free food?", 3)
         })
     };
 
@@ -78,7 +75,8 @@ public class All_Work_Text : ScriptableObject
                 }),
             ( "Yes", (int)option.one, foodReactionChance.homemadeFood, -1,
                 new[] {
-                    "Will do!"
+                    "Will do!",
+                    "",
                 })
         },
         //Brought in shop food
@@ -101,7 +99,13 @@ public class All_Work_Text : ScriptableObject
             ( "Yes", (int)option.one, foodReactionChance.workCelebration, -1,
                 new[] {
                     "Will do! which do you recomend?",
-                    "The pepperoni was quite good when I tried it, though margherita is always a solid choice"
+                    "Tyler: The pepperoni was quite good when I tried it, though margherita is always a solid choice",
+                    "Yea pepperoni sounds like a good choice. Thanks!",
+                    "Tyler: No problem! *Thumbs up*",
+                    "*Walks over to the free food table and grabs a slice of pepperoni pizza*",
+                    "...",
+                    "Huh, thats some decent pizza. Glad I had some",
+                    "Anyway time to start work"
                 })
         },
 
@@ -129,4 +133,44 @@ public class All_Work_Text : ScriptableObject
             ( "...", (int)option.two, foodReactionChance.none, -1, new string[0])
         }
     };
+
+    //
+    // All random elements for these sections
+    //
+    public void RegenerateRandomElements() //Get new a new random selection for this day's version of this section
+    {
+        randomWorkPizzaChoice     = workPizzaChoice[Random.Range(0, workPizzaChoice.Length)];
+        randomHomeMadeFood        = homeMadeFood[Random.Range(0, homeMadeFood.Length)];
+    }
+
+    //Homemade food brought in
+    static private string[] homeMadeFood = new[] {
+        "*Under breath* Needs more mayo",
+        "mmmm",
+        "...",
+        "...",
+        "...",
+        "...",
+        "Hmm, kinda plain"
+    };
+    static private string randomHomeMadeFood = homeMadeFood[0];
+
+    //Shop food brought in
+    static private string[] broughtFood = new[] {
+        "*Under breath* Needs more mayo",
+        "mmmm",
+        "...",
+        "...",
+        "...",
+        "...",
+        "Hmm, kinda plain"
+    };
+    static private string randomBroughtFood = broughtFood[0];
+
+    //Work food choice
+    static private string[] workPizzaChoice = new[] {
+        "pepperoni",
+        "margherita"
+    };
+    static private string randomWorkPizzaChoice = workPizzaChoice[0];
 }

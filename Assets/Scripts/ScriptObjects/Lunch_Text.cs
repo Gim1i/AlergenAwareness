@@ -150,10 +150,33 @@ public class Lunch_Text : ScriptableObject
         new[] {
             ( "Deli bar", (int)option.one, foodReactionChance.saladDeli, -1, new[] {
                     "I'll have the deli bar option please",
-                    "Deli cashier: ",
+                    "Deli server: Sure, I'll go grab your bowl then",
+                    "...",
+                    "Deli server: Here's your bowl, feel free to go grab anything you want from the counters over there!",
+                    "Deli server: Is that all?",
+                    "Yes. Thank you!",
+                    "Deli server: Your welcome!",
+                    "... 20 minutes later ...",
+                    "This deli bar hasn't been that bad, I'll definitely consider coming again",
+                    "*Gets up and leaves*",
+                    "Deli cashier: Thank you for visiting today, and I hope to see you again soon!"
                 }),
             ( "Lasagne with chips", (int)option.two, foodReactionChance.saladDeli, -1, new[] {
-                    "..."
+                    "Can I get the Lasagne please?",
+                    "Deli server: With chips or salad?",
+                    "Chips please",
+                    "Deli server: Ok, do you want anything else?",
+                    "No thank you, thats all I want for now",
+                    "Deli server: Have a good meal then!",
+                    "Thanks!",
+                    "...",
+                    "Deli server 2: Lasagne with chips?",
+                    "Yes thats mine. Thanks",
+                    "Hmm, this looks good!",
+                    "...",
+                    "That was some good lasagne, I should come here again!",
+                    "*Gets up and leaves*",
+                    "Deli cashier: Thank you for visiting today, and I hope to see you again soon!"
                 }),
             ( "Mac & cheese", (int)option.three, foodReactionChance.saladDeli, -1, new[] {
                     "..."

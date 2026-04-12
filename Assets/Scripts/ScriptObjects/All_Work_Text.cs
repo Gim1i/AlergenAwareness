@@ -17,7 +17,6 @@ public class All_Work_Text : ScriptableObject
     //
     // All other text to display, sorted by section, if its event reliant and if its a player choice
     // Text formating (underscores mean anything here):
-    //    "-_"  = Naration
     //    "*_*" = Narated actions
     //
 
@@ -35,16 +34,16 @@ public class All_Work_Text : ScriptableObject
         //Homemade food
         (0, new [] {                                    
             ("Hi Tyler. Whats happening over there?", -1),
-            ("Tyler: Someone brought in some home-made food", -1),
+            ("Tyler: Someone brought in some "+randomHomeMadeFood, -1),
             ("Tyler: It's really good, you should have some!", -1),
-            ("Should I have some?", 1)
+            ("Should I have some?", 0)
         }),
         //Shop food
         (1, new [] {                                    
             ("Hi Tyler. Whats happening over there?", -1),
-            ("Tyler: Someone brought some food on their way to work", -1),
+            ("Tyler: Someone brought some "+randomFirstBroughtFood+" on their way to work", -1),
             ("Tyler: It's free so I recomend grabing some!", -1),
-            ("Should I have some?", 2)
+            ("Should I have some?", 1)
         }),
         //Down colleague
         (2, new [] {                                    
@@ -61,7 +60,7 @@ public class All_Work_Text : ScriptableObject
             ("Hi Tyler. Why is the office is looking fun today?", -1),
             ("Tyler: Upper managment organised a party to celebrate us completing the project before the deadline", -1),
             ("Tyler: Theres free food and drinks if you want any", -1),
-            ("Should I get some free food?", 3)
+            ("Should I get some free food?", 2)
         })
     };
 
@@ -73,7 +72,7 @@ public class All_Work_Text : ScriptableObject
                 new[] {
                     "I'll pass on that, but thanks for offering"
                 }),
-            ( "Yes", (int)option.one, foodReactionChance.homemadeFood, -1,
+            ( "Yes", (int)option.one, foodReactionChance.broughtInHomeFood, -1,
                 new[] {
                     "Will do!",
                     "",
@@ -100,9 +99,9 @@ public class All_Work_Text : ScriptableObject
                 new[] {
                     "Will do! which do you recomend?",
                     "Tyler: The pepperoni was quite good when I tried it, though margherita is always a solid choice",
-                    "Yea pepperoni sounds like a good choice. Thanks!",
+                    "Yea "+randomWorkPizzaChoice+" sounds like a good choice. Thanks!",
                     "Tyler: No problem! *Thumbs up*",
-                    "*Walks over to the free food table and grabs a slice of pepperoni pizza*",
+                    "*Walks over to the free food table and grabs a slice of "+randomWorkPizzaChoice+" pizza*",
                     "...",
                     "Huh, thats some decent pizza. Glad I had some",
                     "Anyway time to start work"
@@ -115,22 +114,52 @@ public class All_Work_Text : ScriptableObject
     //  Second work
     //
     static public readonly (int eventId, (string text, int choiceID)[])[] secondWorkText = new[] {
-        (-1, new [] {                                  //Regular Process
-            ("...", -1),
+        //Regular Process
+        (-1, new [] {
+            ("Time to get back working", -1)
         }),
-        (0, new [] {                                   //
-            ("...", -1),
+        //Shop food
+        (0, new [] {
+            ("Hi Tyler. Whats happening over there?", -1),
+            ("Tyler: Someone brought some "+randomSecondBroughtFood+" on their way to work", -1),
+            ("Tyler: It's free so I recomend grabing some!", -1),
+            ("Should I have some?", 0)
         }),
-        (1, new [] {                                   //
+        //Early end due to very bad weather
+        (1, new [] {
+            ("Time to get back working", -1),
             ("...", -1),
+            ("...", -1),
+            ("...", -1),
+            ("*Looks out the window* Uhhh, that weather's looking real bad", 1),
+            ("Hey Tyler, any chance we could finish early today?", -1),
+            ("Getting home might become impossible for some if this weather keeps up", -1),
+            ("Tyler: *Looks outside* Oh yea thats really bad, I might not make it home myself", -1),
+            ("Tyler: Ok we'll finish early today, feel free to go and I'll let the rest of the office know shortly", -1),
+            ("Thanks Tyler!", -1),
+            ("Tyler: No problem!", -1)
+        }),
+        //Down colleague (NOT RANDOMLY GENERATED, continues if was selected in first work)
+        (2, new [] {
+            ("Tyler: Just a reminder, we're short-staffed so I'd appreciate if you got on with work promptly", -1),
+            ("Oh yea, I forgot about that", -1),
+            ("I'll get on with it immediately then", -1),
+            ("*Tyler give a thumbs up*", -1)
         })
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
     static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] secondWorkChoiceText = new[] {
-        //Lunch prep
+        //Brought in shop food
         new[] {
-            ( "...", (int)option.two, foodReactionChance.none, -1, new string[0])
+            ( "No", (int)option.two, foodReactionChance.none, -1,
+                new[] {
+                    "I'll pass on that, but thanks for offering"
+                }),
+            ( "Yes", (int)option.one, foodReactionChance.broughtInShopFood, -1,
+                new[] {
+                    "Will do!"
+                })
         }
     };
 
@@ -139,33 +168,37 @@ public class All_Work_Text : ScriptableObject
     //
     public void RegenerateRandomElements() //Get new a new random selection for this day's version of this section
     {
-        randomWorkPizzaChoice     = workPizzaChoice[Random.Range(0, workPizzaChoice.Length)];
-        randomHomeMadeFood        = homeMadeFood[Random.Range(0, homeMadeFood.Length)];
+        randomWorkPizzaChoice          = workPizzaChoice[Random.Range(0, workPizzaChoice.Length)];
+        randomHomeMadeFood             = homeMadeFood[Random.Range(0, homeMadeFood.Length)];
+        randomFirstBroughtFood         = broughtFood[Random.Range(0, broughtFood.Length)];
+        for (int i = 0; i < 10; i++){ //Try to make the 2 random brought foods random (but don't force it)
+            randomSecondBroughtFood    = broughtFood[Random.Range(0, broughtFood.Length)];
+            if (randomSecondBroughtFood != randomFirstBroughtFood) { break; }
+        }
     }
 
     //Homemade food brought in
     static private string[] homeMadeFood = new[] {
-        "*Under breath* Needs more mayo",
-        "mmmm",
-        "...",
-        "...",
-        "...",
-        "...",
-        "Hmm, kinda plain"
+        "brownies",
+        "sponge cake",
+        "chocolate cake",
+        "cupcakes",
+        "cookies"
     };
     static private string randomHomeMadeFood = homeMadeFood[0];
 
     //Shop food brought in
     static private string[] broughtFood = new[] {
-        "*Under breath* Needs more mayo",
-        "mmmm",
-        "...",
-        "...",
-        "...",
-        "...",
-        "Hmm, kinda plain"
+        "cookies",
+        "cookies",
+        "doughnuts",
+        "doughnuts",
+        "muffins",
+        "muffins",
+        "cake"
     };
-    static private string randomBroughtFood = broughtFood[0];
+    static private string randomFirstBroughtFood = broughtFood[0];
+    static private string randomSecondBroughtFood = broughtFood[2];
 
     //Work food choice
     static private string[] workPizzaChoice = new[] {

@@ -17,7 +17,6 @@ public class Lunch_Text : ScriptableObject
     //
     // All other text to display, sorted by section, if its event reliant and if its a player choice
     // Text formating (underscores mean anything here):
-    //    "-_"  = Naration
     //    "*_*" = Narated actions
     //
 
@@ -150,12 +149,12 @@ public class Lunch_Text : ScriptableObject
         new[] {
             ( "Deli bar", (int)option.one, foodReactionChance.saladDeli, -1, new[] {
                     "I'll have the deli bar option please",
-                    "Deli server: Sure, I'll go grab your bowl then",
+                    "Deli server 1: Sure, I'll go grab your bowl then",
                     "...",
-                    "Deli server: Here's your bowl, feel free to go grab anything you want from the counters over there!",
-                    "Deli server: Is that all?",
+                    "Deli server 1: Here's your bowl, feel free to go grab anything you want from the counters over there!",
+                    "Deli server 1: Is that all?",
                     "Yes. Thank you!",
-                    "Deli server: Your welcome!",
+                    "Deli server 1: Your welcome!",
                     "... 20 minutes later ...",
                     "This deli bar hasn't been that bad, I'll definitely consider coming again",
                     "*Gets up and leaves*",
@@ -163,12 +162,12 @@ public class Lunch_Text : ScriptableObject
                 }),
             ( "Lasagne with chips", (int)option.two, foodReactionChance.saladDeli, -1, new[] {
                     "Can I get the Lasagne please?",
-                    "Deli server: With chips or salad?",
+                    "Deli server 1: With chips or salad?",
                     "Chips please",
-                    "Deli server: Ok, do you want anything else?",
+                    "Deli server 1: Ok, do you want anything else?",
                     "No thank you, thats all I want for now",
-                    "Deli server: Have a good meal then!",
-                    "Thanks!",
+                    "Deli server 1: I'll let the kitchen know then. It should arive in about 30 minutes",
+                    "Thanks.",
                     "...",
                     "Deli server 2: Lasagne with chips?",
                     "Yes thats mine. Thanks",
@@ -178,8 +177,21 @@ public class Lunch_Text : ScriptableObject
                     "*Gets up and leaves*",
                     "Deli cashier: Thank you for visiting today, and I hope to see you again soon!"
                 }),
-            ( "Mac & cheese", (int)option.three, foodReactionChance.saladDeli, -1, new[] {
-                    "..."
+            ( "Mac & Cheese", (int)option.three, foodReactionChance.saladDeli, -1, new[] {
+                    "Can I get the Mac & Cheese please?",
+                    "Deli server 1: You can. Do you want anything else with that?",
+                    "Nope, thats all I want",
+                    "Deli server 1: I'll let the kitchen know then. It should arive in about 30 minutes",
+                    "Thank you, have a good day!",
+                    "Deli server 1: You too!",
+                    "...",
+                    "Deli server 2: The Mac & Cheese?",
+                    "Yep thats mine. Thanks",
+                    "Hmm, this looks good!",
+                    "...",
+                    "That Mac & Cheese was fairly good, I should consider coming here again!",
+                    "*Gets up and leaves*",
+                    "Deli cashier: Thank you for visiting today, and I hope to see you again soon!"
                 })
         }
     };
@@ -190,17 +202,17 @@ public class Lunch_Text : ScriptableObject
         (new [] {                           
             ("*Door bell dings*", -1),
             ("Barista 1: What can I do for you today?", -1),
-            ("What should I choose?", 1),
+            ("What should I choose?", 0)
         }),
         //Jenns
         (new [] {                         
             ("Jenns worker: Hello, welcome to Jenns! What can I get for you today?", -1),
-            ("What should I choose?", 2)
+            ("What should I choose?", 1)
         }),
         //Salad deli
         (new [] {                          
             ("Deli cashier: Welcome to Sarah's Salad Deli!", -1),
-            ("Deli cashier: What can I do for you?", 3)
+            ("Deli cashier: What can I do for you?", 2)
         }),
         (new [] {
             ( "Deli cashier: This table right here please", -1),
@@ -210,7 +222,7 @@ public class Lunch_Text : ScriptableObject
             ( "Deli cashier: Have a good meal then!", -1),
             ( "...", -1),
             ( "...", -1),
-            ( "Deli server: Hello, what can I get for you today?", 4)
+            ( "Deli server: Hello, what can I get for you today?", 3)
         })
     };
 

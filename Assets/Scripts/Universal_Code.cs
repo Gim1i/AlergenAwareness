@@ -5,8 +5,7 @@ public enum emotionState { happy, sad, angry, pain, tired, stress, bored } //Pos
 public enum afflictState { soreThroat } //Possible afflict modals
 public enum playerStatLevel { none, low, medium, high }
 public enum daySection { dayStart, workStartTravel, firstWork, lunch, secondWork, workEndTravel, afternoon, homeTravel, dayEnd }
-public enum foodReactionChance { coffeeShop, jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, homemadeFood, broughtInHomeFood, broughtInShopFood, workCelebration, none }
-public enum reactionRisk { none, minor, major, death }
+public enum foodReactionChance { jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, broughtInHomeFood, broughtInShopFood, workCelebration, none }
 
 //
 // Player's hidden stats
@@ -100,28 +99,34 @@ public static class randomnessArray
         450  //Heavy drinking
     };
 
-    public static readonly (foodReactionChance source, (int choice, reactionRisk risk, int[] chance)[])[] foodReactionChances = //Chances are C/1000
+    public static readonly (foodReactionChance source, (int choice, int[] chance)[])[] foodReactionChances = //Chances are C/1000
     { //All potencial raction sources with their choice's chances for each reaction level and highest possible reaction
         (foodReactionChance.jenns, new[] {
-            (0, reactionRisk.minor, new[]{ 250          }), //Sausage roll and a coffee
-            (1, reactionRisk.minor, new[]{ 250          }), //Baguete and a coffee
-            (2, reactionRisk.minor, new[]{ 250          })  //Sausage roll and a cookie
+            (0, new[]{ 215          }), //Sausage roll and a coffee
+            (1, new[]{ 170          }), //Baguete and a coffee
+            (2, new[]{ 325, 10      })  //Sausage roll and a cookie
         }), 
         (foodReactionChance.saladDeli, new[] {
-            (0, reactionRisk.minor, new[]{ 900, 75      }), //
-            (0, reactionRisk.minor, new[]{ 900, 75      }), //
-            (0, reactionRisk.minor, new[]{ 900, 75      })  //
+            (0, new[]{ 900, 75      }), //Deli bar
+            (1, new[]{ 275, 15      }), //Lasagne with chips
+            (2, new[]{ 250, 10      })  //Mac & Cheese
         }),
-        /*(foodReactionChance.resturaunt,         reactionRisk.major, new[]{ 300, 30      }),
-        (foodReactionChance.lightDrinking,      reactionRisk.minor, new[]{ 320          }),
-        (foodReactionChance.heavyDrinking,      reactionRisk.death, new[]{ 870, 280, 12 }),
-        (foodReactionChance.pizza,              reactionRisk.minor, new[]{ 150          }),
-        (foodReactionChance.chinese,            reactionRisk.major, new[]{ 950, 125     }),
-        (foodReactionChance.broughtInHomeFood,  reactionRisk.minor, new[]{ 120          }),
-        (foodReactionChance.broughtInShopFood,  reactionRisk.minor, new[]{ 300          }),
-        (foodReactionChance.workCelebration,    reactionRisk.major, new[]{ 720, 30      }),
-        (foodReactionChance.homemadeFood,       reactionRisk.none,  new[]{ 0            }), //0 reaction chance (one bellow too)
-        (foodReactionChance.coffeeShop,         reactionRisk.none,  new[]{ 0            })*/
+        (foodReactionChance.resturaunt, new[] {
+            (0, new[]{ 300, 30      }), //
+            (1, new[]{ 300, 30      }), //
+            (2, new[]{ 300, 30      })  //
+        }),
+        (foodReactionChance.lightDrinking, new[] {(0, new[]{ 320          })}),
+        (foodReactionChance.heavyDrinking, new[] {(0, new[]{ 870, 280, 12 })}),
+        (foodReactionChance.pizza, new[] {
+            (0, new[]{ 150          }) //
+        }),
+        (foodReactionChance.chinese, new[] {
+            (0, new[]{ 950, 125     }) //
+        }),
+        (foodReactionChance.broughtInHomeFood, new[] {(0, new[]{ 120          })}),
+        (foodReactionChance.broughtInShopFood, new[] {(0, new[]{ 300          })}),
+        (foodReactionChance.workCelebration,   new[] {(0, new[]{ 720, 30      })})
     };
 }
 

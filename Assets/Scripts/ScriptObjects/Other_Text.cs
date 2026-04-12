@@ -17,7 +17,6 @@ public class Other_Text : ScriptableObject
     //
     // All other text to display, sorted by section, if its event reliant and if its a player choice
     // Text formating (underscores mean anything here):
-    //    "-_"  = Naration
     //    "*_*" = Narated actions
     //
 

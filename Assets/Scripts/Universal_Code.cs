@@ -116,14 +116,10 @@ public static class randomnessArray
             (1, new[]{ 300, 30      }), //
             (2, new[]{ 300, 30      })  //
         }),
-        (foodReactionChance.lightDrinking, new[] {(0, new[]{ 320          })}),
-        (foodReactionChance.heavyDrinking, new[] {(0, new[]{ 870, 280, 12 })}),
-        (foodReactionChance.pizza, new[] {
-            (0, new[]{ 150          }) //
-        }),
-        (foodReactionChance.chinese, new[] {
-            (0, new[]{ 950, 125     }) //
-        }),
+        (foodReactionChance.lightDrinking,     new[] {(0, new[]{ 320          })}),
+        (foodReactionChance.heavyDrinking,     new[] {(0, new[]{ 870, 280, 12 })}),
+        (foodReactionChance.pizza,             new[] {(0, new[]{ 150          })}),
+        (foodReactionChance.chinese,           new[] {(0, new[]{ 950, 125     })}),
         (foodReactionChance.broughtInHomeFood, new[] {(0, new[]{ 120          })}),
         (foodReactionChance.broughtInShopFood, new[] {(0, new[]{ 300          })}),
         (foodReactionChance.workCelebration,   new[] {(0, new[]{ 720, 30      })})

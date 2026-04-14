@@ -1,0 +1,23 @@
+#- name: Unity - Builder
+#  uses: game-ci/unity-builder@v4.8.1
+#
+#- name: Butler Push
+#  uses: yeslayla/butler-publish-itchio-action@v1.2.0
+
+name: Build and deploy to Itch
+
+on:
+  pull_request: #On the close of a pull request in the auto build branch
+    types:
+      - closed
+    branches:
+      - Itch.io-auto-build
+
+env:
+  PROJECT_NAME: YOUR_GAME
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:

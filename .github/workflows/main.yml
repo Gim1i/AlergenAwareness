@@ -9,7 +9,7 @@ name: Build and deploy to Itch
 on:
   push: # On push to auto build, auto build and push (also activates on direct commit but shouldn't happen)
     branches:
-      - Itch.io-auto-build
+      - Main
   workflow_dispatch:
 
 env:

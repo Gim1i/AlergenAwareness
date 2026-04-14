@@ -1,22 +1,17 @@
-#- name: Unity - Builder
-#  uses: game-ci/unity-builder@v4.8.1
-#
-#- name: Butler Push
-#  uses: yeslayla/butler-publish-itchio-action@v1.2.0
-
 name: Build and deploy to Itch
 
 on:
   push: # On push to auto build, auto build and push (also activates on direct commit but shouldn't happen)
     branches:
       - Main
-  workflow_dispatch:
+  workflow_dispatch: # Manual activation for testing
 
 env:
   PROJECT_NAME: AlergenAwareness
 
 jobs:
-  buildAndTestForLinuxBasedPlatforms:
+  # Build in unity and store in cashe
+  buildAndCache:
     name: Build for ${{ matrix.targetPlatform }} # Linux builds are better for server performance
     runs-on: ubuntu-24.04
     strategy:
@@ -53,7 +48,20 @@ jobs:
         targetPlatform: ${{ matrix.targetPlatform }}
         buildName: ${{ env.PROJECT_NAME }}
         buildsPath: build/${{ matrix.unityVersion }}/${{ matrix.targetPlatform }}
-      # Publish to Itch
+        
+  # Publish to Itch
+  publishToItch:
+    needs: buildAndCache
+    name: Publish to Itch
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 6000.2.10f1
+        targetPlatform:
+          - WebGL
+    steps:
     - uses: yeslayla/butler-publish-itchio-action@master
       env:
         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}

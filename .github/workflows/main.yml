@@ -48,36 +48,11 @@ jobs:
         targetPlatform: ${{ matrix.targetPlatform }}
         buildName: ${{ env.PROJECT_NAME }}
         buildsPath: build/${{ matrix.unityVersion }}/${{ matrix.targetPlatform }}
-        
-  # Publish to Itch
-  publishToItch:
-    needs: buildAndCache
-    name: Publish to Itch
-    runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        projectPath:
-          - ./
-        unityVersion:
-          - 6000.2.10f1
-        targetPlatform:
-          - WebGL
-    steps:
-      # Load the build in cashe
-     - uses: actions/cache@v3
-       with:
-         path: ${{ matrix.projectPath }}/Library
-         key: Library-${{ env.PROJECT_NAME }}-${{ matrix.unityVersion }}-${{ matrix.targetPlatform }}
-         restore-keys: |
-           Library-${{ env.PROJECT_NAME }}-${{ matrix.unityVersion }}-
-           Library-${{ env.PROJECT_NAME }}-
-           Library-
       # Publish to Itch
-     - uses: yeslayla/butler-publish-itchio-action@master
-       env:
-         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-         CHANNEL: html5
-         ITCH_GAME: ${{ vars.ITCH_GAME }}
-         ITCH_USER: ${{ vars.ITCH_USER }}
-         PACKAGE: build/${{ matrix.unityVersion }}/${{ matrix.targetPlatform }}
+    - uses: yeslayla/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: html5
+        ITCH_GAME: ${{ vars.ITCH_GAME }}
+        ITCH_USER: ${{ vars.ITCH_USER }}
+        PACKAGE: build/${{ matrix.unityVersion }}/${{ matrix.targetPlatform }}

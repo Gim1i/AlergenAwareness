@@ -1,0 +1,26 @@
+name: Test & make push
+
+on:
+  push: # On push to test branch, do all tests and make new pull request (also activates on direct commit but shouldn't happen)
+    branches:
+      - Pre-build-test
+  workflow_dispatch: # Manual activation for testing
+
+env:
+  PROJECT_NAME: AlergenAwareness
+
+jobs:
+  # Build in unity and store in cashe
+  makePullRequest:
+    name: Make pull request into main
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Make pull
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "Main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_label: "Automatic pull request made after running any/all necessary tests"
+          pr_title: "Auto-pull req, Tests passed"

@@ -12,7 +12,7 @@ env:
 jobs:
   # Build in unity and store in cashe
   buildAndCache:
-    name: Build for ${{ matrix.targetPlatform }} # Linux builds are better for server performance
+    name: Build for WebGL # Linux builds are better for server performance
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false

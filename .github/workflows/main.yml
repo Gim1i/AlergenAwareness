@@ -10,6 +10,7 @@ on:
   push: # On push to auto build, auto build and push (also activates on direct commit but shouldn't happen)
     branches:
       - Itch.io-auto-build
+  workflow_dispatch:
 
 env:
   PROJECT_NAME: AlergenAwareness

@@ -23,7 +23,7 @@ public class All_Driving_Text : ScriptableObject
     //
     //  Drive to first work
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] firstWorkDriveText = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] firstWorkDriveText { get; private set; } = new[] {
         //Regular Process
         (-1, new [] {                                   
             ("", -1)
@@ -66,7 +66,7 @@ public class All_Driving_Text : ScriptableObject
     //
     //  Drive from second work
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] secondWorkDriveText = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] secondWorkDriveText { get; private set; } = new[] {
         //Regular Process
         (-1, new [] {
             ("", -1)
@@ -103,7 +103,7 @@ public class All_Driving_Text : ScriptableObject
     //
     //  Drive home
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] homeDriveText = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] homeDriveText { get; private set; } = new[] {
         (-1, new [] {                                  //Regular Process
             ("...", -1),
         }),

@@ -23,7 +23,7 @@ public class Other_Text : ScriptableObject
     //
     //  Day start
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] startText = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] startText { get; private set; } = new[] {
          //Regular Process
         (-1, new [] {                                 
             ("*Alarm beeping*", -1),
@@ -58,7 +58,7 @@ public class Other_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] startChoiceText = new[] {
+    static public (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] startChoiceText { get; private set; } = new[] {
         //Lunch prep
         new[] {                                             
             ( "No", (int)option.two, foodReactionChance.none, -1, new string[0]),
@@ -69,7 +69,7 @@ public class Other_Text : ScriptableObject
     //
     //  Day end
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] endText = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] endText { get; private set; } = new[] {
         (-1, new [] {                                  //Regular Process
             ("...", -1),
         }),
@@ -82,7 +82,7 @@ public class Other_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] endChoiceText = new[] {
+    static public (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] endChoiceText { get; private set; } = new[] {
         //Lunch prep
         new[] {
             ( "...", (int)option.two, foodReactionChance.none, -1, new string[0])

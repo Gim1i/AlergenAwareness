@@ -30,7 +30,7 @@ public class Lunch_Text : ScriptableObject
     };
 
     // Lists the choices the player can make, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] choiceText = new[] {
+    static public(string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] choiceText { get; private set; } = new[] {
         //Initial lunch choice
         new[] {                                             
             ( "Local coffee shop",           (int)option.two,   foodReactionChance.none, 0,  new string[0]),
@@ -197,7 +197,7 @@ public class Lunch_Text : ScriptableObject
     };
 
     // All sub sections
-    static public readonly (string text, int choiceID)[][] subSectionText = new[] {
+    static public (string text, int choiceID)[][] subSectionText { get; private set; } = new[] {
         //Local coffee shop
         (new [] {                           
             ("*Door bell dings*", -1),
@@ -241,7 +241,7 @@ public class Lunch_Text : ScriptableObject
     }
 
     //Homemade food choice
-    static private string[] lunchComment = new[] {
+    static private readonly string[] lunchComment = new[] {
         "*Under breath* Needs more mayo",
         "mmmm",
         "...",
@@ -254,7 +254,7 @@ public class Lunch_Text : ScriptableObject
 
     //Coffee shop choice
     static private int randomLunchOrderNumber = 242;
-    static private string[] sandwitchChoice = new[] {
+    static private readonly string[] sandwitchChoice = new[] {
         "ham & cheese sandwitch",
         "ham & cheese sandwitch",
         "ham & cheese sandwitch",
@@ -262,7 +262,7 @@ public class Lunch_Text : ScriptableObject
         "tuna salad sandwitch"
     };
     static private string randomSandwitchChoice = sandwitchChoice[0];
-    static private string[] cakeChoice = new[] {
+    static private readonly string[] cakeChoice = new[] {
         "chocolate cake",
         "sponge cake",
         "cheese cake"
@@ -270,7 +270,7 @@ public class Lunch_Text : ScriptableObject
     static private string randomCakeChoice = cakeChoice[0];
 
     //Jenns choice
-    static private string[] baguetteChoice = new[] {
+    static private readonly string[] baguetteChoice = new[] {
         "spicy chicken baguette for once",
         "ham and cheese baguette",
         "chicken and mayonase baguette",
@@ -280,7 +280,7 @@ public class Lunch_Text : ScriptableObject
         "bacon baguette"
     };
     static private string randomBaguetteChoice = baguetteChoice[0]; 
-    static private string[] cookieChoice = new[] {
+    static private readonly string[] cookieChoice = new[] {
         "double chocolate",
         "milk chocolate",
         "smarties cookies"

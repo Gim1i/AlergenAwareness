@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Game_Process_Manager : MonoBehaviour
@@ -9,20 +10,27 @@ public class Game_Process_Manager : MonoBehaviour
     [SerializeField] private Modal_Managment modalSystem;
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
     [SerializeField] private SpriteRenderer background;
+    [SerializeField] private Dialogue_Manger dialogueSystem;
 
     [SerializeField] private ScriptableObject[] displayTexts = new ScriptableObject[5];
 
     private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
     private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
 
-    private option[] todaysChoicesAndEvents = new[] { //Array with all choices and events that could effect the day
-        option.two,         //Preping Lunch
-        option.two,         //Morning Driving Delays
-        option.two,         //Colleague is Down
-        option.unchosen,    //Lunch
-        option.two,         //Afternoon Driving Delays
-        option.unchosen,    //Afternoon activity
-        option.unchosen     //Dinner
+    private Dictionary<string, bool> savedEvents = new Dictionary<string, bool>() { //Any choice or event that might impact later options
+        { "prepedLunch", false },
+        { "afternoonDriveDelay", false }
+    };
+    private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { //All the current day's events (by section)
+        { daySection.dayStart, 0 },
+        { daySection.workStartTravel, 0 },
+        { daySection.firstWork, 0 },
+        { daySection.lunch, 0 },
+        { daySection.secondWork, 0 },
+        { daySection.workEndTravel, 0 },
+        { daySection.afternoon, 0 },
+        { daySection.homeTravel, 0 },
+        { daySection.dayEnd, 0 }
     };
 
     //
@@ -62,38 +70,52 @@ public class Game_Process_Manager : MonoBehaviour
 
     }
 
+    public void NextDialoguePressed()
+    {
+        if (!dialogueSystem.NextDialogue()) //Sort next dialogue and check wether its a choice
+        { //If dialogue
+            (string choice, string[] tags) test = dialogueSystem.GetDialogue();
+        }
+        else
+        { //If choice
+            (string choice, string[] tags)[] tests = dialogueSystem.GetChoices();
+        }
+    }
+
     //  ||
     // Functions that handle regular game flow
     //
     private void Start()
     {
-        Debug.Log(displayTexts);
-        NextSectionProcessing(daysInfo.currentDaySection.section);
+        for (int i = 0; i > 9; i++) { //Gets all events for the day
+            todaysChanceEvents[(daySection)i] = EvaliuateChanceEvents((daySection)i);
+        }
+        //NextSectionProcessing(daysInfo.currentDaySection.section);
     }
 
-    private void NextSectionProcessing(daySection section) //Uses other functions to run though all processing needed at the start of a section change
-    {
-        int eventChosen = EvaliuateChanceEvents(section); //Select this sections event (if any)
-        if (eventChosen == 3) { //Check if any on driving section if event 3 is rolled
-            switch (section)
-            {
-                case daySection.workEndTravel: //Afternoon Driving Delays event chosen
-                    todaysChoicesAndEvents[4] = option.one;
-                    return;
-                case daySection.homeTravel: //Home Driving Delays event chosen
-                    playerStats.EveningDriveDelayed();
-                    return;
-                case daySection.workStartTravel: //Morning Driving Delays event chosen
-                    todaysChoicesAndEvents[1] = option.one;
-                    return;
-            }
-        }
-        if (section == daySection.firstWork && eventChosen == 3) { //If colleague down event
-            todaysChoicesAndEvents[2] = option.one; //Record in "todaysChoicesAndEvents"
-        }
+    //private void NextSectionProcessing(daySection section) //Uses other functions to run though all processing needed at the start of a section change
+    //{
+    //    int eventChosen = EvaliuateChanceEvents(section); //Select this sections event (if any)
+    //    if (eventChosen == 3) { //Check if any on driving section if event 3 is rolled
+    //        switch (section)
+    //        {
+    //            case daySection.workEndTravel: //Afternoon Driving Delays event chosen
+    //                todaysChoicesAndEvents[4] = option.one;
+    //                return;
+    //            case daySection.homeTravel: //Home Driving Delays event chosen
+    //                playerStats.EveningDriveDelayed();
+    //                return;
+    //            case daySection.workStartTravel: //Morning Driving Delays event chosen
+    //                todaysChoicesAndEvents[1] = option.one;
+    //                return;
+    //        }
+    //    }
+    //    if (section == daySection.firstWork && eventChosen == 3) { //If colleague down event
+    //        todaysChoicesAndEvents[2] = option.one; //Record in "todaysChoicesAndEvents"
+    //    }
 
-        SetApproprateBackground(daysInfo.currentDaySection.section, todaysChoicesAndEvents);
-    }
+    //    SetApproprateBackground(daysInfo.currentDaySection.section, todaysChoicesAndEvents);
+    //}
 
     private int EvaliuateChanceEvents(daySection section) //Evaliuate whether a random event happens in a given day section
     {

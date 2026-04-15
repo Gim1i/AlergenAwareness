@@ -23,7 +23,7 @@ public class All_Work_Text : ScriptableObject
     //
     //  First work
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] firstWorkText = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] firstWorkText { get; private set; } = new[] {
         //Regular Process
         (-1, new [] {                                   
             ("Hi Tyler. Anything important I should know?", -1),
@@ -65,7 +65,7 @@ public class All_Work_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] firstWorkChoiceText = new[] {
+    static public (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] firstWorkChoiceText { get; private set; } = new[] {
         //Brought in home-made food
         new[] {                                             
             ( "No", (int)option.two, foodReactionChance.none, -1,
@@ -113,7 +113,7 @@ public class All_Work_Text : ScriptableObject
     //
     //  Second work
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] secondWorkText = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] secondWorkText { get; private set; } = new[] {
         //Regular Process
         (-1, new [] {
             ("Time to get back working", -1)
@@ -149,7 +149,7 @@ public class All_Work_Text : ScriptableObject
     };
 
     // Lists the choices the player can make on day start, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] secondWorkChoiceText = new[] {
+    static public (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] secondWorkChoiceText { get; private set; } = new[] {
         //Brought in shop food
         new[] {
             ( "No", (int)option.two, foodReactionChance.none, -1,
@@ -178,7 +178,7 @@ public class All_Work_Text : ScriptableObject
     }
 
     //Homemade food brought in
-    static private string[] homeMadeFood = new[] {
+    static private readonly string[] homeMadeFood = new[] {
         "brownies",
         "sponge cake",
         "chocolate cake",
@@ -188,7 +188,7 @@ public class All_Work_Text : ScriptableObject
     static private string randomHomeMadeFood = homeMadeFood[0];
 
     //Shop food brought in
-    static private string[] broughtFood = new[] {
+    static private readonly string[] broughtFood = new[] {
         "cookies",
         "cookies",
         "doughnuts",
@@ -201,7 +201,7 @@ public class All_Work_Text : ScriptableObject
     static private string randomSecondBroughtFood = broughtFood[2];
 
     //Work food choice
-    static private string[] workPizzaChoice = new[] {
+    static private readonly string[] workPizzaChoice = new[] {
         "pepperoni",
         "margherita"
     };

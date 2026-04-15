@@ -23,7 +23,7 @@ public class Afternoon_Text : ScriptableObject
     //
     //  Lunch choices
     //
-    static public readonly (int eventId, (string text, int choiceID)[])[] text = new[] {
+    static public (int eventId, (string text, int choiceID)[])[] text { get; private set; } = new[] {
         //Regular Process
         (-1, new [] {                                  
             ("What should I do this afternoon/evening?", 0)
@@ -35,13 +35,13 @@ public class Afternoon_Text : ScriptableObject
     };
 
     // Lists the choices the player can make, alongside all relevant information
-    static public readonly (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] choiceText = new[] {
+    static public (string text, int associatedOption, foodReactionChance reactionCheck, int subSectionID, string[] uniqueLinesAfter)[][] choiceText { get; private set; } = new[] {
         //Initial afternoon activity choice
         new[] {
             ( "Relax at home",          (int)option.one,   foodReactionChance.none, 0,  new string[0]),
             ( "Go to the gym",          (int)option.two,   foodReactionChance.none, 1,  new string[0]),
             ( "Go to a resturaunt",     (int)option.three, foodReactionChance.none, 3,  new string[0]),
-            ( "Go to a party",          (int)option.four,  foodReactionChance.none, 4,  new string[0])
+            ( "Go to a party",          (int)option.four,  foodReactionChance.none, 5,  new string[0])
         },
         new[] {
             ( "Relax at home",          (int)option.one,   foodReactionChance.none, 0,  new string[0]),
@@ -90,7 +90,7 @@ public class Afternoon_Text : ScriptableObject
             ( "Chinese", (int)option.two, foodReactionChance.chinese, -1, new[] {
                     "Chinese sounds good to me",
                     "*Ring Ring Ri-*",
-                    "Phone attendent: Hello, this is _. What can I help you with today?",
+                    "Phone attendent: Hello, this is _&_. What can I help you with today?", //dragon city / golden bird chinese
                     "",
                     "",
                     "",
@@ -101,8 +101,9 @@ public class Afternoon_Text : ScriptableObject
         },
         //Resturaunt choices
         new[] {
-            ( "Ask for table", (int)option.one, foodReactionChance.none, -1, new[] {
-                    "..."
+            ( "Ask for table", (int)option.one, foodReactionChance.none, 4, new[] {
+                    "Can i get a table for 1 please?",
+                    "Resturaunt waiter 1: Sure, follow me"
                 }),
             ( "Ask about allergies", (int)option.alergy, foodReactionChance.none, -1, new[] {
                     "..."
@@ -130,36 +131,46 @@ public class Afternoon_Text : ScriptableObject
         }
     };
 
-    // All sub sections
-    static public readonly (string text, int choiceID)[][] subSectionText = new[] {
+    static private string[] randomHomeRelaxComment = new[] { "...", "...", "...", "..." }; //Putting these here fixes a wierd error I was getting with subSecs
+    static private string[] randomGymComment = new[] { "...", "...", "..." };
+    static public (string text, int choiceID)[][] subSectionText { get; private set; } = new[] {
         //Relax at home
-        (new [] {
+        new [] {
             ("I don't really fancy going out tonight", -1),
             (randomHomeRelaxComment[0], -1),
             (randomHomeRelaxComment[1], -1),
             (randomHomeRelaxComment[2], -1),
             (randomHomeRelaxComment[3], -1),
             ("What should I for dinner?", 2)
-        }),
+        },
         //Gym
-        (new [] {
+        new [] {
             ("I should head to the gym, I've been slacking on excercie lately", -1),
             ("*Heads to the gym*", -1),
             (randomGymComment[0], -1),
             (randomGymComment[1], -1),
             (randomGymComment[2], -1),
             ("What should I for dinner?", 2)
-        }),
+        },
         //Home dinner sub choice
-        (new [] {("What should I order?", 3)}),
+        new [] {("What should I order?", 3)},
         //Resturant
-        (new [] {
-            ("...", -1)
-        }),
+        new [] {("Resturaunt waiter 1: Hello and welcome to _&_, what can I help you with today?", 4)},
+        new [] {
+            ("...", -1),
+            ("Resturaunt waiter 1: Right here please... Can I get you anything to drink?", -1),
+            ("Uhhh, I'll take a "+randomDrinkExtra+" please", -1),
+            ("Resturaunt waiter 1: Yep!", -1),
+            ("Resturaunt waiter 1: Are you ready to order too or do you want a few minutes to make a choice?", -1),
+            ("I'll need a minute", -1),
+            ("Resturaunt waiter 1: Ok I'll go get that drink for you then!", -1),
+            ("*Waiter leaves*", -1),
+            ("What should I order?", 5)
+        },
         //Party
-        (new [] {
+        new [] {
             ("...", -1)
-        })
+        }
     };
 
     //
@@ -173,6 +184,7 @@ public class Afternoon_Text : ScriptableObject
         randomPizzaChoice = pizzaChoice[Random.Range(0, pizzaChoice.Length)];
         randomPizzaSize = pizzaSize[Random.Range(0, pizzaSize.Length)];
         randomPizzaExtra = pizzaExtra[Random.Range(0, pizzaExtra.Length)];
+        randomDrinkExtra = drinkExtra[Random.Range(0, drinkExtra.Length)];
 
         int gymCmntSctd = Random.Range(0, gymComment.Length);
         int gymSubCmntSctd = Random.Range(0, gymComment[gymCmntSctd].extensions.Length);
@@ -184,7 +196,7 @@ public class Afternoon_Text : ScriptableObject
     }
 
     //Staying home set of (4) lines
-    static private string[][] homeRelaxComment = new[] {
+    static private readonly string[][] homeRelaxComment = new[] {
         new[] {
             "Actualy didn't a new show come out on fetnlix? I should watch that tonight",
             "...",
@@ -192,22 +204,22 @@ public class Afternoon_Text : ScriptableObject
             "This new show is fairly good but I'm starting to want dinner"
         },
         new[] {
+            "I wonder if there's anything on TV today",
+            "Finding Mira is on!? I never got to watch it so this is lucky",
             "...",
-            "...",
-            "...",
-            "..."
+            "That was a good movie... *Checks clock* Oh it's dinner time"
         },
         new[] {
+            "I should play that new game I brought",
             "...",
-            "...",
-            "...",
-            "..."
+            "This isn't too bad",
+            "... I should get dinner at soon"
         }
     };
-    static private string[] randomHomeRelaxComment = homeRelaxComment[0];
+    
 
     //Gym set of (3) lines
-    static private (string start, string[][] extensions)[] gymComment = new[] {
+    static private readonly (string start, string[][] extensions)[] gymComment = new[] {
         ( "Hmm, I should go for a new personal record", new[] {
             new[] {
                 "...",
@@ -239,10 +251,10 @@ public class Afternoon_Text : ScriptableObject
         ( "Wow its busy", new[] { new[] { "...", "..." }}),     
         ( "...", new[] { new[] { "...", "..." } })
     };
-    static private string[] randomGymComment = new[]{ gymComment[0].start, gymComment[0].extensions[0][0], gymComment[0].extensions[0][1] };
+    
 
     //Homemade food stuff
-    static private string[] cookedChoice = new[] {
+    static private readonly string[] cookedChoice = new[] {
         "Spaghetti bolognaise sounds good",
         "Chicken strips would be nice and easy to make",
         "I fancy chili con carne tonight... Wait did I get beef mince?",
@@ -252,7 +264,7 @@ public class Afternoon_Text : ScriptableObject
         "I should try and make that ghormeh sabzi recipie I found earlier"
     };
     static private string randomCookedChoice = cookedChoice[0];
-    static private string[] cookedComment = new[] {
+    static private readonly string[] cookedComment = new[] {
         "I should use less salt next time",
         "...",
         "...",
@@ -261,8 +273,8 @@ public class Afternoon_Text : ScriptableObject
     };
     static private string randomCookedComment = cookedComment[0];
 
-    //Homemade food stuff
-    static private string[] pizzaChoice = new[] {
+    //Ordered food stuff
+    static private readonly string[] pizzaChoice = new[] {
         "Margerehta",
         "Margerehta",
         "Peperoni",
@@ -272,7 +284,7 @@ public class Afternoon_Text : ScriptableObject
         "Sausage and chorizo"
     };
     static private string randomPizzaChoice = pizzaChoice[0];
-    static private string[] pizzaSize = new[] {
+    static private readonly string[] pizzaSize = new[] {
         "10\"",
         "10\"",
         "12\"",
@@ -281,7 +293,7 @@ public class Afternoon_Text : ScriptableObject
         "14\""
     };
     static private string randomPizzaSize = pizzaSize[0];
-    static private string[] pizzaExtra = new[] {
+    static private readonly string[] pizzaExtra = new[] {
         "No thank you",
         "No thank you",
         "No thank you",
@@ -289,4 +301,14 @@ public class Afternoon_Text : ScriptableObject
         "A can of bepis please"
     };
     static private string randomPizzaExtra = pizzaExtra[0];
+
+    //Resuraunt
+    static private readonly string[] drinkExtra = new[] {
+        "No thank you",
+        "No thank you",
+        "No thank you",
+        "Some small chips please",
+        "A can of bepis please"
+    };
+    static private string randomDrinkExtra = drinkExtra[0];
 }

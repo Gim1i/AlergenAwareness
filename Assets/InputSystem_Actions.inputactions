@@ -523,7 +523,7 @@
             "id": "87322aaa-87c3-43e0-80c0-af716e28d02b",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Next",
                     "type": "Button",
                     "id": "e79052b5-eaf6-41fc-b3db-14d6a7b6817a",
                     "expectedControlType": "",
@@ -590,11 +590,33 @@
                 {
                     "name": "",
                     "id": "0f13970b-ee0b-4b48-8bd8-37a67594b6cf",
-                    "path": "",
-                    "interactions": "",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "Press",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45501b79-e77e-4bbb-9167-20eca0f70014",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "faef29aa-91a9-4dbc-baf5-d4649aa60d3d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Next",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -99,37 +99,37 @@ public static class randomnessArray
         450  //Heavy drinking
     };
 
-    public static readonly (foodReactionChance source, (int choice, int[] chance)[])[] foodReactionChances = //Chances are C/1000
+    public static readonly (foodReactionChance source, int[][] chance)[] foodReactionChances = //Chances are C/1000
     { //All potencial raction sources with their choice's chances for each reaction level and highest possible reaction
         (foodReactionChance.jenns, new[] {
-            (0, new[]{ 215          }), //Sausage roll and a coffee
-            (1, new[]{ 170          }), //Baguete and a coffee
-            (2, new[]{ 325, 10      })  //Sausage roll and a cookie
+            new[]{ 215          }, //Sausage roll and a coffee
+            new[]{ 170          }, //Baguete and a coffee
+            new[]{ 325, 10      }  //Sausage roll and a cookie
         }), 
         (foodReactionChance.saladDeli, new[] {
-            (0, new[]{ 900, 75      }), //Deli bar
-            (1, new[]{ 275, 15      }), //Lasagne with chips
-            (2, new[]{ 250, 10      })  //Mac & Cheese
+            new[]{ 900, 75      }, //Deli bar
+            new[]{ 275, 15      }, //Lasagne with chips
+            new[]{ 250, 10      }  //Mac & Cheese
         }),
         (foodReactionChance.resturaunt, new[] {
-            (0, new[]{ 300, 30      }), //
-            (1, new[]{ 300, 30      }), //
-            (2, new[]{ 300, 30      })  //
+            new[]{ 300, 30      }, //
+            new[]{ 300, 30      }, //
+            new[]{ 300, 30      }  //
         }),
-        (foodReactionChance.lightDrinking,     new[] {(0, new[]{ 320          })}),
-        (foodReactionChance.heavyDrinking,     new[] {(0, new[]{ 870, 280, 12 })}),
-        (foodReactionChance.pizza,             new[] {(0, new[]{ 150          })}),
-        (foodReactionChance.chinese,           new[] {(0, new[]{ 950, 125     })}),
-        (foodReactionChance.broughtInHomeFood, new[] {(0, new[]{ 120          })}),
-        (foodReactionChance.broughtInShopFood, new[] {(0, new[]{ 300          })}),
-        (foodReactionChance.workCelebration,   new[] {(0, new[]{ 720, 30      })})
+        (foodReactionChance.lightDrinking,     new[] {new[]{ 320          }}),
+        (foodReactionChance.heavyDrinking,     new[] {new[]{ 870, 280, 12 }}),
+        (foodReactionChance.pizza,             new[] {new[]{ 150          }}),
+        (foodReactionChance.chinese,           new[] {new[]{ 950, 125     }}),
+        (foodReactionChance.broughtInHomeFood, new[] {new[]{ 120          }}),
+        (foodReactionChance.broughtInShopFood, new[] {new[]{ 300          }}),
+        (foodReactionChance.workCelebration,   new[] {new[]{ 720, 30      }})
     };
 }
 
 //
 // All the stats surounding randomness. Everything is readonly to prevent issues
 //
-public static class impactArray //IN PROGRESS (will store modal data)
+public static class impactArray //IN PROGRESS (will store modal data).   UPDATE: likely depreciated as ink can handle this better
 {
     public static readonly (daySection section, (string rEvent, int chance)[] events)[] daySections = //Chances are C/1000
         { //All day section random events and their chances

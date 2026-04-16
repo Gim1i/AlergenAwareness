@@ -215,14 +215,14 @@ public class Lunch_Text : ScriptableObject
             ("Deli cashier: What can I do for you?", 2)
         }),
         (new [] {
-            ( "Deli cashier: This table right here please", -1),
-            ( "Deli cashier: Heres the menu and someone will come around to get your order in approximately 5 minutes", -1),
-            ( "Deli cashier: Any questions?", -1),
-            ( "Nope, I'm good for now", -1),
-            ( "Deli cashier: Have a good meal then!", -1),
-            ( "...", -1),
-            ( "...", -1),
-            ( "Deli server: Hello, what can I get for you today?", 3)
+            ("Deli cashier: This table right here please", -1),
+            ("Deli cashier: Heres the menu and someone will come around to get your order in approximately 5 minutes", -1),
+            ("Deli cashier: Any questions?", -1),
+            ("Nope, I'm good for now", -1),
+            ("Deli cashier: Have a good meal then!", -1),
+            ("...", -1),
+            ("...", -1),
+            ("Deli server: Hello, what can I get for you today?", 3)
         })
     };
 

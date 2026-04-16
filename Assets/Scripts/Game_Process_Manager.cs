@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Game_Process_Manager : MonoBehaviour
 {
@@ -19,7 +21,8 @@ public class Game_Process_Manager : MonoBehaviour
 
     private Dictionary<string, bool> savedEvents = new Dictionary<string, bool>() { //Any choice or event that might impact later options
         { "prepedLunch", false },
-        { "afternoonDriveDelay", false }
+        { "afternoonDriveDelay", false },
+        { "skipFirstWork", false }
     };
     private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { //All the current day's events (by section)
         { daySection.dayStart, 0 },
@@ -72,13 +75,20 @@ public class Game_Process_Manager : MonoBehaviour
 
     public void NextDialoguePressed()
     {
-        if (!dialogueSystem.NextDialogue()) //Sort next dialogue and check wether its a choice
+        if (dialogueSystem.NextDialogue() == 'D') //Sort next dialogue and check wether its a choice
         { //If dialogue
-            (string choice, string[] tags) test = dialogueSystem.GetDialogue();
+            (string choice, string[] tags) dialogue = dialogueSystem.GetDialogue();
+            EvaliuateTags(dialogue.tags);
+        }
+        else if (dialogueSystem.NextDialogue() == 'C')
+        { //If choice
+            string[] choices = dialogueSystem.GetChoices();
         }
         else
-        { //If choice
-            (string choice, string[] tags)[] tests = dialogueSystem.GetChoices();
+        { //If end of Knot
+            daysInfo.currentDaySection.NextSection();
+            string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec"+ daysInfo.currentDaySection.section);
+            EvaliuateTags(nextKnotTags);
         }
     }
 
@@ -87,117 +97,103 @@ public class Game_Process_Manager : MonoBehaviour
     //
     private void Start()
     {
-        for (int i = 0; i > 9; i++) { //Gets all events for the day
-            todaysChanceEvents[(daySection)i] = EvaliuateChanceEvents((daySection)i);
-        }
-        //NextSectionProcessing(daysInfo.currentDaySection.section);
+        EvaliuateChanceEvents();
+        SetApproprateBackground(daysInfo.currentDaySection.section, "bedroom.day");
     }
+    //Home Driving Delays event         -> more likely to late wake
+    //Afternoon Driving Delays event    -> cant use 2 afternoon options
+    //Morning Driving Delays event      -> first work skipped
 
-    //private void NextSectionProcessing(daySection section) //Uses other functions to run though all processing needed at the start of a section change
-    //{
-    //    int eventChosen = EvaliuateChanceEvents(section); //Select this sections event (if any)
-    //    if (eventChosen == 3) { //Check if any on driving section if event 3 is rolled
-    //        switch (section)
-    //        {
-    //            case daySection.workEndTravel: //Afternoon Driving Delays event chosen
-    //                todaysChoicesAndEvents[4] = option.one;
-    //                return;
-    //            case daySection.homeTravel: //Home Driving Delays event chosen
-    //                playerStats.EveningDriveDelayed();
-    //                return;
-    //            case daySection.workStartTravel: //Morning Driving Delays event chosen
-    //                todaysChoicesAndEvents[1] = option.one;
-    //                return;
-    //        }
-    //    }
-    //    if (section == daySection.firstWork && eventChosen == 3) { //If colleague down event
-    //        todaysChoicesAndEvents[2] = option.one; //Record in "todaysChoicesAndEvents"
-    //    }
-
-    //    SetApproprateBackground(daysInfo.currentDaySection.section, todaysChoicesAndEvents);
-    //}
-
-    private int EvaliuateChanceEvents(daySection section) //Evaliuate whether a random event happens in a given day section
+    private void EvaliuateChanceEvents() //Set all of todays random events
     {
-        int eventNumber = Random.Range(1, 1000); //generate a random number to be the event chosen
-        for (int i = 0; i < randomnessArray.daySections.Length;) { //Find the right day section
-            if (randomnessArray.daySections[i].section == section) {
-                if (randomnessArray.daySections[i].eventChances.Length == 0) { return -1; } //If day section has no events skip event selection
-                for (int f = 0; f < randomnessArray.daySections[i].eventChances.Length;) { //Calculate which event was selected
+        for (int i = 0; i < randomnessArray.daySections.Length; i++)
+        { //For each day section
+            int eventNumber = Random.Range(1, 1000); //Generate a random number to be the event chosen
+            if (randomnessArray.daySections[i].eventChances.Length != 0) { //If day section has no events skip event selection
+                for (int f = 0; f < randomnessArray.daySections[i].eventChances.Length;)
+                { //Calculate which event was selected
                     eventNumber -= randomnessArray.daySections[i].eventChances[f];
                     if (eventNumber <= 0) {
-                        return f; //Return the event ID
+                        todaysChanceEvents[(daySection)i] = f; //Set the event ID 
                     }
                 }
-                return -1; //No event was rolled
             }
+            todaysChanceEvents[(daySection)i] = 0; //No event was rolled
         }
-        Debug.Assert(false, "Event check couldn't find section (somehow)");
-        return -1; 
+
+        if (todaysChanceEvents[daySection.firstWork] == 3) { //Ensure both works have collegue down if selected
+            todaysChanceEvents[daySection.secondWork] = 3;
+        }
     }
 
-    private void SetApproprateBackground(daySection section, option[] choices) //Get the proper background sprite
+    private void EvaliuateTags(string[] tags) //Evaliuate any/all tags and execute anything needed
     {
-        for (int i = 0; i < backgroundSheet.Length; i++) { //Locate the correct sprite for the input section
-            if (backgroundSheet[i].getSection() == section) {
-                switch (section) //Determine if the section is a multi-choice section
+        if (tags.Length > 0) { //Skip if empty
+            for (int h = 0; h < (tag.Length/2); h++) //For each tag pair
+            {
+                string[] tagsToEval = tags.Take(2).ToArray(); //Seperate out 2 tags
+                tags = tags.Skip(2).ToArray(); //And remove the 2 from the origonal array
+                switch (tagsToEval[0].ToLower()) //Execute appropriate action
                 {
-                    case daySection.lunch:
-                        backgroundKind lChoice;
-                        switch (choices[3]) //Get the correct background kind for the choice chosen
+                    case "save": //Save information
+                        switch (tagsToEval[1].ToLower()) {
+                            case "prepLunch":
+                                savedEvents["prepedLunch"] = true;
+                                break;
+                            case "afternoonDriveDelay":
+                                savedEvents["afternoonDriveDelay"] = true;
+                                break;
+                            case "skipFirstWork":
+                                savedEvents["skipFirstWork"] = true;
+                                break;
+                        }
+                        break;
+                    case "react":
+                        int[] reactionIDs = new[] { -1, -1 };
+                        string[] idSplit = tagsToEval[1].Split('.').ToArray(); //Split the main and sub id
+                        int.TryParse(idSplit[0], out reactionIDs[0]); //Turn ids to int
+                        int.TryParse(idSplit[1], out reactionIDs[1]);
+
+                        if (reactionIDs[0] != -1 && reactionIDs[1] != -1) //Check if int cast worked
                         {
-                            case option.one:
-                                lChoice = backgroundKind.officeBreakRoom;
-                                break;
-                            case option.two:
-                                lChoice = backgroundKind.coffeeShop;
-                                break;
-                            case option.three:
-                                lChoice = backgroundKind.jenns;
-                                break;
-                            case option.four:
-                                lChoice = backgroundKind.saladDeli;
-                                break;
-                            default:
-                                Debug.Assert(false, "Lunch background kind dermine failed");
-                                lChoice = backgroundKind.jenns;
-                                break;
+                            //UTILISE REACTION PROCESSING BASED ON ID
                         }
-                        if (backgroundSheet[i].getKind() == lChoice) { //Determine if the background is the same as the lunch choice chosen
-                            background.sprite = backgroundSheet[i].getSprite();
-                            return;
-                        }
-                        break; //If not the same continue searching
-                    case daySection.afternoon:
-                        backgroundKind aChoice;
-                        switch (choices[5]) //Get the correct background kind for the choice chosen
+                        else
                         {
-                            case option.one:
-                                aChoice = backgroundKind.livingRoom;
-                                break;
-                            case option.two:
-                                aChoice = backgroundKind.gym;
-                                break;
-                            case option.three:
-                                aChoice = backgroundKind.resturant;
-                                break;
-                            case option.four:
-                                aChoice = backgroundKind.pub;
-                                break;
-                            default:
-                                Debug.Assert(false, "Afternoon activity background kind dermine failed");
-                                aChoice = backgroundKind.livingRoom;
+                            Debug.Assert(false, "React tag incorrectly set up");
+                        }
+                        break;
+                    case "back":
+                        SetApproprateBackground(daysInfo.currentDaySection.section, tagsToEval[1].ToLower());
+                        break;
+                    case "open":
+                        //WIP. Will open the alergen table screen for different locations
+                        Debug.Log(tagsToEval[1]+" alergen table is supposed to open here");
+                        break;
+                    case "get":
+                        switch (tagsToEval[1]) {
+                            case "afternoonDriveDelay":
+                                dialogueSystem.SetDialogueBool("afternoonDriveDelay", savedEvents["afternoonDriveDelay"]);
                                 break;
                         }
-                        if (backgroundSheet[i].getKind() == aChoice) { //Determine if the background is the same as the lunch choice chosen
-                            background.sprite = backgroundSheet[i].getSprite();
-                            return;
-                        }
-                        break; //If not the same continue searching
-                    default: //If not a multi-choice section just set background
-                        background.sprite = backgroundSheet[i].getSprite();
-                        return;
+                        break;
+
                 }
+            }
+        }
+    }
+
+    private void SetApproprateBackground(daySection section, string bgDetails) //Get the proper background sprite
+    {
+        string[] splitDetails = bgDetails.Split('.');
+        string bgKind = splitDetails[0];
+        string bgTime = splitDetails[1];
+
+        for (int i = 0; i < backgroundSheet.Length; i++) { //Locate the correct sprite for the input section
+            if (backgroundSheet[i].isSection(section) && backgroundSheet[i].isKind(bgKind) && backgroundSheet[i].isTime(bgTime)) //If the background in tag
+            {
+                background.sprite = backgroundSheet[i].getSprite(); //Set background
+                return; //and exit
             }
         }
         Debug.Assert(false, "Background texture asignment failed");
@@ -233,9 +229,26 @@ public class Game_Process_Manager : MonoBehaviour
         [SerializeField] private daySection section;
 
         public Sprite getSprite() { return sprite; }
-        public backgroundKind getKind() { return kind; }
-        public backgroundTime getTime() { return time; }
-        public daySection getSection() { return section; }
+
+        // 3 bellow check if background is same as one searched for
+        public bool isKind(string inp) {
+            if (inp == kind.ToString()) {
+                return true;
+            }
+            else { return false;  }
+        }
+        public bool isTime(string inp) {
+            if (inp == time.ToString()) {
+                return true;
+            }
+            else { return false; }
+        }
+        public bool isSection(daySection inp) {
+            if (inp == section) {
+                return true;
+            }
+            else { return false; }
+        }
     }
 }
 

@@ -1081,6 +1081,7 @@ GameObject:
   - component: {fileID: 1453211057}
   - component: {fileID: 1453211058}
   - component: {fileID: 1453211059}
+  - component: {fileID: 1453211060}
   m_Layer: 0
   m_Name: MainGame
   m_TagString: Untagged
@@ -1183,6 +1184,7 @@ MonoBehaviour:
     time: 0
     section: 3
   background: {fileID: 759745769}
+  dialogueSystem: {fileID: 1453211060}
   displayTexts:
   - {fileID: 11400000, guid: d1da7786d694e94479bed6401eb695d5, type: 2}
   - {fileID: 11400000, guid: 39d815d205ace5e47bc221e053679c0a, type: 2}
@@ -1203,6 +1205,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Input_Managment
   mainGameProcess: {fileID: 1453211058}
   inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+--- !u!114 &1453211060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453211056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc7d044125914b42b5c2a8f8ad52ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue_Manger
+  inkTextAsset: {fileID: 4900000, guid: 33e5f5211607a7942ad375cb73b008e4, type: 3}
 --- !u!1 &1551359299
 GameObject:
   m_ObjectHideFlags: 0

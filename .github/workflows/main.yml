@@ -1,9 +1,9 @@
 name: Build and deploy to Itch
 
 on:
-  push: # On push to auto build, auto build and push (also activates on direct commit but shouldn't happen)
+  push: # On push to main, auto build and publish to itch (also activates on direct commit but shouldn't happen)
     branches:
-      - Main
+      - main
   workflow_dispatch: # Manual activation for testing
 
 env:

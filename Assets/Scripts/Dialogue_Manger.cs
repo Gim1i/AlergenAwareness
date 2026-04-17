@@ -8,7 +8,7 @@ public class Dialogue_Manger : MonoBehaviour
     private (string dialogue, string[] tags) currentDialogue = ("", new[] { "" });
     private string[] currentChoices = new[] {""};
 
-    void Start() {
+    void Awake() {
         dialogueStoryStore = new Story(inkTextAsset.text); //Sets up the story variable
     }
 
@@ -16,6 +16,7 @@ public class Dialogue_Manger : MonoBehaviour
     {
         if (dialogueStoryStore.canContinue) //If theres dialogue next
         {
+            Debug.Log("Dialogue");
             currentDialogue.dialogue = dialogueStoryStore.Continue(); //Store the text
             currentDialogue.tags = dialogueStoryStore.currentTags.ToArray(); //and the tags
             currentChoices = new[] { "" }; //Clear the choice store (redundancy)
@@ -23,9 +24,10 @@ public class Dialogue_Manger : MonoBehaviour
         }
         else if (dialogueStoryStore.currentChoices.Count > 0) //If there is no dialogue and choice/s
         {
+            Debug.Log("Choice");
             Choice[] choicesTempStore = dialogueStoryStore.currentChoices.ToArray(); //Store choices in a new store
             currentChoices = new string[choicesTempStore.Length]; //Re-make the choices store so its the apropriate length
-            for (int i = 0; i < choicesTempStore.Length; i--) { //Store each choice in an array (like dialogue)
+            for (int i = 0; i < choicesTempStore.Length; i++) { //Store each choice in an array (like dialogue)
                 currentChoices[i] = choicesTempStore[i].text;
             }
             currentDialogue = ("", new[] { "" }); //Clear the dialogue store (redundancy)
@@ -33,15 +35,17 @@ public class Dialogue_Manger : MonoBehaviour
         }
         else //When Knot ends
         {
+            Debug.Log("End");
             currentDialogue = ("", new[] { "" }); //Clear stores for redundancy
             currentChoices = new[] { "" };
             return 'E';
         }
     }
 
-    public void SetEvent(daySection section, int eventID) //Sets the next event by stitch
+    public void SetEvent(int section, int eventID) //Sets the next event by stitch
     {
         dialogueStoryStore.ChoosePathString("Sec"+section+".Ev"+eventID);
+        Debug.Log("Event set to: Sec" + section + ".Ev" + eventID);
     }
 
     public (string dialogue, string[] tags) GetDialogue() { return currentDialogue; }

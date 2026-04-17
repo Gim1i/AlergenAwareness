@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -13,16 +14,17 @@ public class Game_Process_Manager : MonoBehaviour
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
     [SerializeField] private SpriteRenderer background;
     [SerializeField] private Dialogue_Manger dialogueSystem;
-
-    [SerializeField] private ScriptableObject[] displayTexts = new ScriptableObject[5];
+    [SerializeField] private TextMeshPro textDisplay;
 
     private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
     private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
 
     private Dictionary<string, bool> savedEvents = new Dictionary<string, bool>() { //Any choice or event that might impact later options
-        { "prepedLunch", false },
+        { "prepLunch", false },
         { "afternoonDriveDelay", false },
-        { "skipFirstWork", false }
+        { "skipFirstWork", false },
+        { "skipHomeTravel", false },
+        { "heavyDrinking", false }
     };
     private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { //All the current day's events (by section)
         { daySection.dayStart, 0 },
@@ -35,6 +37,8 @@ public class Game_Process_Manager : MonoBehaviour
         { daySection.homeTravel, 0 },
         { daySection.dayEnd, 0 }
     };
+
+    private bool isChoiceActive = false;
 
     //
     // Input code activated by Input_Managment script
@@ -56,49 +60,69 @@ public class Game_Process_Manager : MonoBehaviour
         }
     }
 
-    public void Option1Pressed()
-    {
-
+    public void Option1Pressed(){ //All player option code
+        if (isChoiceActive){
+            OptionSelected(1);
+        }
     }
-    public void Option2Pressed()
-    {
-
+    public void Option2Pressed(){
+        if (isChoiceActive){
+            OptionSelected(2);
+        }
     }
-    public void Option3Pressed()
-    {
-
+    public void Option3Pressed(){
+        if (isChoiceActive){
+            OptionSelected(3);
+        }
     }
-    public void Option4Pressed()
-    {
-
+    public void Option4Pressed(){
+        if (isChoiceActive){
+            OptionSelected(4);
+        }
+    }
+    private void OptionSelected(int option) {
+    
     }
 
     public void NextDialoguePressed()
     {
-        if (dialogueSystem.NextDialogue() == 'D') //Sort next dialogue and check wether its a choice
-        { //If dialogue
-            (string choice, string[] tags) dialogue = dialogueSystem.GetDialogue();
-            EvaliuateTags(dialogue.tags);
-        }
-        else if (dialogueSystem.NextDialogue() == 'C')
-        { //If choice
-            string[] choices = dialogueSystem.GetChoices();
-        }
-        else
-        { //If end of Knot
-            daysInfo.currentDaySection.NextSection();
-            string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec"+ daysInfo.currentDaySection.section);
-            EvaliuateTags(nextKnotTags);
+        if (!isChoiceActive) { //Skip if choice is active
+            char nextKind = dialogueSystem.NextDialogue();
+            if (nextKind == 'D') //Sort next dialogue and check wether its a choice
+            { //If dialogue
+                (string dialogue, string[] tags) dialogue = dialogueSystem.GetDialogue();
+                EvaliuateTags(dialogue.tags);
+                textDisplay.text = dialogue.dialogue;
+            }
+            else if (nextKind == 'C')
+            { //If choice
+                string[] choices = dialogueSystem.GetChoices();
+                string choiceDisplayConcat = "";
+                for (int i = 0; i < choices.Length; i++) //Turn the set of choices into text
+                {
+                    choiceDisplayConcat += i + 1 + ". " + choices[i] + "\n";
+                }
+                textDisplay.text = choiceDisplayConcat;
+            }
+            else
+            { //If end of Knot
+                daysInfo.currentDaySection.NextSection();
+                string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec" + daysInfo.currentDaySection.section);
+                EvaliuateTags(nextKnotTags);
+            }
         }
     }
 
-    //  ||
+    //
     // Functions that handle regular game flow
     //
     private void Start()
     {
         EvaliuateChanceEvents();
+        playerStats.ResetDriveDelayBool();
         SetApproprateBackground(daysInfo.currentDaySection.section, "bedroom.day");
+        dialogueSystem.SetEvent((int)daySection.dayStart, todaysChanceEvents[daysInfo.currentDaySection.section]);
+        NextDialoguePressed();
     }
     //Home Driving Delays event         -> more likely to late wake
     //Afternoon Driving Delays event    -> cant use 2 afternoon options
@@ -110,11 +134,12 @@ public class Game_Process_Manager : MonoBehaviour
         { //For each day section
             int eventNumber = Random.Range(1, 1000); //Generate a random number to be the event chosen
             if (randomnessArray.daySections[i].eventChances.Length != 0) { //If day section has no events skip event selection
-                for (int f = 0; f < randomnessArray.daySections[i].eventChances.Length;)
+                for (int f = 0; f < randomnessArray.daySections[i].eventChances.Length; f++)
                 { //Calculate which event was selected
                     eventNumber -= randomnessArray.daySections[i].eventChances[f];
                     if (eventNumber <= 0) {
                         todaysChanceEvents[(daySection)i] = f; //Set the event ID 
+                        Debug.Log(((daySection)i).ToString() + " event: " + f);
                     }
                 }
             }
@@ -136,15 +161,12 @@ public class Game_Process_Manager : MonoBehaviour
                 switch (tagsToEval[0].ToLower()) //Execute appropriate action
                 {
                     case "save": //Save information
-                        switch (tagsToEval[1].ToLower()) {
-                            case "prepLunch":
-                                savedEvents["prepedLunch"] = true;
-                                break;
-                            case "afternoonDriveDelay":
-                                savedEvents["afternoonDriveDelay"] = true;
-                                break;
-                            case "skipFirstWork":
-                                savedEvents["skipFirstWork"] = true;
+                        savedEvents[tagsToEval[1]] = true;
+                        break;
+                    case "savehigher": //Save information to universal code
+                        switch (tagsToEval[1]) {
+                            case "lateHomeArival":
+                                playerStats.EveningDriveDelayed();
                                 break;
                         }
                         break;
@@ -164,7 +186,7 @@ public class Game_Process_Manager : MonoBehaviour
                         }
                         break;
                     case "back":
-                        SetApproprateBackground(daysInfo.currentDaySection.section, tagsToEval[1].ToLower());
+                        SetApproprateBackground(daysInfo.currentDaySection.section, tagsToEval[1]);
                         break;
                     case "open":
                         //WIP. Will open the alergen table screen for different locations
@@ -174,6 +196,9 @@ public class Game_Process_Manager : MonoBehaviour
                         switch (tagsToEval[1]) {
                             case "afternoonDriveDelay":
                                 dialogueSystem.SetDialogueBool("afternoonDriveDelay", savedEvents["afternoonDriveDelay"]);
+                                break;
+                            case "heavyDrinking":
+                                dialogueSystem.SetDialogueBool("heavyDrinking", savedEvents["heavyDrinking"]);
                                 break;
                         }
                         break;

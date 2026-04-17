@@ -1185,7 +1185,7 @@ MonoBehaviour:
     section: 3
   background: {fileID: 759745769}
   dialogueSystem: {fileID: 1453211060}
-  textDisplay: {fileID: 1851199331}
+  textDisplay: {fileID: 0}
 --- !u!114 &1453211059
 MonoBehaviour:
   m_ObjectHideFlags: 0

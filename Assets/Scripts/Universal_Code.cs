@@ -112,12 +112,12 @@ public static class randomnessArray
             new[]{ 250, 10      }  //Mac & Cheese
         }),
         (foodReactionChance.resturaunt, new[] {
-            new[]{ 300, 30      }, //
-            new[]{ 300, 30      }, //
-            new[]{ 300, 30      }  //
+            new[]{ 300, 30      }, //Chicken pesto
+            new[]{ 300, 30      }, //Lemon sea bass
+            new[]{ 300, 30      }  //Waterside specialty burger
         }),
         (foodReactionChance.lightDrinking,     new[] {new[]{ 320          }}),
-        (foodReactionChance.heavyDrinking,     new[] {new[]{ 870, 280, 12 }}),
+        (foodReactionChance.heavyDrinking,     new[] {new[]{ 535, 140     }}),
         (foodReactionChance.pizza,             new[] {new[]{ 150          }}),
         (foodReactionChance.chinese,           new[] {new[]{ 950, 125     }}),
         (foodReactionChance.broughtInHomeFood, new[] {new[]{ 120          }}),

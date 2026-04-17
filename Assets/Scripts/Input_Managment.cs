@@ -37,5 +37,11 @@ public class Input_Managment : MonoBehaviour
         if (buttonsPressed[6].WasPressedThisFrame()) { // If any valid button to got to the next line of dialogue is pressed
             mainGameProcess.NextDialoguePressed();
         }
+        for (int i = 0; i < 4; i++) //Run though the 4 option inputs
+        {
+            if (buttonsPressed[i].WasPressedThisFrame()) { //If option pressed
+                mainGameProcess.OptionSelected(i);
+            }
+        }
     }
 }

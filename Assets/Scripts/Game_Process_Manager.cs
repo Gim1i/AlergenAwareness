@@ -60,28 +60,13 @@ public class Game_Process_Manager : MonoBehaviour
         }
     }
 
-    public void Option1Pressed(){ //All player option code
-        if (isChoiceActive){
-            OptionSelected(1);
+    public void OptionSelected(int option) { //Handles player input as one (Much easier)
+        if (isChoiceActive) { //Ensure choice input is required
+            Debug.Log("Option " + (option + 1) + " chosen");
+            dialogueSystem.ChooseChoice(option);
+            isChoiceActive = false;
+            NextDialoguePressed();
         }
-    }
-    public void Option2Pressed(){
-        if (isChoiceActive){
-            OptionSelected(2);
-        }
-    }
-    public void Option3Pressed(){
-        if (isChoiceActive){
-            OptionSelected(3);
-        }
-    }
-    public void Option4Pressed(){
-        if (isChoiceActive){
-            OptionSelected(4);
-        }
-    }
-    private void OptionSelected(int option) {
-    
     }
 
     public void NextDialoguePressed()
@@ -93,6 +78,9 @@ public class Game_Process_Manager : MonoBehaviour
                 (string dialogue, string[] tags) dialogue = dialogueSystem.GetDialogue();
                 EvaliuateTags(dialogue.tags);
                 textDisplay.text = dialogue.dialogue;
+                if (dialogue.dialogue == "") { //If empty skip line (fixes start of section questions)
+                    NextDialoguePressed();
+                }
             }
             else if (nextKind == 'C')
             { //If choice
@@ -103,12 +91,12 @@ public class Game_Process_Manager : MonoBehaviour
                     choiceDisplayConcat += i + 1 + ". " + choices[i] + "\n";
                 }
                 textDisplay.text = choiceDisplayConcat;
+                isChoiceActive = true;
             }
             else
             { //If end of Knot
                 daysInfo.currentDaySection.NextSection();
-                string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec" + daysInfo.currentDaySection.section);
-                EvaliuateTags(nextKnotTags);
+                NextSectionSetup();
             }
         }
     }
@@ -121,8 +109,7 @@ public class Game_Process_Manager : MonoBehaviour
         EvaliuateChanceEvents();
         playerStats.ResetDriveDelayBool();
         SetApproprateBackground(daysInfo.currentDaySection.section, "bedroom.day");
-        dialogueSystem.SetEvent((int)daySection.dayStart, todaysChanceEvents[daysInfo.currentDaySection.section]);
-        NextDialoguePressed();
+        NextSectionSetup();
     }
     //Home Driving Delays event         -> more likely to late wake
     //Afternoon Driving Delays event    -> cant use 2 afternoon options
@@ -156,17 +143,25 @@ public class Game_Process_Manager : MonoBehaviour
         if (tags.Length > 0) { //Skip if empty
             for (int h = 0; h < (tag.Length/2); h++) //For each tag pair
             {
+                if (tags.Length == 1) { Debug.Assert(false, "TAG SERIOSLY BROKE " + tags[0]); break; }
+                if (tags.Length == 0) { break; }
+
                 string[] tagsToEval = tags.Take(2).ToArray(); //Seperate out 2 tags
                 tags = tags.Skip(2).ToArray(); //And remove the 2 from the origonal array
+                tagsToEval[0] = tagsToEval[0].Trim();
+                tagsToEval[1] = tagsToEval[1].Trim();
+                Debug.Log(tagsToEval[0] + ":" + tagsToEval[1]);
                 switch (tagsToEval[0].ToLower()) //Execute appropriate action
                 {
                     case "save": //Save information
                         savedEvents[tagsToEval[1]] = true;
+                        Debug.Log(tagsToEval[1]+" set");
                         break;
                     case "savehigher": //Save information to universal code
                         switch (tagsToEval[1]) {
                             case "lateHomeArival":
                                 playerStats.EveningDriveDelayed();
+                                Debug.Log("late home arival set");
                                 break;
                         }
                         break;
@@ -178,6 +173,7 @@ public class Game_Process_Manager : MonoBehaviour
 
                         if (reactionIDs[0] != -1 && reactionIDs[1] != -1) //Check if int cast worked
                         {
+                            Debug.Log("Process reaction with ID: " + reactionIDs[0] + " & SubID: " + reactionIDs[1]);
                             //UTILISE REACTION PROCESSING BASED ON ID
                         }
                         else
@@ -190,9 +186,10 @@ public class Game_Process_Manager : MonoBehaviour
                         break;
                     case "open":
                         //WIP. Will open the alergen table screen for different locations
-                        Debug.Log(tagsToEval[1]+" alergen table is supposed to open here");
+                        Debug.Log("Open alergen table " + tagsToEval[1]);
                         break;
                     case "get":
+                        Debug.Log("Get variable " + tagsToEval[1]);
                         switch (tagsToEval[1]) {
                             case "afternoonDriveDelay":
                                 dialogueSystem.SetDialogueBool("afternoonDriveDelay", savedEvents["afternoonDriveDelay"]);
@@ -218,10 +215,30 @@ public class Game_Process_Manager : MonoBehaviour
             if (backgroundSheet[i].isSection(section) && backgroundSheet[i].isKind(bgKind) && backgroundSheet[i].isTime(bgTime)) //If the background in tag
             {
                 background.sprite = backgroundSheet[i].getSprite(); //Set background
+                Debug.Log("Set background to " + daysInfo.currentDaySection.section.ToString() + ", " + bgDetails);
                 return; //and exit
             }
         }
         Debug.Assert(false, "Background texture asignment failed");
+    }
+
+    private void NextSectionSetup() //Does all the setup for going to the next section
+    {
+        int nextSection = (int)daysInfo.currentDaySection.section;
+        if (nextSection == (int)daySection.firstWork && savedEvents["skipFirstWork"]) { //Skip section if skip section flag is set
+            nextSection++;
+            daysInfo.currentDaySection.NextSection();
+        }
+        else if (nextSection == (int)daySection.homeTravel && savedEvents["skipHomeTravel"]) {
+            nextSection++;
+            daysInfo.currentDaySection.NextSection();
+        }
+
+        Debug.Log("Up next: " + (daySection)nextSection);
+        dialogueSystem.SetEvent(nextSection, todaysChanceEvents[(daySection)nextSection]); //Sets the next dialogue event
+        string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec" + nextSection); //Get next knot's tags
+        EvaliuateTags(nextKnotTags); //Act on tags
+        NextDialoguePressed();
     }
 
     //
@@ -256,6 +273,7 @@ public class Game_Process_Manager : MonoBehaviour
         public Sprite getSprite() { return sprite; }
 
         // 3 bellow check if background is same as one searched for
+        public backgroundKind getKind() { return kind; }
         public bool isKind(string inp) {
             if (inp == kind.ToString()) {
                 return true;

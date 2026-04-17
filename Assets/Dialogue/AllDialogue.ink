@@ -1,3 +1,4 @@
+-> Sec3.Ev0
 //
 // dayStart
 //
@@ -190,10 +191,9 @@ Should I get some free food?
 //Regular process
 = Ev0
 ~ temp randomLunchOrderNumber = 0
-
 ~ randomLunchOrderNumber = RANDOM(100, 999)
 
-* [Local coffee shop] 
+* [Local coffee shop]
     \*Door bell dings* #back #coffeeShop.day
     Barista 1: What can I do for you today?
     - - (lcsJumpBack)
@@ -427,7 +427,7 @@ I'll get on with it immediately then
 // workEndTravel
 //
 === Sec5 === 
-#back #driving.afternoon
+#back #driving.day
 -> Ev0 //Here to prevent errors
 
 //Regular process
@@ -473,7 +473,7 @@ Luckly the issue was quite minor so the car will be fixed by tommorow morning #s
 // afternoon
 //
 === Sec6 ===
-#back #afternoon.livingRoom
+#back #livingRoom.day
 #get #afternoonDriveDelay
 #get #heavyDrinking
 VAR afternoonDriveDelay = false

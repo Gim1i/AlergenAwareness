@@ -1,5 +1,6 @@
 using UnityEngine;
 using Ink.Runtime;
+using System.Collections.Generic;
 
 public class Dialogue_Manger : MonoBehaviour
 {
@@ -47,9 +48,15 @@ public class Dialogue_Manger : MonoBehaviour
         dialogueStoryStore.ChoosePathString("Sec"+section+".Ev"+eventID);
         Debug.Log("Event set to: Sec" + section + ".Ev" + eventID);
     }
-
+    public string[] GetKnotTags(string knot)
+    {
+        List<string> nextKnotTags = dialogueStoryStore.TagsForContentAtPath(knot);
+        if (nextKnotTags != null) {
+            return nextKnotTags.ToArray();
+        } else { return new string[0]; }
+    }
     public (string dialogue, string[] tags) GetDialogue() { return currentDialogue; }
     public string[] GetChoices() { return currentChoices; }
-    public string[] GetKnotTags(string knot) { return dialogueStoryStore.TagsForContentAtPath(knot).ToArray(); }
     public void SetDialogueBool(string boolName, bool inp) { dialogueStoryStore.variablesState[boolName] = inp; }
+    public void ChooseChoice(int index) { dialogueStoryStore.ChooseChoiceIndex(index); }
 }

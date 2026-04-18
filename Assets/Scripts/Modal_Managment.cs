@@ -59,4 +59,31 @@ public class Modal_Managment : MonoBehaviour
             }
         }
     }
+
+    /*public static void AlterEmotionLevel(emotionState emotion, int scale)
+    { //Alter an emotion up or down by scale
+        for (int i = 0; i < emotions.Length; i++)
+        { //Find the emotion
+            if (emotions[i].emotion == emotion)
+            {
+                int newLevel = ((int)emotions[i].level + scale); //Make enum int and add scale
+                if (newLevel > 3) { newLevel = 3; } //Constrict number to an acceptable range
+                else if (newLevel < 0) { newLevel = 0; }
+                emotions[i].level = (playerStatLevel)newLevel; //Save as new level
+                return;
+            }
+        }
+    }
+
+    public static void UpdateAfflictBool(afflictState afflict, bool newState)
+    { //Toggle an afflict's state
+        for (int i = 0; i < afflicts.Length; i++)
+        { //Find the afflict
+            if (afflicts[i].afflict == afflict)
+            {
+                afflicts[i].isActive = newState; //Set the new bool state
+                return;
+            }
+        }
+    }*/
 }

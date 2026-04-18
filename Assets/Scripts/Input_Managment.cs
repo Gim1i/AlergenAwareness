@@ -21,20 +21,12 @@ public class Input_Managment : MonoBehaviour
         buttonsPressed[1] = InputSystem.actions.FindAction("Option_2");
         buttonsPressed[2] = InputSystem.actions.FindAction("Option_3");
         buttonsPressed[3] = InputSystem.actions.FindAction("Option_4");
-        buttonsPressed[4] = InputSystem.actions.FindAction("S");
-        buttonsPressed[5] = InputSystem.actions.FindAction("H");
-        buttonsPressed[6] = InputSystem.actions.FindAction("Next");
+        buttonsPressed[4] = InputSystem.actions.FindAction("Next");
     }
 
     private void Update()
     {
-        if (buttonsPressed[5].WasPressedThisFrame()) { // If H is pressed
-            mainGameProcess.HPressed();
-        }
-        if (buttonsPressed[4].WasPressedThisFrame()) { // If S is pressed
-            mainGameProcess.SPressed();
-        }
-        if (buttonsPressed[6].WasPressedThisFrame()) { // If any valid button to got to the next line of dialogue is pressed
+        if (buttonsPressed[4].WasPressedThisFrame()) { // If any valid button to got to the next line of dialogue is pressed
             mainGameProcess.NextDialoguePressed();
         }
         for (int i = 0; i < 4; i++) //Run though the 4 option inputs

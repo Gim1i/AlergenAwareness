@@ -1,4 +1,3 @@
--> Sec3.Ev0
 //
 // dayStart
 //
@@ -842,14 +841,14 @@ Taxi diver: Where to?
 Taxi diver: This queue is taking a long time to get though?
 ...
 Taxi diver: Finaly though it
-\*Drives by a car crash* #saveHigher #lateHomeArival
+\*Drives by a car crash* #save #lateHomeArival
 -> END
 
 //Road closure
 = Ev2
 ...
 Taxi diver: That road is closed now?
-Taxi diver: Damn, I'll have to take a different route #saveHigher #lateHomeArival
+Taxi diver: Damn, I'll have to take a different route #save #lateHomeArival
 -> END
 
 
@@ -864,5 +863,5 @@ Taxi diver: Damn, I'll have to take a different route #saveHigher #lateHomeAriva
 
 //Regular process
 = Ev0
-{~It's been along day. Time for sleep...|...|...}
+{~It's been along day. Time for sleep...|...|...} #endday #0
 -> END

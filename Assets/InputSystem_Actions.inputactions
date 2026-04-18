@@ -28,7 +28,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "62481114-9a5c-429a-88b5-562fe2de46d2",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -584,6 +584,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "457649ae-568c-416c-8802-2eda337ef8d1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -683,6 +692,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Option_4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "706273e1-29e8-4586-b250-fd2794d0361a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

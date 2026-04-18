@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -29,7 +29,8 @@ public class Game_Process_Manager : MonoBehaviour
         { "afternoonDriveDelay", false },
         { "skipFirstWork", false },
         { "skipHomeTravel", false },
-        { "heavyDrinking", false }
+        { "heavyDrinking", false },
+        { "lateHomeArival", false }
     };
     private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { //All the current day's events (by section)
         { daySection.dayStart, 0 },
@@ -119,7 +120,8 @@ public class Game_Process_Manager : MonoBehaviour
     private void Start()
     {
         EvaliuateChanceEvents();
-        playerStats.ResetDriveDelayBool();
+        PlayerPrefs.SetInt("lateHomeArival", 0);
+        PlayerPrefs.SetInt("heavyDrinking", 0);
         SetApproprateBackground(daysInfo.currentDaySection.section, "bedroom.day");
         NextSectionSetup();
     }
@@ -128,7 +130,7 @@ public class Game_Process_Manager : MonoBehaviour
     {
         for (int i = 0; i < randomnessArray.daySections.Length; i++)
         { //For each day section
-            int eventNumber = Random.Range(1, 1000); //Generate a random number to be the event chosen
+            int eventNumber = UnityEngine.Random.Range(1, 1000); //Generate a random number to be the event chosen
             if (randomnessArray.daySections[i].eventChances.Length != 0) { //If day section has no events skip event selection
                 for (int f = 0; f < randomnessArray.daySections[i].eventChances.Length; f++)
                 { //Calculate which event was selected
@@ -178,14 +180,6 @@ public class Game_Process_Manager : MonoBehaviour
                         savedEvents[tagsToEval[1]] = true;
                         Debug.Log(tagsToEval[1]+" set");
                         break;
-                    case "savehigher": //Save information to universal code
-                        switch (tagsToEval[1]) {
-                            case "lateHomeArival":
-                                playerStats.EveningDriveDelayed();
-                                Debug.Log("late home arival set");
-                                break;
-                        }
-                        break;
                     case "react":
                         int[] reactionIDs = new[] { -1, -1 };
                         string[] idSplit = tagsToEval[1].Split('.').ToArray(); //Split the main and sub id
@@ -220,7 +214,9 @@ public class Game_Process_Manager : MonoBehaviour
                                 break;
                         }
                         break;
-
+                    case "endday": //Executes the code to end the day. Does have a 2nd tag but its useless rn
+                        EndDay();
+                        break;
                 }
             }
         }
@@ -274,6 +270,12 @@ public class Game_Process_Manager : MonoBehaviour
             await Task.Delay((int)(textDisplaySpeed * 1000)); //Wait
         }
         isTextDisplaying = false;
+    }
+
+    private void EndDay() //Runs all of the end of day code along with closing the scene
+    {
+        PlayerPrefs.SetInt("heavyDrinking", Convert.ToInt32(savedEvents["heavyDrinking"]));
+        PlayerPrefs.SetInt("lateHomeArival", Convert.ToInt32(savedEvents["lateHomeArival"]));
     }
 
     //

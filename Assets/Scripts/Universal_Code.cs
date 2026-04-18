@@ -8,52 +8,6 @@ public enum daySection { dayStart, workStartTravel, firstWork, lunch, secondWork
 public enum foodReactionChance { jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, broughtInHomeFood, broughtInShopFood, workCelebration, none }
 
 //
-// Player's hidden stats
-//
-public static class playerStats
-{
-    private static bool isEveningDriveDelayed = false; //Stores if an evening drive was delayed (effects datStart event chances)
-    public static void EveningDriveDelayed() { isEveningDriveDelayed = true; }
-    public static void ResetDriveDelayBool() { isEveningDriveDelayed = false; }
-    public static bool GetEveningDriveDelayedState() { return isEveningDriveDelayed; }
-
-    private static (emotionState emotion, playerStatLevel level)[] emotions = { //All of the players current emotions
-        (emotionState.happy,   playerStatLevel.none),
-        (emotionState.sad,     playerStatLevel.none),
-        (emotionState.angry,   playerStatLevel.none), 
-        (emotionState.pain,    playerStatLevel.none),
-        (emotionState.tired,   playerStatLevel.none),
-        (emotionState.stress,  playerStatLevel.none),
-        (emotionState.bored,   playerStatLevel.none)
-    };
-
-    private static (afflictState afflict, bool isActive)[] afflicts = {  //All of the players potencial afflicts
-        (afflictState.soreThroat, false)
-    };
-
-    public static void AlterEmotionLevel(emotionState emotion, int scale) { //Alter an emotion up or down by scale
-        for (int i = 0; i < emotions.Length; i++) { //Find the emotion
-            if (emotions[i].emotion == emotion) {
-                int newLevel = ((int)emotions[i].level + scale); //Make enum int and add scale
-                if (newLevel > 3) { newLevel = 3; } //Constrict number to an acceptable range
-                else if (newLevel < 0) { newLevel = 0; }
-                emotions[i].level = (playerStatLevel)newLevel; //Save as new level
-                return;
-            }
-        }
-    }
-
-    public static void UpdateAfflictBool(afflictState afflict, bool newState) { //Toggle an afflict's state
-        for (int i = 0; i < afflicts.Length; i++) { //Find the afflict
-            if (afflicts[i].afflict == afflict) {
-                afflicts[i].isActive = newState; //Set the new bool state
-                return;
-            }
-        }
-    }
-}
-
-//
 // All the stats surounding randomness. Everything is readonly to prevent issues
 //
 public static class randomnessArray 

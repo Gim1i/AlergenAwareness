@@ -1,8 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
+//Home Driving Delays event         -> more likely to late wake
+//Afternoon Driving Delays event    -> cant use 2 afternoon options
+//Morning Driving Delays event      -> first work skipped
 public class Game_Process_Manager : MonoBehaviour
 {
     private enum backgroundTime { day, afternoon, evening };
@@ -14,6 +19,7 @@ public class Game_Process_Manager : MonoBehaviour
     [SerializeField] private SpriteRenderer background;
     [SerializeField] private Dialogue_Manger dialogueSystem;
     [SerializeField] private TextMeshPro textDisplay;
+    [SerializeField] private float textDisplaySpeed = 0.25f; //In seconds for easy alteration later
 
     private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
     private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
@@ -38,6 +44,8 @@ public class Game_Process_Manager : MonoBehaviour
     };
 
     private bool isChoiceActive = false;
+    private Task currentDisplayTextTask;
+    private bool isTextDisplaying = false;
 
     //
     // Input code activated by Input_Managment script
@@ -70,13 +78,13 @@ public class Game_Process_Manager : MonoBehaviour
 
     public void NextDialoguePressed()
     {
-        if (!isChoiceActive) { //Skip if choice is active
+        if (!isChoiceActive && !isTextDisplaying) { //Skip if choice is active or text is displaying
             char nextKind = dialogueSystem.NextDialogue();
             if (nextKind == 'D') //Sort next dialogue and check wether its a choice
             { //If dialogue
                 (string dialogue, string[] tags) dialogue = dialogueSystem.GetDialogue();
                 EvaliuateTags(dialogue.tags);
-                textDisplay.text = dialogue.dialogue;
+                currentDisplayTextTask = DisplayText(dialogue.dialogue, false); //Display text one character at a time
                 if (dialogue.dialogue == "") { //If empty skip line (fixes start of section questions)
                     NextDialoguePressed();
                 }
@@ -98,10 +106,15 @@ public class Game_Process_Manager : MonoBehaviour
                 NextSectionSetup();
             }
         }
+        else if (isTextDisplaying) { //If text is being displayed
+            isTextDisplaying = false; //Stop displaying
+            textDisplay.text = dialogueSystem.GetDialogue().dialogue;//Update text to show its completed form
+            return;
+        }
     }
 
     //
-    // Functions that handle regular game flow
+    // Initial setup
     //
     private void Start()
     {
@@ -110,9 +123,6 @@ public class Game_Process_Manager : MonoBehaviour
         SetApproprateBackground(daysInfo.currentDaySection.section, "bedroom.day");
         NextSectionSetup();
     }
-    //Home Driving Delays event         -> more likely to late wake
-    //Afternoon Driving Delays event    -> cant use 2 afternoon options
-    //Morning Driving Delays event      -> first work skipped
 
     private void EvaliuateChanceEvents() //Set all of todays random events
     {
@@ -146,6 +156,9 @@ public class Game_Process_Manager : MonoBehaviour
         #endif
     }
 
+    //
+    // Regular game flow
+    //
     private void EvaliuateTags(string[] tags) //Evaliuate any/all tags and execute anything needed
     {
         if (tags.Length > 0) { //Skip if empty
@@ -247,6 +260,20 @@ public class Game_Process_Manager : MonoBehaviour
         string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec" + nextSection); //Get next knot's tags
         EvaliuateTags(nextKnotTags); //Act on tags
         NextDialoguePressed();
+    }
+
+    private async Task DisplayText(string textToDisplay, bool isChoice) //Takes the text to display to the user and updates it one character at a time
+    {
+        isTextDisplaying = true;
+        textDisplay.text = "";
+        int textLength = textToDisplay.Length;
+        for (int i = 0; i < textLength; i++) //For each character in the display text
+        {
+            if (!isTextDisplaying) { return; } //If something else tells it to stop exit
+            textDisplay.text += textToDisplay[i]; //Add next character
+            await Task.Delay((int)(textDisplaySpeed * 1000)); //Wait
+        }
+        isTextDisplaying = false;
     }
 
     //

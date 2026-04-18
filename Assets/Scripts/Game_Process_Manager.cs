@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Game_Process_Manager : MonoBehaviour
 {
@@ -125,17 +124,26 @@ public class Game_Process_Manager : MonoBehaviour
                 { //Calculate which event was selected
                     eventNumber -= randomnessArray.daySections[i].eventChances[f];
                     if (eventNumber <= 0) {
-                        todaysChanceEvents[(daySection)i] = f; //Set the event ID 
-                        Debug.Log(((daySection)i).ToString() + " event: " + f);
+                        todaysChanceEvents[(daySection)i] = f+1; //Set the event ID
+                        break;
                     }
                 }
+            } else {
+                todaysChanceEvents[(daySection)i] = 0; //No event was rolled
             }
-            todaysChanceEvents[(daySection)i] = 0; //No event was rolled
         }
 
         if (todaysChanceEvents[daySection.firstWork] == 3) { //Ensure both works have collegue down if selected
             todaysChanceEvents[daySection.secondWork] = 3;
         }
+
+        #if DEBUG //Debug only code to output all events selected for the day
+            string concatEventDebug = "";
+            for (int ced = 0; ced < todaysChanceEvents.Count; ced++) {
+                concatEventDebug += ((daySection)ced).ToString() + " event: " + todaysChanceEvents[(daySection)ced] + "\n";
+            }
+            Debug.Log(concatEventDebug);
+        #endif
     }
 
     private void EvaliuateTags(string[] tags) //Evaliuate any/all tags and execute anything needed

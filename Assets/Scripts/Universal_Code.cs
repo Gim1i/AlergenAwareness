@@ -58,39 +58,50 @@ public static class playerStats
 //
 public static class randomnessArray 
 {
-    private static readonly int[] drivingEvents = new[] { //Saves writing out driving events multiple times
-        5, //Car crash ahead
-        5, //Road closure
-        5  //Car doesn't start
-    };
-
     public static readonly (daySection section, int[] eventChances)[] daySections = //Chances are C/1000
         { //All day section random events and their chances (int[0] means no random events)
         new (daySection.dayStart,
             new[] {
-                5, //Early wake
-                5  //Late wake
+                75, //Early wake
+                22  //Late wake
             }
         ),
-        new (daySection.workStartTravel, drivingEvents),
+        new (daySection.workStartTravel,
+            new[] {
+                45, //Car crash ahead
+                80, //Road closure
+                18  //Car doesn't start
+            }
+        ),
         new (daySection.firstWork,
             new[] {
-                5, //Homemade food
-                5, //Shop food
-                5, //Down colleague
-                5  //Work celebration
+                30, //Homemade food
+                45, //Shop food
+                36, //Down colleague
+                5   //Work celebration
             }
         ),
         new (daySection.lunch, new int[0]),
         new (daySection.secondWork,
             new[] {
-                5, //Shop food
-                5  //Early end
+                56, //Shop food
+                12  //Early end
             }
         ),
-        new (daySection.workEndTravel, drivingEvents),
+        new (daySection.workEndTravel,
+            new[] {
+                50, //Car crash ahead
+                80, //Road closure
+                15  //Car doesn't start
+            }
+        ),
         new (daySection.afternoon, new int[0]),
-        new (daySection.homeTravel, drivingEvents),
+        new (daySection.homeTravel,
+            new[] {
+                55, //Car crash ahead
+                62  //Road closure
+            }
+        ),
         new (daySection.dayEnd, new int[0])
     };
 
@@ -126,52 +137,6 @@ public static class randomnessArray
     };
 }
 
-//
-// All the stats surounding randomness. Everything is readonly to prevent issues
-//
-public static class impactArray //IN PROGRESS (will store modal data).   UPDATE: likely depreciated as ink can handle this better
-{
-    public static readonly (daySection section, (string rEvent, int chance)[] events)[] daySections = //Chances are C/1000
-        { //All day section random events and their chances
-        new (daySection.dayStart,
-            new[] {
-                ("Early wake", 5),
-                ("Late wake", 5)
-            }
-        ),
-        new (daySection.workStartTravel,
-            new[] {
-                ("Car crash ahead", 5),
-                ("Road closure", 5),
-                ("Car doesn't start", 5)
-            }
-        ),
-        new (daySection.firstWork,
-            new[] {
-                ("Homemade food", 5),
-                ("Shop food", 5),
-                ("Down colleague", 5),
-                ("Work celebration", 5)
-            }
-        ),
-        new (daySection.lunch, new (string rEvent, int chance)[0]),
-        new (daySection.secondWork,
-            new[] {
-                ("Shop food", 5),
-                ("Early end", 5)
-            }
-        ),
-        new (daySection.workEndTravel,
-            new[] {
-                ("Car crash ahead", 5),
-                ("New road closure", 5),
-                ("Car doesn't start", 5)
-            }
-        ),
-        new (daySection.afternoon, new (string rEvent, int chance)[0]),
-        new (daySection.dayEnd, new (string rEvent, int chance)[0]),
-    };
-}
 
 //
 // Classes to be used in multiple scripts (single script classes are stored in their respective script)

@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
+//Home Driving Delays event         -> more likely to late wake
+//Afternoon Driving Delays event    -> cant use 2 afternoon options
+//Morning Driving Delays event      -> first work skipped
 public class Game_Process_Manager : MonoBehaviour
 {
     private enum backgroundTime { day, afternoon, evening };
@@ -15,6 +19,7 @@ public class Game_Process_Manager : MonoBehaviour
     [SerializeField] private SpriteRenderer background;
     [SerializeField] private Dialogue_Manger dialogueSystem;
     [SerializeField] private TextMeshPro textDisplay;
+    [SerializeField] private float textDisplaySpeed = 0.25f; //In seconds for easy alteration later
 
     private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
     private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
@@ -24,7 +29,8 @@ public class Game_Process_Manager : MonoBehaviour
         { "afternoonDriveDelay", false },
         { "skipFirstWork", false },
         { "skipHomeTravel", false },
-        { "heavyDrinking", false }
+        { "heavyDrinking", false },
+        { "lateHomeArival", false }
     };
     private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { //All the current day's events (by section)
         { daySection.dayStart, 0 },
@@ -39,6 +45,8 @@ public class Game_Process_Manager : MonoBehaviour
     };
 
     private bool isChoiceActive = false;
+    private Task currentDisplayTextTask;
+    private bool isTextDisplaying = false;
 
     //
     // Input code activated by Input_Managment script
@@ -71,13 +79,13 @@ public class Game_Process_Manager : MonoBehaviour
 
     public void NextDialoguePressed()
     {
-        if (!isChoiceActive) { //Skip if choice is active
+        if (!isChoiceActive && !isTextDisplaying) { //Skip if choice is active or text is displaying
             char nextKind = dialogueSystem.NextDialogue();
             if (nextKind == 'D') //Sort next dialogue and check wether its a choice
             { //If dialogue
                 (string dialogue, string[] tags) dialogue = dialogueSystem.GetDialogue();
                 EvaliuateTags(dialogue.tags);
-                textDisplay.text = dialogue.dialogue;
+                currentDisplayTextTask = DisplayText(dialogue.dialogue, false); //Display text one character at a time
                 if (dialogue.dialogue == "") { //If empty skip line (fixes start of section questions)
                     NextDialoguePressed();
                 }
@@ -99,45 +107,60 @@ public class Game_Process_Manager : MonoBehaviour
                 NextSectionSetup();
             }
         }
+        else if (isTextDisplaying) { //If text is being displayed
+            isTextDisplaying = false; //Stop displaying
+            textDisplay.text = dialogueSystem.GetDialogue().dialogue;//Update text to show its completed form
+            return;
+        }
     }
 
     //
-    // Functions that handle regular game flow
+    // Initial setup
     //
     private void Start()
     {
         EvaliuateChanceEvents();
-        playerStats.ResetDriveDelayBool();
+        PlayerPrefs.SetInt("lateHomeArival", 0);
+        PlayerPrefs.SetInt("heavyDrinking", 0);
         SetApproprateBackground(daysInfo.currentDaySection.section, "bedroom.day");
         NextSectionSetup();
     }
-    //Home Driving Delays event         -> more likely to late wake
-    //Afternoon Driving Delays event    -> cant use 2 afternoon options
-    //Morning Driving Delays event      -> first work skipped
 
     private void EvaliuateChanceEvents() //Set all of todays random events
     {
         for (int i = 0; i < randomnessArray.daySections.Length; i++)
         { //For each day section
-            int eventNumber = Random.Range(1, 1000); //Generate a random number to be the event chosen
+            int eventNumber = UnityEngine.Random.Range(1, 1000); //Generate a random number to be the event chosen
             if (randomnessArray.daySections[i].eventChances.Length != 0) { //If day section has no events skip event selection
                 for (int f = 0; f < randomnessArray.daySections[i].eventChances.Length; f++)
                 { //Calculate which event was selected
                     eventNumber -= randomnessArray.daySections[i].eventChances[f];
                     if (eventNumber <= 0) {
-                        todaysChanceEvents[(daySection)i] = f; //Set the event ID 
-                        Debug.Log(((daySection)i).ToString() + " event: " + f);
+                        todaysChanceEvents[(daySection)i] = f+1; //Set the event ID
+                        break;
                     }
                 }
+            } else {
+                todaysChanceEvents[(daySection)i] = 0; //No event was rolled
             }
-            todaysChanceEvents[(daySection)i] = 0; //No event was rolled
         }
 
         if (todaysChanceEvents[daySection.firstWork] == 3) { //Ensure both works have collegue down if selected
             todaysChanceEvents[daySection.secondWork] = 3;
         }
+
+        #if DEBUG //Debug only code to output all events selected for the day
+            string concatEventDebug = "";
+            for (int ced = 0; ced < todaysChanceEvents.Count; ced++) {
+                concatEventDebug += ((daySection)ced).ToString() + " event: " + todaysChanceEvents[(daySection)ced] + "\n";
+            }
+            Debug.Log(concatEventDebug);
+        #endif
     }
 
+    //
+    // Regular game flow
+    //
     private void EvaliuateTags(string[] tags) //Evaliuate any/all tags and execute anything needed
     {
         if (tags.Length > 0) { //Skip if empty
@@ -156,14 +179,6 @@ public class Game_Process_Manager : MonoBehaviour
                     case "save": //Save information
                         savedEvents[tagsToEval[1]] = true;
                         Debug.Log(tagsToEval[1]+" set");
-                        break;
-                    case "savehigher": //Save information to universal code
-                        switch (tagsToEval[1]) {
-                            case "lateHomeArival":
-                                playerStats.EveningDriveDelayed();
-                                Debug.Log("late home arival set");
-                                break;
-                        }
                         break;
                     case "react":
                         int[] reactionIDs = new[] { -1, -1 };
@@ -199,7 +214,9 @@ public class Game_Process_Manager : MonoBehaviour
                                 break;
                         }
                         break;
-
+                    case "endday": //Executes the code to end the day. Does have a 2nd tag but its useless rn
+                        EndDay();
+                        break;
                 }
             }
         }
@@ -239,6 +256,26 @@ public class Game_Process_Manager : MonoBehaviour
         string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec" + nextSection); //Get next knot's tags
         EvaliuateTags(nextKnotTags); //Act on tags
         NextDialoguePressed();
+    }
+
+    private async Task DisplayText(string textToDisplay, bool isChoice) //Takes the text to display to the user and updates it one character at a time
+    {
+        isTextDisplaying = true;
+        textDisplay.text = "";
+        int textLength = textToDisplay.Length;
+        for (int i = 0; i < textLength; i++) //For each character in the display text
+        {
+            if (!isTextDisplaying) { return; } //If something else tells it to stop exit
+            textDisplay.text += textToDisplay[i]; //Add next character
+            await Task.Delay((int)(textDisplaySpeed * 1000)); //Wait
+        }
+        isTextDisplaying = false;
+    }
+
+    private void EndDay() //Runs all of the end of day code along with closing the scene
+    {
+        PlayerPrefs.SetInt("heavyDrinking", Convert.ToInt32(savedEvents["heavyDrinking"]));
+        PlayerPrefs.SetInt("lateHomeArival", Convert.ToInt32(savedEvents["lateHomeArival"]));
     }
 
     //

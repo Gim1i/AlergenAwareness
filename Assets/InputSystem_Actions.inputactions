@@ -28,7 +28,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "62481114-9a5c-429a-88b5-562fe2de46d2",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -616,6 +616,17 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2fe4b5b-57ca-4be9-b0de-805ad8e7d702",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Touch",
                     "action": "Next",
                     "isComposite": false,
                     "isPartOfComposite": false

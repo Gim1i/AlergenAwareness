@@ -350,8 +350,8 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1429134848}
   - {fileID: 884512047}
+  - {fileID: 1429134848}
   m_Father: {fileID: 1435768328}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &378064221
@@ -1177,11 +1177,11 @@ GameObject:
   - component: {fileID: 1429134849}
   m_Layer: 5
   m_Name: Buttons
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1429134848
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1316,9 +1316,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d839a420c33a78479996e4b7b260bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Menu
-  homeUI: {fileID: 373845918}
-  settingsUI: {fileID: 343846694}
-  test: {fileID: 1035368875}
+  homeUI: {fileID: 373845919}
+  settingsUI: {fileID: 343846695}
 --- !u!1 &1558796881
 GameObject:
   m_ObjectHideFlags: 0

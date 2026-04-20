@@ -584,15 +584,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Click",
-                    "type": "Button",
-                    "id": "457649ae-568c-416c-8802-2eda337ef8d1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -625,6 +616,17 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2fe4b5b-57ca-4be9-b0de-805ad8e7d702",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Touch",
                     "action": "Next",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -692,17 +694,6 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Option_4",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "706273e1-29e8-4586-b250-fd2794d0361a",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

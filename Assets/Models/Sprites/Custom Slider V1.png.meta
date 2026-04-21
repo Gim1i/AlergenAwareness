@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 76141ef96a4547845b7b1d10b274d54f
+guid: 5cdc614d43ed0bd4dad336ba456347bc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Settings titles V1_0
+      name: Larger_Track
       rect:
         serializedVersion: 2
         x: 0
-        y: 28
-        width: 129
-        height: 26
+        y: 17
+        width: 117
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75847e205adf67e4aa4478867154bf3d
-      internalID: -1824737093
+      spriteID: a65e912e90306ad4caa8a5381f575357
+      internalID: -2091206378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings titles V1_1
+      name: Smaller_Track
       rect:
         serializedVersion: 2
         x: 0
         y: 1
-        width: 103
-        height: 26
+        width: 93
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,8 +147,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c667e4671a4f774da462b54f51bfe9c
-      internalID: -252190174
+      spriteID: 027b33f1789475945ad261d14506b795
+      internalID: 334854162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slider
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 2
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21e30a774e0efef4291c988bf97c16f5
+      internalID: 997464395
       vertices: []
       indices: 
       edges: []
@@ -157,7 +179,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 14764684daf0c4e4fa414171ae778d7e
+    spriteID: cbae154bb1b250742aa5a06fd0237d49
     internalID: 0
     vertices: []
     indices: 
@@ -169,8 +191,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Settings titles V1_0: -1824737093
-      Settings titles V1_1: -252190174
+      Larger_Track: -2091206378
+      Slider: 997464395
+      Smaller_Track: 334854162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

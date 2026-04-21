@@ -97,7 +97,7 @@ public class Menu : MonoBehaviour
                 buttonSets[menuScreen.home][buttons.Settings].clicked -= Settings;
                 buttonSets[menuScreen.home][buttons.Exit].clicked -= Exit;
                 break;
-            case menuScreen.settings:
+            case menuScreen.settingsMain:
                 break;
         }
     }

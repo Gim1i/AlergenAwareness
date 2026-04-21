@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3709bae66437c744cb2e1810ac902247
+guid: 466efeb5165864b48962b1b38df28ae0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -114,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 37
+        y: 73
         width: 93
         height: 17
       alignment: 0
@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0689e7f015a5ed54fbbf81eb47b8fcc0
-      internalID: -361140050
+      spriteID: c2bbbbb18f64ee248beb89928a583bae
+      internalID: -2033979788
       vertices: []
       indices: 
       edges: []
@@ -136,7 +136,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 94
-        y: 37
+        y: 73
         width: 71
         height: 17
       alignment: 0
@@ -147,8 +147,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da32468f6a16ab744994b4757b07775d
-      internalID: 1479440124
+      spriteID: 3f62cf3879324b4449fb562e660f2a47
+      internalID: 1780225954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Music
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 55
+        width: 62
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bd187c8f6233244fa3199540f351e89
+      internalID: -713837639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Volume
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 55
+        width: 73
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e49ed06d5333eb547b2fc1c3cc288628
+      internalID: 174879324
       vertices: []
       indices: 
       edges: []
@@ -157,7 +201,7 @@ TextureImporter:
       name: UI
       rect:
         serializedVersion: 2
-        x: 188
+        x: 0
         y: 37
         width: 29
         height: 17
@@ -169,19 +213,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43d64ace0067ddc4d8b9494617b73508
-      internalID: 1371863540
+      spriteID: 5d673575bef08b54d952cb1f6162303e
+      internalID: -161554763
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Music
+      name: Back
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 37
+        width: 49
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 231582396d9299248887d1a449bebf65
+      internalID: 2110655296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Option 1
       rect:
         serializedVersion: 2
         x: 0
         y: 19
-        width: 62
+        width: 85
         height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -191,39 +257,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ecad70276b4357444a6418f2439ccd56
-      internalID: 850296352
+      spriteID: 85bd4651a49445141ba05262ddfddcee
+      internalID: -1230147678
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Voliume
+      name: Option 2
       rect:
         serializedVersion: 2
         x: 94
-        y: 19
-        width: 73
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8ddff465c83a1a84e850907ef3b9d82a
-      internalID: -396327587
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Option_1
-      rect:
-        serializedVersion: 2
-        x: 188
         y: 19
         width: 85
         height: 17
@@ -235,14 +279,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4324dc28f1b7ac247baeb150f06c026f
-      internalID: -1092422233
+      spriteID: 0adc8a69caf5f9641b552d2eab371a01
+      internalID: -1870045709
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Option_2
+      name: Option 3
       rect:
         serializedVersion: 2
         x: 0
@@ -257,17 +301,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce809206b101c184298807e559c9ea0f
-      internalID: 295417216
+      spriteID: 49453de77ee73cd48a37525e162303cb
+      internalID: -2008784510
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Option_3
+      name: Option 4
       rect:
         serializedVersion: 2
-        x: 94
+        x: 93
         y: 1
         width: 85
         height: 17
@@ -279,30 +323,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69cbe85d40d90a04aaa4b75f18b2357a
-      internalID: 312116377
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Option_4
-      rect:
-        serializedVersion: 2
-        x: 188
-        y: 1
-        width: 85
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 47a30f31867ce5140b60961286abdc91
-      internalID: -1934499372
+      spriteID: f8a730e62a843fd4a985b526e4dc8753
+      internalID: 1546459461
       vertices: []
       indices: 
       edges: []
@@ -311,7 +333,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7ba32a2101e875b4bad8a18bff13dd0b
+    spriteID: 67ac3338129c86b40a1c6157593df849
     internalID: 0
     vertices: []
     indices: 
@@ -323,15 +345,16 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Controls: -361140050
-      Master: 1479440124
-      Music: 850296352
-      Option_1: -1092422233
-      Option_2: 295417216
-      Option_3: 312116377
-      Option_4: -1934499372
-      UI: 1371863540
-      Voliume: -396327587
+      Back: 2110655296
+      Controls: -2033979788
+      Master: 1780225954
+      Music: -713837639
+      Option 1: -1230147678
+      Option 2: -1870045709
+      Option 3: -2008784510
+      Option 4: 1546459461
+      UI: -161554763
+      Volume: 174879324
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -10,7 +10,9 @@ public class Saved_Info_Manager : MonoBehaviour
         ("existingGame", 0)
     };
     (string prefKey, float defVal)[] floatPrefKeyList = new[] {
-        ("volume", 1f),
+        ("masterVolume", 1f),
+        ("musicVolume", 1f),
+        ("uiVolume", 1f),
         ("textSpeed", 0.07f)
     };
     (emotionState prefKey, playerStatLevel defVal)[] emotionPrefKeyList = new[] {

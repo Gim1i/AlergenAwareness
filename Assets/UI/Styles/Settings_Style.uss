@@ -1,0 +1,93 @@
+.Larger-Slider {
+}
+
+.Larger-Slider #unity-dragger {
+    background-image: url("project://database/Assets/Models/Sprites/Custom%20Slider%20V1.png?fileID=997464395&guid=5cdc614d43ed0bd4dad336ba456347bc&type=3#Slider");
+    width: 6.5%;
+    height: 80%;
+    flex: none;
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: -17px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.Larger-Slider #unity-dragger-border {
+    width: 7%;
+    height: 100%;
+    flex: none;
+    margin-top: -17px;
+}
+
+.Larger-Slider #unity-tracker {
+    background-image: url("project://database/Assets/Models/Sprites/Custom%20Slider%20V1.png?fileID=-2091206378&guid=5cdc614d43ed0bd4dad336ba456347bc&type=3#Larger_Track");
+    margin: -23px 0 0 0;
+    background-size: contain;
+    border-width: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    min-width: initial;
+    max-width: initial;
+    max-height: initial;
+    min-height: initial;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.Larger-Slider VisualElement {
+    height: 100%;
+    margin: 0 0 0 0;
+}
+
+.Larger-Slider #unity-drag-container {
+}
+
+.Smaller-Slider {
+}
+
+.Smaller-Slider #unity-dragger {
+    background-image: url("project://database/Assets/Models/Sprites/Custom%20Slider%20V1.png?fileID=997464395&guid=5cdc614d43ed0bd4dad336ba456347bc&type=3#Slider");
+    width: 10%;
+    height: 80%;
+    flex: none;
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: -18.5px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.Smaller-Slider #unity-dragger-border {
+    width: 10%;
+    height: 100%;
+    flex: none;
+    margin-top: 18.5px;
+}
+
+.Smaller-Slider #unity-tracker {
+    background-image: url("project://database/Assets/Models/Sprites/Custom%20Slider%20V1.png?fileID=334854162&guid=5cdc614d43ed0bd4dad336ba456347bc&type=3#Smaller_Track");
+    margin: -23px 0 0 0;
+    background-size: contain;
+    border-width: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    min-width: initial;
+    max-width: initial;
+    max-height: initial;
+    min-height: initial;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.Smaller-Slider VisualElement {
+    height: 100%;
+    margin: 0 0 0 0;
+}
+
+.Smaller-Slider #unity-drag-container {
+}

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a8562f5424f8a8e43b9a3f4c6865d95b
+guid: 5cdc614d43ed0bd4dad336ba456347bc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Continue
+      name: Larger_Track
       rect:
         serializedVersion: 2
         x: 0
-        y: 19
-        width: 95
-        height: 17
+        y: 17
+        width: 117
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,42 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a72d83156a83c454a8b4490f887eff49
-      internalID: 1076595518
+      spriteID: a65e912e90306ad4caa8a5381f575357
+      internalID: -2091206378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: New
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 19
-        width: 45
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 96a4fd7031753ee41a63ed050b844f87
-      internalID: 1854936019
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Settings
+      name: Smaller_Track
       rect:
         serializedVersion: 2
         x: 0
         y: 1
         width: 93
-        height: 17
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4753093b0bb61648aa8071ab87a1d33
-      internalID: -1518441781
+      spriteID: 027b33f1789475945ad261d14506b795
+      internalID: 334854162
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Exit
+      name: Slider
       rect:
         serializedVersion: 2
-        x: 96
-        y: 1
-        width: 48
-        height: 17
+        x: 94
+        y: 2
+        width: 9
+        height: 13
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a37bf63559bd7246820e15851fcceec
-      internalID: 1523227695
+      spriteID: 21e30a774e0efef4291c988bf97c16f5
+      internalID: 997464395
       vertices: []
       indices: 
       edges: []
@@ -201,7 +179,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: dbb29afd3909463479630e9c538d2cd4
+    spriteID: cbae154bb1b250742aa5a06fd0237d49
     internalID: 0
     vertices: []
     indices: 
@@ -213,10 +191,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Continue: 1076595518
-      Exit: 1523227695
-      New: 1854936019
-      Settings: -1518441781
+      Larger_Track: -2091206378
+      Slider: 997464395
+      Smaller_Track: 334854162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

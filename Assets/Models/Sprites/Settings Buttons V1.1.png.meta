@@ -114,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 73
+        y: 91
         width: 93
         height: 17
       alignment: 0
@@ -136,7 +136,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 94
-        y: 73
+        y: 91
         width: 71
         height: 17
       alignment: 0
@@ -158,7 +158,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 55
+        y: 73
         width: 62
         height: 17
       alignment: 0
@@ -180,7 +180,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 94
-        y: 55
+        y: 73
         width: 73
         height: 17
       alignment: 0
@@ -202,7 +202,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 37
+        y: 55
         width: 29
         height: 17
       alignment: 0
@@ -224,7 +224,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 94
-        y: 37
+        y: 55
         width: 49
         height: 17
       alignment: 0
@@ -246,7 +246,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 19
+        y: 37
         width: 85
         height: 17
       alignment: 0
@@ -268,7 +268,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 94
-        y: 19
+        y: 37
         width: 85
         height: 17
       alignment: 0
@@ -290,7 +290,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
+        y: 19
         width: 85
         height: 17
       alignment: 0
@@ -311,8 +311,8 @@ TextureImporter:
       name: Option 4
       rect:
         serializedVersion: 2
-        x: 93
-        y: 1
+        x: 94
+        y: 19
         width: 85
         height: 17
       alignment: 0
@@ -325,6 +325,28 @@ TextureImporter:
       bones: []
       spriteID: f8a730e62a843fd4a985b526e4dc8753
       internalID: 1546459461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Apply
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 54
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bebe736d9f0c7b244961aba6fc9f1ad3
+      internalID: 2081346893
       vertices: []
       indices: 
       edges: []
@@ -345,6 +367,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
+      Apply: 2081346893
       Back: 2110655296
       Controls: -2033979788
       Master: 1780225954

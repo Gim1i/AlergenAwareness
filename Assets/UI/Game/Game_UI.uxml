@@ -2,8 +2,10 @@
     <ui:Template name="Background" src="project://database/Assets/UI/Game/Individual%20pages/Background.uxml?fileID=9197481963319205126&amp;guid=60de6e5bb5c8214459c397882621951d&amp;type=3#Background" />
     <ui:Template name="Text" src="project://database/Assets/UI/Game/Individual%20pages/Text.uxml?fileID=9197481963319205126&amp;guid=8d5c7bc7aa39ce749bc1b0ab8c837044&amp;type=3#Text" />
     <ui:Template name="Option_Input" src="project://database/Assets/UI/Game/Individual%20pages/Option_Input.uxml?fileID=9197481963319205126&amp;guid=3b377e89f32f25241b991b11a5907000&amp;type=3#Option_Input" />
+    <ui:Template name="Modal_Display" src="project://database/Assets/UI/Game/Individual%20pages/Modal_Display.uxml?fileID=9197481963319205126&amp;guid=ea7bb432fea5e734d82d9a16b08ed809&amp;type=3#Modal_Display" />
     <Style src="project://database/Assets/UI/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3#Universal_Styles" />
     <ui:Instance template="Background" name="Background_Template" class="Template" />
     <ui:Instance template="Text" name="Text_Template" class="Template" />
+    <ui:Instance template="Modal_Display" name="Modal_Display_Template" class="Template" />
     <ui:Instance template="Option_Input" name="Option_Input_Template" enabled="false" class="Template" style="display: none;" />
 </ui:UXML>

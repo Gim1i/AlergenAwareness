@@ -15,18 +15,17 @@ public class Game_Process_Manager : MonoBehaviour
     private enum backgroundKind { bedroom, driving, officeJob, officeBreakRoom, coffeeShop, jenns, saladDeli, livingRoom, gym, resturant, pub};
     private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
 
-    [SerializeField] private Modal_Managment modalSystem;
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
     [SerializeField] private Dialogue_Manger dialogueSystem;
     [SerializeField] private float textDisplayTime = 1f; //In seconds for easy alteration later
 
+    private Modal_Managment modalSystem;
     private VisualElement background;
     private Label textDisplay;
     private VisualElement optionsTemplate;
     private Button[] optionButtons = new Button[4];
 
-    private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
-    private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
+    private (modalVariant variant, bool isEmotion, playerStatLevel level) testHappymodal = (modalVariant.happy, true, playerStatLevel.medium);
 
     private Dictionary<string, bool> savedEvents = new Dictionary<string, bool>() { //Any choice or event that might impact later options
         { "prepLunch", false },
@@ -54,22 +53,31 @@ public class Game_Process_Manager : MonoBehaviour
 
     // Grab the UIDoc's various elements so they can be used later
     private void Awake() {
+        //Get Main UI elements
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
         textDisplay = gameDisplay.Q<CustomUXML.UI.AspectRatioLabel>("TextBox");
         background = gameDisplay.Q<VisualElement>("Background");
+
+        Debug.Assert(gameDisplay != null, "Couldn't find the UIDoc's root");
+        Debug.Assert(textDisplay != null, "Couldn't find the text display");
+        Debug.Assert(background != null, "Couldn't find the background");
+
+        //Get option buttons
         optionsTemplate = gameDisplay.Q<TemplateContainer>("Option_Input_Template");
         optionButtons[0] = optionsTemplate.Q<Button>("Option_1");
         optionButtons[1] = optionsTemplate.Q<Button>("Option_2");
         optionButtons[2] = optionsTemplate.Q<Button>("Option_3");
         optionButtons[3] = optionsTemplate.Q<Button>("Option_4");
 
-        Debug.Assert(gameDisplay != null, "Couldn't find the UIDoc's root");
-        Debug.Assert(textDisplay != null, "Couldn't find the text display");
-        Debug.Assert(background != null, "Couldn't find the background");
         Debug.Assert(optionsTemplate != null, "Couldn't find the options template");
         Debug.Assert(optionButtons[0] != null, "Couldn't find option 1 button");
         Debug.Assert(optionButtons[1] != null, "Couldn't find option 2 button");
         Debug.Assert(optionButtons[2] != null, "Couldn't find option 3 button");
+        Debug.Assert(optionButtons[3] != null, "Couldn't find option 4 button");
+
+        //Locate modal managment script
+        modalSystem = transform.GetComponent<Modal_Managment>();
+
         Debug.Assert(optionButtons[3] != null, "Couldn't find option 4 button");
     }
 
@@ -78,18 +86,10 @@ public class Game_Process_Manager : MonoBehaviour
     //
     public void HPressed() //Temp Debug options
     {
-        if (modalSystem.DoesModalExist(testHappymodal)) { //Check wether modal already exists
-            modalSystem.RemoveModal(testHappymodal); //Remove it if it exists
+        if (modalSystem.DoesModalExist(testHappymodal.variant, testHappymodal.level)) { //Check wether modal already exists
+            modalSystem.RemoveModal(testHappymodal.variant, testHappymodal.level); //Remove it if it exists
         } else {
-            modalSystem.CreateNewModal(testHappymodal); //Add it if its missing
-        }
-    }
-    public void SPressed() //Temp Debug options
-    {
-        if (modalSystem.DoesModalExist(testSadmodal)) { //Check wether modal already exists
-            modalSystem.RemoveModal(testSadmodal); //Remove it if it exists
-        } else {
-            modalSystem.CreateNewModal(testSadmodal); //Add it if its missing
+            modalSystem.CreateNewModal(testHappymodal.variant, testHappymodal.isEmotion, testHappymodal.level); //Add it if its missing
         }
     }
 

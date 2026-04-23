@@ -9,6 +9,8 @@ public class Input_Managment : MonoBehaviour
     private InputAction[] buttonsPressed = new InputAction[7];
     private Button[] optionButtons = new Button[4];
 
+    private InputAction testH;
+
     //
     // Handles al input managment
     //
@@ -35,6 +37,8 @@ public class Input_Managment : MonoBehaviour
         Debug.Assert(optionButtons[1] != null, "Option 2 button missing");
         Debug.Assert(optionButtons[2] != null, "Option 3 button missing");
         Debug.Assert(optionButtons[3] != null, "Option 4 button missing");
+
+        testH = InputSystem.actions.FindAction("H");
     }
 
     private void Start() //Set input buttons up
@@ -55,6 +59,10 @@ public class Input_Managment : MonoBehaviour
             if (buttonsPressed[i].WasPressedThisFrame()) { //If option pressed
                 mainGameProcess.OptionSelected(i);
             }
+        }
+
+        if (testH.WasPressedThisFrame()) { //If any valid button to got to the next line of dialogue is pressed
+            mainGameProcess.HPressed();
         }
     }
 

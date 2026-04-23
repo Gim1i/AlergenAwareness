@@ -568,15 +568,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "S",
-                    "type": "Button",
-                    "id": "21cb971f-9562-4c48-8a7e-c4b5fb6f70e5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "H",
                     "type": "Button",
                     "id": "ef290fa4-7e43-4b94-ae2d-2135ed40e769",
@@ -661,17 +652,6 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Option_3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e9130c6d-2c10-4770-a412-232e30b9ba0a",
-                    "path": "<Keyboard>/s",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "S",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

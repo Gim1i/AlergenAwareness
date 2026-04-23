@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public enum modalVariant { happy, sad, angry, pain, tired, stress, bored, soreThroat }
-public enum emotionState { happy, sad, angry, pain, tired, stress, bored } //Possible emotion modals
-public enum afflictState { soreThroat } //Possible afflict modals
+public enum modalVariant { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick, tinglingThroat, runnyNose, tightChest, shortBreath, sick  }
+public enum emotionState { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick } //Possible emotion modals
+public enum afflictState { tinglingThroat, runnyNose, tightChest, shortBreath, sick } //Possible afflict modals
 public enum playerStatLevel { none, low, medium, high }
 public enum daySection { dayStart, workStartTravel, firstWork, lunch, secondWork, workEndTravel, afternoon, homeTravel, dayEnd }
 public enum foodReactionChance { jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, broughtInHomeFood, broughtInShopFood, workCelebration, none }
@@ -91,36 +92,31 @@ public static class randomnessArray
     };
 }
 
-
-//
-// Classes to be used in multiple scripts (single script classes are stored in their respective script)
-//
-[System.Serializable]
-public class modalInformation //Simpler store for modal information (didnt wanna use a 3 value tuple across the whole game)
+public static class reactions
 {
-    [SerializeField] private Sprite sprite;
-    [SerializeField] private modalVariant variant;
-    [SerializeField] private bool isEmotion;
-    [SerializeField] private playerStatLevel level;
-
-    public modalInformation(modalVariant variant, bool isEmotion, playerStatLevel level) { //Initalise with values
-        this.variant = variant;
-        this.isEmotion = isEmotion;
-        this.level = level;
-    }
-    public void addSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
-    public bool compaireWithoutSprite(modalInformation var1) { //Custom comparison script to account for sprites being optional in this class
-        if (var1.variant == this.variant && var1.isEmotion == this.isEmotion && var1.level == this.level) {
-            return true;
-        }
-        return false;
-    }
-
-    public Sprite getSprite() {return sprite; }
-    public modalVariant getVariant() { return variant; }
-    public bool getIsEmotion() { return isEmotion; }
-    public playerStatLevel getLevel() { return level; }
+    //
+    // All symptoms from each level of reaction
+    //
+    public static Dictionary<string, (modalVariant variant, bool isEmotion, playerStatLevel level)[]> sympoms = new Dictionary<string, (modalVariant variant, bool isEmotion, playerStatLevel level)[]>() {
+        { "low",
+            new[] {
+                (modalVariant.pain, true, playerStatLevel.low),
+                (modalVariant.feelingSick, true, playerStatLevel.low),
+                (modalVariant.tinglingThroat, false, playerStatLevel.none),
+                (modalVariant.runnyNose, false, playerStatLevel.none)
+            }
+        },
+        { "medium",
+            new[] {
+                (modalVariant.pain, true, playerStatLevel.low),
+                (modalVariant.runnyNose, false, playerStatLevel.none),
+            }
+        },
+        { "high",
+            new[] {
+                (modalVariant.pain, true, playerStatLevel.low),
+                (modalVariant.runnyNose, false, playerStatLevel.none),
+            }
+        },
+    };
 }

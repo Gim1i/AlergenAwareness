@@ -879,6 +879,7 @@ GameObject:
   - component: {fileID: 1453211058}
   - component: {fileID: 1453211059}
   - component: {fileID: 1453211060}
+  - component: {fileID: 1453211061}
   m_Layer: 0
   m_Name: MainGame
   m_TagString: Untagged
@@ -915,7 +916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eb98ff6f844ad744a05dfab8d150ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game_Process_Manager
-  modalSystem: {fileID: 1704096187}
   backgroundSheet:
   - sprite: {fileID: 1339667165, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
     kind: 0
@@ -981,9 +981,8 @@ MonoBehaviour:
     kind: 6
     time: 0
     section: 3
-  background: {fileID: 759745769}
   dialogueSystem: {fileID: 1453211060}
-  textDisplaySpeed: 0.18
+  textDisplayTime: 1
 --- !u!114 &1453211059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,6 +1010,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue_Manger
   inkTextAsset: {fileID: 4900000, guid: 33e5f5211607a7942ad375cb73b008e4, type: 3}
+--- !u!114 &1453211061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453211056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8ae907dbac0b21bb2aad6dc398a175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Modal_Managment
+  statesArray:
+  - className: Happy-Mid
+    variant: 0
+    isEmotion: 1
+    level: 2
+  - className: Sad-Mid
+    variant: 1
+    isEmotion: 1
+    level: 2
+  modalTemplate: {fileID: 9197481963319205126, guid: 26a308b528e2584458ff1bafe0719d10, type: 3}
+  transitionSpeed: 1
 --- !u!1 &1704096185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,7 +1042,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1704096186}
-  - component: {fileID: 1704096187}
   m_Layer: 0
   m_Name: ModalList
   m_TagString: Untagged
@@ -1048,34 +1069,6 @@ Transform:
   - {fileID: 640485203}
   m_Father: {fileID: 648321384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1704096187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704096185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f8ae907dbac0b21bb2aad6dc398a175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Modal_Managment
-  modalPrefab: {fileID: 7768315459112583086, guid: 06973142dc95af334bc2136dc2c581a9, type: 3}
-  modalSlots:
-  - {fileID: 1162824310}
-  - {fileID: 186043345}
-  - {fileID: 932936215}
-  - {fileID: 17512102}
-  - {fileID: 640485202}
-  statesLookupArray:
-  - sprite: {fileID: 21300000, guid: d6c19c1111b51bb729c85e9c8c99fe7f, type: 3}
-    variant: 0
-    isEmotion: 1
-    level: 2
-  - sprite: {fileID: 21300000, guid: 29685009dbceab131b2a02f8c2c696dc, type: 3}
-    variant: 1
-    isEmotion: 1
-    level: 2
 --- !u!1 &1851199329
 GameObject:
   m_ObjectHideFlags: 0

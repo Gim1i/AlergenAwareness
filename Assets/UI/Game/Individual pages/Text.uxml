@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Game/Styles/Text.uss?fileID=7433441132597879392&amp;guid=03b792440d2b2bb4694e242b3aa20a82&amp;type=3#Text" />
+    <Style src="project://database/Assets/UI/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3" />
+    <CustomUXML.UI.AspectRatioPanel aspect-ratio-x="200" aspect-ratio-y="320" style="flex-direction: column-reverse;">
+        <CustomUXML.UI.aspect-ratio-label aspect-ratio-x="200" aspect-ratio-y="320" text="1. Option 1&#10;2. Option 2&#10;3. Option 3" text-size="40" name="TextBox" class="TextBox" />
+    </CustomUXML.UI.AspectRatioPanel>
+</ui:UXML>

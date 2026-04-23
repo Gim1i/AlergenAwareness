@@ -16,8 +16,8 @@ Should I prepare lunch today?
 
 //Early wake
 = Ev1
-..."
-..."
+...
+...
 Why don't I hear my alarm?
 \*Jolts out of bed and checks the clock*
 Oh I woke up early *Sigh*
@@ -27,8 +27,8 @@ Should I prepare lunch today?
 
 //Late wake
 = Ev2
-..."
-..."
+...
+...
 Why don't I hear my alarm?
 \*Jolts out of bed and checks the clock*
 Damn I'm late!
@@ -186,6 +186,9 @@ Should I get some free food?
 //
 === Sec3 === 
 //No background as it changes after chosing a lunch option
+#get #prepLunch
+VAR prepLunch = false
+-> Ev0
 
 //Regular process
 = Ev0
@@ -358,7 +361,7 @@ Should I get some free food?
         Deli cashier: What can I help you with today then?
         - - - -> sdbJumpBack
 
-* [Have prepared Lunch instead] #back #officeBreakRoom.day
+* { prepLunch } [Have prepared Lunch instead] #back #officeBreakRoom.day
     ...
     ...
     {~*Under breath* Needs more mayo|mmmm|...|...|...|...Hmm, kinda plain}

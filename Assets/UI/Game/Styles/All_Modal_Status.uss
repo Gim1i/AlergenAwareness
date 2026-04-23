@@ -1,0 +1,18 @@
+.Happy-Mid {
+    background-image: url("project://database/Assets/Models/Modal%20stuffs/Happy-Mid.png?fileID=21300000&guid=d6c19c1111b51bb729c85e9c8c99fe7f&type=3#Happy-Mid");
+}
+
+.Sad-Mid {
+    background-image: url("project://database/Assets/Models/Modal%20stuffs/Sad-Mid.png?fileID=21300000&guid=29685009dbceab131b2a02f8c2c696dc&type=3#Sad-Mid");
+}
+
+/* .Modal-Settings {
+    transition-property: scale;
+    transition-duration: 5s;
+    transition-delay: 3s;
+    transition-timing-function: linear;
+}
+
+.Modal-Settings:enabled {
+    scale: 1 0.1;
+} */

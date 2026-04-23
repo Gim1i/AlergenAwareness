@@ -1,3 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Models/Sprites/Temporary%20Background.png?fileID=2800000&amp;guid=ed1327232170ad24db172060635d32e6&amp;type=3#Temporary Background&quot;);" />
+    <Style src="project://database/Assets/UI/Game/Styles/Background.uss?fileID=7433441132597879392&amp;guid=68dcae845a97867449f09fe687d0cbf2&amp;type=3#Background" />
+    <ui:VisualElement name="Backgrounds_Background" class="Backgrounds-Background" />
+    <CustomUXML.UI.AspectRatioPanel aspect-ratio-x="200" aspect-ratio-y="320">
+        <ui:VisualElement name="Background" class="Background" />
+    </CustomUXML.UI.AspectRatioPanel>
 </ui:UXML>

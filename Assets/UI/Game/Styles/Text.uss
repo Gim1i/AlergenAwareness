@@ -1,0 +1,16 @@
+.TextBox {
+    background-image: url("project://database/Assets/Models/Sprites/Temporary_TextBox.png?fileID=2800000&guid=42838e41bdb309546ad7512de1807309&type=3#Temporary_TextBox");
+    height: 20%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    position: absolute;
+    margin: 0;
+    padding: 3%;
+    -unity-font-definition: url("project://database/Assets/Models/Fonts/ttf%20files/Main%20(1%20Cataneo%20BT%20Regular).ttf?fileID=12800000&guid=037fc5ad33fcc07aebc0827251b72a49&type=3#Main (1 Cataneo BT Regular)");
+    -unity-text-align: middle-left;
+    color: rgb(255, 255, 255);
+    font-size: 350%;
+    white-space: normal;
+}

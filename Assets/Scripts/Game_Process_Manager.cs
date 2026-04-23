@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 //Home Driving Delays event         -> more likely to late wake
 //Afternoon Driving Delays event    -> cant use 2 afternoon options
@@ -16,10 +17,13 @@ public class Game_Process_Manager : MonoBehaviour
 
     [SerializeField] private Modal_Managment modalSystem;
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
-    [SerializeField] private SpriteRenderer background;
     [SerializeField] private Dialogue_Manger dialogueSystem;
-    [SerializeField] private TextMeshPro textDisplay;
-    [SerializeField] private float textDisplaySpeed = 0.25f; //In seconds for easy alteration later
+    [SerializeField] private float textDisplayTime = 1f; //In seconds for easy alteration later
+
+    private VisualElement background;
+    private Label textDisplay;
+    private VisualElement optionsTemplate;
+    private Button[] optionButtons = new Button[4];
 
     private modalInformation testHappymodal = new modalInformation(modalVariant.happy, true, playerStatLevel.medium);
     private modalInformation testSadmodal = new modalInformation(modalVariant.sad, true, playerStatLevel.medium);
@@ -48,6 +52,27 @@ public class Game_Process_Manager : MonoBehaviour
     private Task currentDisplayTextTask;
     private bool isTextDisplaying = false;
 
+    // Grab the UIDoc's various elements so they can be used later
+    private void Awake() {
+        VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
+        textDisplay = gameDisplay.Q<CustomUXML.UI.AspectRatioLabel>("TextBox");
+        background = gameDisplay.Q<VisualElement>("Background");
+        optionsTemplate = gameDisplay.Q<TemplateContainer>("Option_Input_Template");
+        optionButtons[0] = optionsTemplate.Q<Button>("Option_1");
+        optionButtons[1] = optionsTemplate.Q<Button>("Option_2");
+        optionButtons[2] = optionsTemplate.Q<Button>("Option_3");
+        optionButtons[3] = optionsTemplate.Q<Button>("Option_4");
+
+        Debug.Assert(gameDisplay != null, "Couldn't find the UIDoc's root");
+        Debug.Assert(textDisplay != null, "Couldn't find the text display");
+        Debug.Assert(background != null, "Couldn't find the background");
+        Debug.Assert(optionsTemplate != null, "Couldn't find the options template");
+        Debug.Assert(optionButtons[0] != null, "Couldn't find option 1 button");
+        Debug.Assert(optionButtons[1] != null, "Couldn't find option 2 button");
+        Debug.Assert(optionButtons[2] != null, "Couldn't find option 3 button");
+        Debug.Assert(optionButtons[3] != null, "Couldn't find option 4 button");
+    }
+
     //
     // Input code activated by Input_Managment script
     //
@@ -73,6 +98,8 @@ public class Game_Process_Manager : MonoBehaviour
             Debug.Log("Option " + (option + 1) + " chosen");
             dialogueSystem.ChooseChoice(option);
             isChoiceActive = false;
+            optionsTemplate.SetEnabled(false);
+            optionsTemplate.style.display = DisplayStyle.None;
             NextDialoguePressed();
         }
     }
@@ -89,22 +116,33 @@ public class Game_Process_Manager : MonoBehaviour
                 if (dialogue.dialogue == "") { //If empty skip line (fixes start of section questions)
                     NextDialoguePressed();
                 }
+                return;
             }
             else if (nextKind == 'C')
             { //If choice
+                textDisplay.text = "";
                 string[] choices = dialogueSystem.GetChoices();
-                string choiceDisplayConcat = "";
-                for (int i = 0; i < choices.Length; i++) //Turn the set of choices into text
-                {
-                    choiceDisplayConcat += i + 1 + ". " + choices[i] + "\n";
+                optionsTemplate.SetEnabled(true);
+                optionsTemplate.style.display = DisplayStyle.Flex;
+
+                for (int i = 0; i < choices.Length; i++) { //Setup buttons that need to be active
+                    optionButtons[i].style.display = DisplayStyle.Flex;
+                    optionButtons[i].text = i + 1 + ". " + choices[i];
+                    optionButtons[i].SetEnabled(true);
                 }
-                textDisplay.text = choiceDisplayConcat;
+                for (int i = choices.Length; i < optionButtons.Length; i++) { //Hide and clear buttons that dont need to be active
+                    optionButtons[i].style.display = DisplayStyle.None;
+                    optionButtons[i].text = "";
+                    optionButtons[i].SetEnabled(false);
+                }
                 isChoiceActive = true;
+                return;
             }
             else
             { //If end of Knot
                 daysInfo.currentDaySection.NextSection();
                 NextSectionSetup();
+                return;
             }
         }
         else if (isTextDisplaying) { //If text is being displayed
@@ -212,6 +250,9 @@ public class Game_Process_Manager : MonoBehaviour
                             case "heavyDrinking":
                                 dialogueSystem.SetDialogueBool("heavyDrinking", savedEvents["heavyDrinking"]);
                                 break;
+                            case "prepLunch":
+                                dialogueSystem.SetDialogueBool("prepLunch", savedEvents["prepLunch"]);
+                                break;
                         }
                         break;
                     case "endday": //Executes the code to end the day. Does have a 2nd tag but its useless rn
@@ -231,7 +272,8 @@ public class Game_Process_Manager : MonoBehaviour
         for (int i = 0; i < backgroundSheet.Length; i++) { //Locate the correct sprite for the input section
             if (backgroundSheet[i].isSection(section) && backgroundSheet[i].isKind(bgKind) && backgroundSheet[i].isTime(bgTime)) //If the background in tag
             {
-                background.sprite = backgroundSheet[i].getSprite(); //Set background
+                background.style.backgroundImage = new StyleBackground(backgroundSheet[i].getSprite()); //Set background
+                //background.sprite = backgroundSheet[i].getSprite(); 
                 Debug.Log("Set background to " + daysInfo.currentDaySection.section.ToString() + ", " + bgDetails);
                 return; //and exit
             }
@@ -263,6 +305,7 @@ public class Game_Process_Manager : MonoBehaviour
         isTextDisplaying = true;
         textDisplay.text = "";
         int textLength = textToDisplay.Length;
+        float textDisplaySpeed = textDisplayTime / textLength; //Calculate the speed based of the time
         for (int i = 0; i < textLength; i++) //For each character in the display text
         {
             if (!isTextDisplaying) { return; } //If something else tells it to stop exit

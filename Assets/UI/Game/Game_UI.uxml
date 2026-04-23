@@ -1,6 +1,9 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Template name="Background" src="project://database/Assets/UI/Game/Individual%20pages/Background.uxml?fileID=9197481963319205126&amp;guid=60de6e5bb5c8214459c397882621951d&amp;type=3#Background" />
     <ui:Template name="Text" src="project://database/Assets/UI/Game/Individual%20pages/Text.uxml?fileID=9197481963319205126&amp;guid=8d5c7bc7aa39ce749bc1b0ab8c837044&amp;type=3#Text" />
-    <ui:Instance template="Background" name="Background_Template" style="position: absolute; flex-shrink: 0; width: 100%; height: 100%;" />
-    <ui:Instance template="Text" name="Text_Template" style="position: absolute; flex-shrink: 0; width: 100%; height: 100%;" />
+    <ui:Template name="Option_Input" src="project://database/Assets/UI/Game/Individual%20pages/Option_Input.uxml?fileID=9197481963319205126&amp;guid=3b377e89f32f25241b991b11a5907000&amp;type=3#Option_Input" />
+    <Style src="project://database/Assets/UI/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3#Universal_Styles" />
+    <ui:Instance template="Background" name="Background_Template" class="Template" />
+    <ui:Instance template="Text" name="Text_Template" class="Template" />
+    <ui:Instance template="Option_Input" name="Option_Input_Template" enabled="false" class="Template" style="display: none;" />
 </ui:UXML>

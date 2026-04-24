@@ -22,10 +22,16 @@ public class Saved_Info_Manager : MonoBehaviour
         (emotionState.pain, playerStatLevel.none),
         (emotionState.tired, playerStatLevel.none),
         (emotionState.stress, playerStatLevel.none),
-        (emotionState.bored, playerStatLevel.none)
+        (emotionState.bored, playerStatLevel.none),
+        (emotionState.itchiness, playerStatLevel.none),
+        (emotionState.feelingSick, playerStatLevel.none)
     };
     (afflictState prefKey, playerStatLevel defVal)[] afflictsPrefKeyList = new[] {
-        (afflictState.soreThroat, playerStatLevel.none)
+        (afflictState.tinglingThroat, playerStatLevel.none),
+        (afflictState.runnyNose, playerStatLevel.none),
+        (afflictState.tightChest, playerStatLevel.none),
+        (afflictState.shortBreath, playerStatLevel.none),
+        (afflictState.sick, playerStatLevel.none)
     };
 
     void Awake() //When game loads check if all player settings are set

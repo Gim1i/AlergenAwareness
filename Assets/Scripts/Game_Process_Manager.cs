@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 //Home Driving Delays event         -> more likely to late wake
@@ -17,6 +17,7 @@ public class Game_Process_Manager : MonoBehaviour
 
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
     [SerializeField] private Dialogue_Manger dialogueSystem;
+    [SerializeField] private Reaction_And_Event_Processing eventRactions;
     [SerializeField] private float textDisplayTime = 1f; //In seconds for easy alteration later
 
     private Modal_Managment modalSystem;
@@ -168,7 +169,7 @@ public class Game_Process_Manager : MonoBehaviour
     {
         for (int i = 0; i < randomnessArray.daySections.Length; i++)
         { //For each day section
-            int eventNumber = UnityEngine.Random.Range(1, 1000); //Generate a random number to be the event chosen
+            int eventNumber = UnityEngine.Random.Range(1, 1001); //Generate a random number to be the event chosen
             if (randomnessArray.daySections[i].eventChances.Length != 0) { //If day section has no events skip event selection
                 for (int f = 0; f < randomnessArray.daySections[i].eventChances.Length; f++)
                 { //Calculate which event was selected
@@ -187,11 +188,17 @@ public class Game_Process_Manager : MonoBehaviour
             todaysChanceEvents[daySection.secondWork] = 3;
         }
 
+        int drinkingEventNumber = UnityEngine.Random.Range(1, 1001);
+        if (drinkingEventNumber > randomnessArray.drinkingChances[1]) { //Check for which drinking event was chosen
+            savedEvents["heavyDrinking"] = true; //Enable heavy drinking if rolled
+        }
+
         #if DEBUG //Debug only code to output all events selected for the day
             string concatEventDebug = "";
             for (int ced = 0; ced < todaysChanceEvents.Count; ced++) {
                 concatEventDebug += ((daySection)ced).ToString() + " event: " + todaysChanceEvents[(daySection)ced] + "\n";
             }
+            concatEventDebug += "Heavy drinking: " + Convert.ToInt32(savedEvents["heavyDrinking"]);
             Debug.Log(concatEventDebug);
         #endif
     }
@@ -227,10 +234,8 @@ public class Game_Process_Manager : MonoBehaviour
                         if (reactionIDs[0] != -1 && reactionIDs[1] != -1) //Check if int cast worked
                         {
                             Debug.Log("Process reaction with ID: " + reactionIDs[0] + " & SubID: " + reactionIDs[1]);
-                            //UTILISE REACTION PROCESSING BASED ON ID
-                        }
-                        else
-                        {
+                            eventRactions.RollEventReaction((foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
+                        } else {
                             Debug.Assert(false, "React tag incorrectly set up");
                         }
                         break;
@@ -273,7 +278,6 @@ public class Game_Process_Manager : MonoBehaviour
             if (backgroundSheet[i].isSection(section) && backgroundSheet[i].isKind(bgKind) && backgroundSheet[i].isTime(bgTime)) //If the background in tag
             {
                 background.style.backgroundImage = new StyleBackground(backgroundSheet[i].getSprite()); //Set background
-                //background.sprite = backgroundSheet[i].getSprite(); 
                 Debug.Log("Set background to " + daysInfo.currentDaySection.section.ToString() + ", " + bgDetails);
                 return; //and exit
             }
@@ -300,6 +304,13 @@ public class Game_Process_Manager : MonoBehaviour
         NextDialoguePressed();
     }
 
+    private void EndDay() //Runs all of the end of day code along with closing the scene
+    {
+        PlayerPrefs.SetInt("heavyDrinking", Convert.ToInt32(savedEvents["heavyDrinking"]));
+        PlayerPrefs.SetInt("lateHomeArival", Convert.ToInt32(savedEvents["lateHomeArival"]));
+        SceneManager.LoadScene("Gameplay");
+    }
+
     private async UniTask DisplayText(string textToDisplay, bool isChoice) //Takes the text to display to the user and updates it one character at a time
     {
         isTextDisplaying = true;
@@ -313,12 +324,6 @@ public class Game_Process_Manager : MonoBehaviour
             await UniTask.Delay((int)(textDisplaySpeed * 1000)); //Wait
         }
         isTextDisplaying = false;
-    }
-
-    private void EndDay() //Runs all of the end of day code along with closing the scene
-    {
-        PlayerPrefs.SetInt("heavyDrinking", Convert.ToInt32(savedEvents["heavyDrinking"]));
-        PlayerPrefs.SetInt("lateHomeArival", Convert.ToInt32(savedEvents["lateHomeArival"]));
     }
 
     //
@@ -372,6 +377,64 @@ public class Game_Process_Manager : MonoBehaviour
             }
             else { return false; }
         }
+    }
+
+    //
+    // The chances for all events to be rolled
+    //
+    private class randomnessArray
+    {
+        public static readonly (daySection section, int[] eventChances)[] daySections = //Chances are C/1000
+        { //All day section random events and their chances (int[0] means no random events)
+            new (daySection.dayStart,
+                new[] {
+                    75, //Early wake
+                    22  //Late wake
+                }
+            ),
+            new (daySection.workStartTravel,
+                new[] {
+                    45, //Car crash ahead
+                    80, //Road closure
+                    18  //Car doesn't start
+                }
+            ),
+            new (daySection.firstWork,
+                new[] {
+                    30, //Homemade food
+                    45, //Shop food
+                    36, //Down colleague
+                    5   //Work celebration
+                }
+            ),
+            new (daySection.lunch, new int[0]),
+            new (daySection.secondWork,
+                new[] {
+                    56, //Shop food
+                    12  //Early end
+                }
+            ),
+            new (daySection.workEndTravel,
+                new[] {
+                    50, //Car crash ahead
+                    80, //Road closure
+                    15  //Car doesn't start
+                }
+            ),
+            new (daySection.afternoon, new int[0]),
+            new (daySection.homeTravel,
+                new[] {
+                    55, //Car crash ahead
+                    62  //Road closure
+                }
+            ),
+            new (daySection.dayEnd, new int[0])
+        };
+
+        public static readonly int[] drinkingChances = new[] { //Chances are C/1000. This only exists because the party event is unique
+            550, //Light drinking
+            450  //Heavy drinking
+        };
     }
 }
 

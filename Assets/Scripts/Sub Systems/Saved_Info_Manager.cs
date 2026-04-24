@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Saved_Info_Manager : MonoBehaviour
@@ -26,12 +27,12 @@ public class Saved_Info_Manager : MonoBehaviour
         (emotionState.itchiness, playerStatLevel.none),
         (emotionState.feelingSick, playerStatLevel.none)
     };
-    (afflictState prefKey, playerStatLevel defVal)[] afflictsPrefKeyList = new[] {
-        (afflictState.tinglingThroat, playerStatLevel.none),
-        (afflictState.runnyNose, playerStatLevel.none),
-        (afflictState.tightChest, playerStatLevel.none),
-        (afflictState.shortBreath, playerStatLevel.none),
-        (afflictState.sick, playerStatLevel.none)
+    (afflictState prefKey, bool defVal)[] afflictsPrefKeyList = new[] {
+        (afflictState.tinglingThroat, false),
+        (afflictState.runnyNose, false),
+        (afflictState.tightChest, false),
+        (afflictState.hardToBreath, false),
+        (afflictState.sick, false)
     };
 
     void Awake() //When game loads check if all player settings are set
@@ -64,7 +65,7 @@ public class Saved_Info_Manager : MonoBehaviour
         //Afflict modal player pref keys
         for (int i = 0; i < afflictsPrefKeyList.Length; i++) {
             if (!PlayerPrefs.HasKey(afflictsPrefKeyList[i].prefKey.ToString())) { //Check if these are set
-                PlayerPrefs.SetInt(afflictsPrefKeyList[i].prefKey.ToString(), (int)afflictsPrefKeyList[i].defVal); //If they arn't set them
+                PlayerPrefs.SetInt(afflictsPrefKeyList[i].prefKey.ToString(), Convert.ToInt32(afflictsPrefKeyList[i].defVal)); //If they arn't set them
             }
         }
     }

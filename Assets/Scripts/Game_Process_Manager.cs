@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -48,7 +48,7 @@ public class Game_Process_Manager : MonoBehaviour
     };
 
     private bool isChoiceActive = false;
-    private Task currentDisplayTextTask;
+    private UniTask currentDisplayTextTask;
     private bool isTextDisplaying = false;
 
     // Grab the UIDoc's various elements so they can be used later
@@ -300,7 +300,7 @@ public class Game_Process_Manager : MonoBehaviour
         NextDialoguePressed();
     }
 
-    private async Task DisplayText(string textToDisplay, bool isChoice) //Takes the text to display to the user and updates it one character at a time
+    private async UniTask DisplayText(string textToDisplay, bool isChoice) //Takes the text to display to the user and updates it one character at a time
     {
         isTextDisplaying = true;
         textDisplay.text = "";
@@ -310,7 +310,7 @@ public class Game_Process_Manager : MonoBehaviour
         {
             if (!isTextDisplaying) { return; } //If something else tells it to stop exit
             textDisplay.text += textToDisplay[i]; //Add next character
-            await Task.Delay((int)(textDisplaySpeed * 1000)); //Wait
+            await UniTask.Delay((int)(textDisplaySpeed * 1000)); //Wait
         }
         isTextDisplaying = false;
     }

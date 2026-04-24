@@ -80,6 +80,44 @@ public class Modal_Managment : MonoBehaviour
         }
     }
 
+
+    public void ApplyEmotionChanges() //Refreshes current modals to reflect any new stats
+    {
+        /*(emotionState.happy, 70),
+        (emotionState.sad, 0),
+        (emotionState.angry, 0),
+        (emotionState.pain, 0),
+        (emotionState.tired, 0),
+        (emotionState.stress, 0),
+        (emotionState.bored, 0),
+        (emotionState.itchiness, 0),
+        (emotionState.feelingSick, 0)*/
+
+        //Check if any emotion has changed enough to need a new modal
+        for (int i = 0; i < 9; i++) //For every emotion
+        {
+            short currentLevel = (short)PlayerPrefs.GetInt(((emotionState)i).ToString()); //Get its current level
+            playerStatLevel crntStatLvl = (playerStatLevel)Mathf.Floor(currentLevel / 25); //Convert it to a playerStatLevel
+            for (int j = 0; j < filledModalSlots; j++)
+            {
+                if (activeModals[j].GetVariant().ToString() == ((emotionState)i).ToString()) //If the emotion already has an active modal
+                {
+                    if (activeModals[j].GetLevel() == crntStatLvl) { break; } //Go to next emotion if no change is needed
+                    activeModals[j].AlterModalLevel(GetStatesClassName(activeModals[j].GetVariant(), activeModals[j].GetLevel()), crntStatLvl);
+                }
+            }
+            /*if (currentLevel > activeModals[j].level * 25) {
+            
+            }*/
+        }
+
+        /*(afflictState.tinglingThroat, false),
+        (afflictState.runnyNose, false),
+        (afflictState.tightChest, false),
+        (afflictState.hardToBreath, false),
+        (afflictState.sick, false)*/
+    }
+
     /*public static void AlterEmotionLevel(emotionState emotion, int scale)
     { //Alter an emotion up or down by scale
         for (int i = 0; i < emotions.Length; i++)
@@ -93,19 +131,21 @@ public class Modal_Managment : MonoBehaviour
                 return;
             }
         }
-    }
+    }*/
 
-    public static void UpdateAfflictBool(afflictState afflict, bool newState)
-    { //Toggle an afflict's state
-        for (int i = 0; i < afflicts.Length; i++)
-        { //Find the afflict
-            if (afflicts[i].afflict == afflict)
-            {
-                afflicts[i].isActive = newState; //Set the new bool state
-                return;
+    //
+    // Other functions
+    //
+    private string GetStatesClassName(modalVariant variant, playerStatLevel level)
+    {
+        for (int i = 0; i < statesArray.Length; i++) //Look though the registered states
+        {
+            if (statesArray[i].IsThisStateLookedFor(variant, level)) { //Find the state that includes the sprite (state might not have one)
+                return statesArray[i].GetClassName();
             }
         }
-    }*/
+        return "Happy-Mid";
+    }
 
     //
     // Data store for modals (as they no longer have gameobjet to store it in)
@@ -113,9 +153,9 @@ public class Modal_Managment : MonoBehaviour
     class ModalInfo
     {
         private TemplateContainer visElmnt;
-        private modalVariant variant;
         private bool isEmotion;
         private playerStatLevel level;
+        private modalVariant variant;
 
         public ModalInfo(VisualTreeAsset template, string className, modalVariant variant, bool isEmotion, playerStatLevel level) //Initialise modal
         {
@@ -136,6 +176,16 @@ public class Modal_Managment : MonoBehaviour
             return false;
         }
 
+        public void AlterModalLevel(string className, playerStatLevel newLevel) //Update the modal's display sprite
+        {
+            visElmnt.Q<VisualElement>("Modal_Status").ClearClassList(); //Remove the existing classes
+            visElmnt.Q<VisualElement>("Modal_Status").AddToClassList(className); //Add the new status class
+
+            this.level = newLevel;
+        }
+
+        public playerStatLevel GetLevel() { return level; }
+        public modalVariant GetVariant() { return variant; }
         public TemplateContainer GetModal() { return visElmnt; }
     }
 

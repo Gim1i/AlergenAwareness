@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -16,10 +17,10 @@ public class Game_Process_Manager : MonoBehaviour
     private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
 
     [SerializeField] private BackgroundSpriteInfo[] backgroundSheet;
-    [SerializeField] private Dialogue_Manger dialogueSystem;
-    [SerializeField] private Reaction_And_Event_Processing eventRactions;
     [SerializeField] private float textDisplayTime = 1f; //In seconds for easy alteration later
 
+    private Dialogue_Manger dialogueSystem;
+    private Reaction_And_Event_Processing reactAndEventProcessor;
     private Modal_Managment modalSystem;
     private VisualElement background;
     private Label textDisplay;
@@ -158,6 +159,9 @@ public class Game_Process_Manager : MonoBehaviour
     //
     private void Start()
     {
+        dialogueSystem = transform.GetComponent<Dialogue_Manger>();
+        reactAndEventProcessor = transform.GetComponent<Reaction_And_Event_Processing>();
+
         EvaliuateChanceEvents();
         PlayerPrefs.SetInt("lateHomeArival", 0);
         PlayerPrefs.SetInt("heavyDrinking", 0);
@@ -234,7 +238,7 @@ public class Game_Process_Manager : MonoBehaviour
                         if (reactionIDs[0] != -1 && reactionIDs[1] != -1) //Check if int cast worked
                         {
                             Debug.Log("Process reaction with ID: " + reactionIDs[0] + " & SubID: " + reactionIDs[1]);
-                            eventRactions.RollEventReaction((foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
+                            reactAndEventProcessor.reactions.RollEventReaction((foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
                         } else {
                             Debug.Assert(false, "React tag incorrectly set up");
                         }

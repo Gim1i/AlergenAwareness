@@ -558,8 +558,6 @@ MonoBehaviour:
     kind: 6
     time: 0
     section: 3
-  dialogueSystem: {fileID: 1453211060}
-  eventRactions: {fileID: 1453211062}
   textDisplayTime: 1
 --- !u!114 &1453211059
 MonoBehaviour:
@@ -573,7 +571,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3eb83ba24b25e43ab56fca97cdb7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Input_Managment
-  mainGameProcess: {fileID: 1453211058}
   inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &1453211060
 MonoBehaviour:

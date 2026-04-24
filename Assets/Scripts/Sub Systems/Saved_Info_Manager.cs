@@ -6,9 +6,10 @@ public class Saved_Info_Manager : MonoBehaviour
     [SerializeField] static Saved_Info_Manager instance;
 
     (string prefKey, int defVal)[] intPrefKeyList = new[] { //Bools are stored here too (0 is false, 1 is true)
-        ("lateHomeArival", 0),
-        ("heavyDrinking", 0),
-        ("existingGame", 0)
+        ("lateHomeArival", 0), //Bool
+        ("heavyDrinking", 0),  //Bool
+        ("existingGame", 0),   //Bool
+        ("health", 0)
     };
     (string prefKey, float defVal)[] floatPrefKeyList = new[] {
         ("masterVolume", 1f),
@@ -16,16 +17,16 @@ public class Saved_Info_Manager : MonoBehaviour
         ("uiVolume", 1f),
         ("textSpeed", 0.07f)
     };
-    (emotionState prefKey, playerStatLevel defVal)[] emotionPrefKeyList = new[] {
-        (emotionState.happy, playerStatLevel.none),
-        (emotionState.sad, playerStatLevel.none),
-        (emotionState.angry, playerStatLevel.none),
-        (emotionState.pain, playerStatLevel.none),
-        (emotionState.tired, playerStatLevel.none),
-        (emotionState.stress, playerStatLevel.none),
-        (emotionState.bored, playerStatLevel.none),
-        (emotionState.itchiness, playerStatLevel.none),
-        (emotionState.feelingSick, playerStatLevel.none)
+    (emotionState prefKey, int defVal)[] emotionPrefKeyList = new[] {
+        (emotionState.happy, 70),
+        (emotionState.sad, 0),
+        (emotionState.angry, 0),
+        (emotionState.pain, 0),
+        (emotionState.tired, 0),
+        (emotionState.stress, 0),
+        (emotionState.bored, 0),
+        (emotionState.itchiness, 0),
+        (emotionState.feelingSick, 0)
     };
     (afflictState prefKey, bool defVal)[] afflictsPrefKeyList = new[] {
         (afflictState.tinglingThroat, false),

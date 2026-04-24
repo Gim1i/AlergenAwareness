@@ -4,8 +4,8 @@ using UnityEngine.UIElements;
 
 public class Input_Managment : MonoBehaviour
 {
-    [SerializeField] private Game_Process_Manager mainGameProcess;
     [SerializeField] private InputActionAsset inputActions;
+    private Game_Process_Manager mainGameProcess;
     private InputAction[] buttonsPressed = new InputAction[7];
     private Button[] optionButtons = new Button[4];
 
@@ -47,6 +47,8 @@ public class Input_Managment : MonoBehaviour
         optionButtons[1].clicked += ClickedBnt2;
         optionButtons[2].clicked += ClickedBnt3;
         optionButtons[3].clicked += ClickedBnt4;
+
+        mainGameProcess = transform.GetComponent<Game_Process_Manager>();
     }
 
     private void Update()

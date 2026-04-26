@@ -14,8 +14,13 @@ public class Reaction_And_Event_Processing : MonoBehaviour
     //
     // Processing for reaction stuffs
     //
-    public class Reactions {
-        enum reactionLevel { low, med, high }
+    public class Reactions
+    {
+        public enum foodReactionSource { jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, broughtInHomeFood, broughtInShopFood, workCelebration, none }
+        public enum emotionState { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick } //Possible emotion modals
+        public enum afflictState { tinglingThroat, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
+        
+        private enum reactionLevel { low, med, high }
 
         private Modal_Managment modalScript;
 
@@ -156,9 +161,9 @@ public class Reaction_And_Event_Processing : MonoBehaviour
     public class Events
     {
         // Generate all of todays random events
-        public (Dictionary<daySection, int> chanceEvents, bool isHeavyDrinking) EvaliuateChanceEvents()
+        public (Dictionary<Game_Process_Manager.daySection, int> chanceEvents, bool isHeavyDrinking) EvaliuateChanceEvents()
         {
-            Dictionary<daySection, int> chanceEvents = new Dictionary<daySection, int>();
+            Dictionary<Game_Process_Manager.daySection, int> chanceEvents = new Dictionary<Game_Process_Manager.daySection, int>();
             bool isHeavyDrinking = false;
 
             for (int i = 0; i < randomnessArray.daySections.Length; i++) //For each day section
@@ -170,20 +175,20 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                     {
                         eventNumber -= randomnessArray.daySections[i].eventChances[f];
                         if (eventNumber <= 0) {
-                            chanceEvents.Add((daySection)i, f + 1); //Add the section and its event ID
+                            chanceEvents.Add((Game_Process_Manager.daySection)i, f + 1); //Add the section and its event ID
                             break;
                         }
                     }
                     if (eventNumber > 0) {
-                        chanceEvents.Add((daySection)i, 0); //No event was rolled
+                        chanceEvents.Add((Game_Process_Manager.daySection)i, 0); //No event was rolled
                     }
                 } else {
-                    chanceEvents.Add((daySection)i, 0); //No event to roll for
+                    chanceEvents.Add((Game_Process_Manager.daySection)i, 0); //No event to roll for
                 }
             }
 
-            if (chanceEvents[daySection.firstWork] == 3) { //Ensure both works have collegue down if selected
-                chanceEvents[daySection.secondWork] = 3;
+            if (chanceEvents[Game_Process_Manager.daySection.firstWork] == 3) { //Ensure both works have collegue down if selected
+                chanceEvents[Game_Process_Manager.daySection.secondWork] = 3;
             }
 
             int drinkingEventNumber = UnityEngine.Random.Range(1, 1001);
@@ -194,7 +199,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
             #if DEBUG //Debug only code to output all events selected for the day
                 string concatEventDebug = "";
                 for (int ced = 0; ced < chanceEvents.Count; ced++) {
-                    concatEventDebug += ((daySection)ced).ToString() + " event: " + chanceEvents[(daySection)ced] + "\n";
+                    concatEventDebug += ((Game_Process_Manager.daySection)ced).ToString() + " event: " + chanceEvents[(Game_Process_Manager.daySection)ced] + "\n";
                 }
                 concatEventDebug += "Heavy drinking: " + Convert.ToString(isHeavyDrinking);
                 Debug.Log(concatEventDebug);
@@ -202,64 +207,63 @@ public class Reaction_And_Event_Processing : MonoBehaviour
 
             return (chanceEvents, isHeavyDrinking);
         }
-    }
 
+        //
+        // The chances for all events to be rolled
+        //
+        private class randomnessArray
+        {
+            public static readonly (Game_Process_Manager.daySection section, int[] eventChances)[] daySections = //Chances are C/1000
+            { //All day section random events and their chances (int[0] means no random events)
+                new (Game_Process_Manager.daySection.dayStart,
+                    new[] {
+                        75, //Early wake
+                        22  //Late wake
+                    }
+                ),
+                new (Game_Process_Manager.daySection.workStartTravel,
+                    new[] {
+                        45, //Car crash ahead
+                        80, //Road closure
+                        18  //Car doesn't start
+                    }
+                ),
+                new (Game_Process_Manager.daySection.firstWork,
+                    new[] {
+                        30, //Homemade food
+                        45, //Shop food
+                        36, //Down colleague
+                        5   //Work celebration
+                    }
+                ),
+                new (Game_Process_Manager.daySection.lunch, new int[0]),
+                new (Game_Process_Manager.daySection.secondWork,
+                    new[] {
+                        56, //Shop food
+                        12  //Early end
+                    }
+                ),
+                new (Game_Process_Manager.daySection.workEndTravel,
+                    new[] {
+                        50, //Car crash ahead
+                        80, //Road closure
+                        15  //Car doesn't start
+                    }
+                ),
+                new (Game_Process_Manager.daySection.afternoon, new int[0]),
+                new (Game_Process_Manager.daySection.homeTravel,
+                    new[] {
+                        55, //Car crash ahead
+                        62  //Road closure
+                    }
+                ),
+                new (Game_Process_Manager.daySection.dayEnd, new int[0])
+            };
 
-    //
-    // The chances for all events to be rolled
-    //
-    private class randomnessArray
-    {
-        public static readonly (daySection section, int[] eventChances)[] daySections = //Chances are C/1000
-        { //All day section random events and their chances (int[0] means no random events)
-            new (daySection.dayStart,
-                new[] {
-                    75, //Early wake
-                    22  //Late wake
-                }
-            ),
-            new (daySection.workStartTravel,
-                new[] {
-                    45, //Car crash ahead
-                    80, //Road closure
-                    18  //Car doesn't start
-                }
-            ),
-            new (daySection.firstWork,
-                new[] {
-                    30, //Homemade food
-                    45, //Shop food
-                    36, //Down colleague
-                    5   //Work celebration
-                }
-            ),
-            new (daySection.lunch, new int[0]),
-            new (daySection.secondWork,
-                new[] {
-                    56, //Shop food
-                    12  //Early end
-                }
-            ),
-            new (daySection.workEndTravel,
-                new[] {
-                    50, //Car crash ahead
-                    80, //Road closure
-                    15  //Car doesn't start
-                }
-            ),
-            new (daySection.afternoon, new int[0]),
-            new (daySection.homeTravel,
-                new[] {
-                    55, //Car crash ahead
-                    62  //Road closure
-                }
-            ),
-            new (daySection.dayEnd, new int[0])
-        };
-
-        public static readonly int[] drinkingChances = new[] { //Chances are C/1000. This only exists because the party event is unique
-            550, //Light drinking
-            450  //Heavy drinking
-        };
+            public static readonly int[] drinkingChances = new[] { //Chances are C/1000. This only exists because the party event is unique
+                550, //Light drinking
+                450  //Heavy drinking
+            };
+        }
     }
 }

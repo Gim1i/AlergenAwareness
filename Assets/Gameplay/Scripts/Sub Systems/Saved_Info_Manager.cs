@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class Saved_Info_Manager : MonoBehaviour
 {
-    [SerializeField] static Saved_Info_Manager instance;
+    private enum emotionState { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick } //Possible emotion modals
+    private enum afflictState { tinglingThroat, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
+
+    [SerializeField] private static Saved_Info_Manager instance;
 
     (string prefKey, int defVal)[] intPrefKeyList = new[] { //Bools are stored here too (0 is false, 1 is true)
         ("lateHomeArival", 0), //Bool

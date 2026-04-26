@@ -4,6 +4,9 @@ using UnityEngine.UIElements;
 
 public class Modal_Managment : MonoBehaviour
 {
+    private enum playerStatLevel { none, low, medium, high }
+    private enum modalVariant { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick, tinglingThroat, runnyNose, tightChest, hardToBreath, sick }
+
     [SerializeField] private StateSprites[] statesArray;
     [SerializeField] private VisualTreeAsset modalTemplate;
     [SerializeField] private float transitionSpeed;
@@ -36,9 +39,9 @@ public class Modal_Managment : MonoBehaviour
         //
         // Check if any emotion has changed enough to need a new modal, their modal removed or their modal changed
         //
-        for (int i = 0; i < Enum.GetNames(typeof(emotionState)).Length; i++) //For every emotion
+        for (int i = 0; i < Enum.GetNames(typeof(Reaction_And_Event_Processing.Reactions.emotionState)).Length; i++) //For every emotion
         {
-            string emotStr = ((emotionState)i).ToString();
+            string emotStr = ((Reaction_And_Event_Processing.Reactions.emotionState)i).ToString();
             modalVariant modVarEquv = modalVariant.happy; //The modalVariant equivlant of its emotionState. Happy is the default state
             for (int m = 0; m < Enum.GetNames(typeof(modalVariant)).Length; m++)
             {
@@ -75,9 +78,9 @@ public class Modal_Managment : MonoBehaviour
             
         }
 
-        for (int i = 0; i < Enum.GetNames(typeof(afflictState)).Length; i++) //For every afflict
+        for (int i = 0; i < Enum.GetNames(typeof(Reaction_And_Event_Processing.Reactions.afflictState)).Length; i++) //For every afflict
         {
-            string aflctStr = ((afflictState)i).ToString();
+            string aflctStr = ((Reaction_And_Event_Processing.Reactions.afflictState)i).ToString();
             modalVariant modVarEquv = modalVariant.tinglingThroat; //The modalVariant equivlant of its afflictState. TinglingThroat is the default state
             for (int m = 0; m < Enum.GetNames(typeof(modalVariant)).Length; m++)
             {

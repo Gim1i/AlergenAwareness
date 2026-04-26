@@ -9,6 +9,8 @@ using UnityEngine.UIElements;
 //Home Driving Delays event         -> more likely to late wake
 public class Game_Process_Manager : MonoBehaviour
 {
+    public enum daySection { dayStart, workStartTravel, firstWork, lunch, secondWork, workEndTravel, afternoon, homeTravel, dayEnd }
+
     private enum backgroundTime { day, afternoon, evening };
     private enum backgroundKind { bedroom, driving, officeJob, officeBreakRoom, coffeeShop, jenns, saladDeli, livingRoom, gym, resturant, pub};
     private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
@@ -193,7 +195,7 @@ public class Game_Process_Manager : MonoBehaviour
                         if (reactionIDs[0] != -1 && reactionIDs[1] != -1) //Check if int cast worked
                         {
                             Debug.Log("Process reaction with ID: " + reactionIDs[0] + " & SubID: " + reactionIDs[1]);
-                            reactAndEventProcessor.reactions.RollEventReaction((foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
+                            reactAndEventProcessor.reactions.RollEventReaction((Reaction_And_Event_Processing.Reactions.foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
                         } else {
                             Debug.Assert(false, "React tag incorrectly set up");
                         }

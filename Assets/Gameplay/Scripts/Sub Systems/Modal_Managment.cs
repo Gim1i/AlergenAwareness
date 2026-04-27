@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 public class Modal_Managment : MonoBehaviour
 {
     private enum playerStatLevel { none, low, medium, high }
-    private enum modalVariant { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick, tinglingThroat, runnyNose, tightChest, hardToBreath, sick }
+    private enum modalVariant { happy, sad, angry, pain, tired, stress, bored, feelingSick, tinglingThroat, itchy, runnyNose, tightChest, hardToBreath, sick }
 
     [SerializeField] private StateSprites[] statesArray;
     [SerializeField] private VisualTreeAsset modalTemplate;
@@ -165,7 +165,7 @@ public class Modal_Managment : MonoBehaviour
             {
                 if (sprites[i].IsThisVariant(variant)) { //Locate the variant in the spites store
                     spriteArrayIndex = (short)i; //Save the loaction for easy use later
-                    visElmnt.Q<VisualElement>("Modal_Status").AddToClassList(sprites[i].GetClassName(level)); //Add the proper status class (adds sprite to display)
+                    visElmnt.Q<VisualElement>("Modal").style.backgroundImage = new StyleBackground(sprites[spriteArrayIndex].GetSprite(level)); //Set the new sprite
                     break;
                 }
             }
@@ -192,8 +192,7 @@ public class Modal_Managment : MonoBehaviour
             {
                 if (ShortToPlyrStat(level) != ShortToPlyrStat(newLevel)) //If there is enough of a change to go up or down a level
                 {
-                    visElmnt.Q<VisualElement>("Modal_Status").ClearClassList(); //Remove the existing classes
-                    visElmnt.Q<VisualElement>("Modal_Status").AddToClassList(sprites[spriteArrayIndex].GetClassName(newLevel)); //Add the new status class
+                    visElmnt.Q<VisualElement>("Modal").style.backgroundImage = new StyleBackground(sprites[spriteArrayIndex].GetSprite(newLevel)); //Set the new sprite
                 }
                 level = newLevel;
             }
@@ -217,7 +216,7 @@ public class Modal_Managment : MonoBehaviour
         [SerializeField] private spriteVariant[] levels;
 
         // Get the class name for the given level
-        public string GetClassName(short? level)
+        public Sprite GetSprite(short? level)
         {
             if (!isEmotion) { return levels[0].GetClassName(); } //Skip search if afflict (only one level)
 
@@ -247,10 +246,10 @@ public class Modal_Managment : MonoBehaviour
     [System.Serializable]
     class spriteVariant
     {
-        [SerializeField] private string className;
+        [SerializeField] private Sprite sprite;
         [SerializeField] private playerStatLevel level;
 
-        public string GetClassName() { return className; }
+        public Sprite GetClassName() { return sprite; }
         public playerStatLevel GetLevel() { return level; }
     }
 

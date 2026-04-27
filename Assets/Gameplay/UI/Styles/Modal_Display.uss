@@ -16,3 +16,14 @@
     left: 0;
     position: absolute;
 }
+
+/* .Modal-Settings {
+    transition-property: scale;
+    transition-duration: 5s;
+    transition-delay: 3s;
+    transition-timing-function: linear;
+}
+
+.Modal-Settings:enabled {
+    scale: 1 0.1;
+} */

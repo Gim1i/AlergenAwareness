@@ -17,8 +17,8 @@ public class Reaction_And_Event_Processing : MonoBehaviour
     public class Reactions
     {
         public enum foodReactionSource { jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, broughtInHomeFood, broughtInShopFood, workCelebration, none }
-        public enum emotionState { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick } //Possible emotion modals
-        public enum afflictState { tinglingThroat, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
+        public enum emotionState { happy, sad, angry, pain, tired, stress, bored, feelingSick } //Possible emotion modals
+        public enum afflictState { tinglingThroat, itchy, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
         
         private enum reactionLevel { low, med, high }
 
@@ -29,10 +29,16 @@ public class Reaction_And_Event_Processing : MonoBehaviour
             this.modalScript = modalScript; ;
         }
 
+        // Runs the changes script to apply any changes
+        public void RefreshModals() {
+            modalScript.ApplyEmotionChanges();
+        }
+
         //
         // Do a random roll to determine if an reaction happens during an event or not
         //
-        public void RollEventReaction(foodReactionSource eventID, int subID) {
+        public void RollEventReaction(foodReactionSource eventID, int subID)
+        {
             short[] eventChances = eventReactionChances[eventID][subID]; //Get the proper Sub-event
             short eventNumber = (short)UnityEngine.Random.Range(1, 1001);
             for (short i = 0; i < eventChances.Length; i++) { //Cycle though all the chances
@@ -40,7 +46,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 if (eventNumber <= 0) { //If one of the reaction chances was rolled
                     Debug.Log("Rolled " + (reactionLevel)i + " reaction for " + eventID);
                     ApplyReactionChanges((reactionLevel)i);
-                    modalScript.ApplyEmotionChanges();
+                    RefreshModals();
                     return;
                 }
             }
@@ -123,11 +129,11 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 new (emotionState variant, short change)[] {
                     (emotionState.pain, 30),
                     (emotionState.feelingSick, 26),
-                    (emotionState.stress, 35),
-                    (emotionState.itchiness, 45)
+                    (emotionState.stress, 35)
                 },
                 //Afflicts
                 new[] {
+                    afflictState.itchy,
                     afflictState.runnyNose,
                     afflictState.hardToBreath,
                     afflictState.tinglingThroat
@@ -141,11 +147,11 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                     (emotionState.pain, 64),
                     (emotionState.feelingSick, 80),
                     (emotionState.stress, 72),
-                    (emotionState.itchiness, 75),
                     (emotionState.tired, 50)
                 },
                 //Afflicts
                 new[] {
+                    afflictState.itchy,
                     afflictState.runnyNose,
                     afflictState.hardToBreath,
                     afflictState.tinglingThroat,

@@ -493,55 +493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eb98ff6f844ad744a05dfab8d150ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game_Process_Manager
-  backgroundSheet:
-  - sprite: {fileID: 1339667165, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 0
-    time: 0
-  - sprite: {fileID: 1283433664, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 0
-    time: 2
-  - sprite: {fileID: 1727999959, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 4
-    time: 0
-  - sprite: {fileID: 471770422, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 1
-    time: 1
-  - sprite: {fileID: 1304404298, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 1
-    time: 0
-  - sprite: {fileID: -488861455, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 1
-    time: 2
-  - sprite: {fileID: -1389667162, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 8
-    time: 0
-  - sprite: {fileID: 1267327800, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 5
-    time: 0
-  - sprite: {fileID: -197650578, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 7
-    time: 1
-  - sprite: {fileID: -161793023, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 7
-    time: 0
-  - sprite: {fileID: -630093614, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 3
-    time: 0
-  - sprite: {fileID: 1454869064, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 2
-    time: 0
-  - sprite: {fileID: 1576913064, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 10
-    time: 1
-  - sprite: {fileID: 909340884, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 10
-    time: 2
-  - sprite: {fileID: 445513299, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 9
-    time: 1
-  - sprite: {fileID: 1060934917, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
-    kind: 6
-    time: 0
   backgroundSet:
   - sprites:
     - sprite: {fileID: 1339667165, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
@@ -640,12 +591,12 @@ MonoBehaviour:
   - variant: 0
     isEmotion: 1
     levels:
-    - className: Happy-Med
+    - sprite: {fileID: 21300000, guid: d6c19c1111b51bb729c85e9c8c99fe7f, type: 3}
       level: 2
   - variant: 1
     isEmotion: 1
     levels:
-    - className: Sad-Mid
+    - sprite: {fileID: 21300000, guid: 29685009dbceab131b2a02f8c2c696dc, type: 3}
       level: 2
   modalTemplate: {fileID: 9197481963319205126, guid: 26a308b528e2584458ff1bafe0719d10, type: 3}
   transitionSpeed: 1

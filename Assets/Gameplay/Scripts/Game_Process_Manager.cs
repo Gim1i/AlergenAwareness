@@ -161,6 +161,7 @@ public class Game_Process_Manager : MonoBehaviour
         PlayerPrefs.SetInt("lateHomeArival", 0);
         PlayerPrefs.SetInt("heavyDrinking", 0);
         SetApproprateBackground("bedroom.day");
+        reactAndEventProcessor.reactions.RefreshModals();
         NextSectionSetup();
     }
 

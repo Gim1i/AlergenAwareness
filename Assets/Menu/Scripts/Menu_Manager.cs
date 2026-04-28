@@ -23,6 +23,7 @@ public class Menu : MonoBehaviour
     private Dictionary<sliders, Slider> allSliders;
     private Dictionary<menuScreen, TemplateContainer> pages;
     private menuScreen currentScreen = menuScreen.home;
+    private Saved_Info_Manager savedInfoManager;
 
     //
     // Setup
@@ -72,12 +73,14 @@ public class Menu : MonoBehaviour
             { howToPlayButtons.Back, pages[menuScreen.howToPlay].Q<Button>("Back") }
         };
 
-
         allSliders = new Dictionary<sliders, Slider>() { //Save all sliders to their dictionary
             { sliders.master, pages[menuScreen.settingsVolume].Q<Slider>("Master_Slider") },
             { sliders.music, pages[menuScreen.settingsVolume].Q<Slider>("Music_Slider") },
             { sliders.ui, pages[menuScreen.settingsVolume].Q<Slider>("UI_Slider") }
         };
+
+        savedInfoManager = GameObject.Find("PermaLoader").transform.GetComponent<Saved_Info_Manager>();
+        Debug.Assert(savedInfoManager != null, "Couldn't find the saved info manager");
     }
 
     private void Start()
@@ -105,6 +108,8 @@ public class Menu : MonoBehaviour
     }
     public void New() { //Pressing the new button
         Debug.Log("New game");
+        savedInfoManager.ResetPrefs();
+        PlayerPrefs.SetInt("existingGame", 1);
         SceneManager.LoadScene("Gameplay");
     }
     public void Exit() { //Pressing the exit button

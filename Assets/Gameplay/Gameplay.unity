@@ -589,15 +589,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Modal_Managment
   statesArray:
   - variant: 0
+    sprite: {fileID: 117761062, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
     isEmotion: 1
-    levels:
-    - sprite: {fileID: 21300000, guid: d6c19c1111b51bb729c85e9c8c99fe7f, type: 3}
-      level: 2
+    levelRange: 0
   - variant: 1
+    sprite: {fileID: 1549599598, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
     isEmotion: 1
-    levels:
-    - sprite: {fileID: 21300000, guid: 29685009dbceab131b2a02f8c2c696dc, type: 3}
+    levelRange: 1
+  - variant: 2
+    sprite: {fileID: 1355767586, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 1
+    levelRange: 1
+  - variant: 3
+    sprite: {fileID: -1204419808, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 1
+    levelRange: 1
+  - variant: 4
+    sprite: {fileID: -1373661374, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 1
+    levelRange: 1
+  - variant: 5
+    sprite: {fileID: -358601175, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 1
+    levelRange: 1
+  - variant: 6
+    sprite: {fileID: 531866656, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 1
+    levelRange: 1
+  - variant: 7
+    sprite: {fileID: 289452466, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 1
+    levelRange: 1
+  - variant: 8
+    sprite: {fileID: 1022721162, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 0
+    levelRange: 2
+  - variant: 10
+    sprite: {fileID: 55245980, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 0
+    levelRange: 2
+  - variant: 11
+    sprite: {fileID: 2069616921, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 0
+    levelRange: 3
+  - variant: 12
+    sprite: {fileID: 1070465658, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 0
+    levelRange: 4
+  - variant: 13
+    sprite: {fileID: 1797086771, guid: 34603ec8eb66f5b4b98aaefd9dad6303, type: 3}
+    isEmotion: 0
+    levelRange: 3
+  backgroundRanges:
+  - levelRange: 0
+    modalsUsingThisRange: 00000000
+    backgrounds:
+    - background: {fileID: -116037401, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 1
+    - background: {fileID: 1725914242, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
       level: 2
+    - background: {fileID: -10339451, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 3
+  - levelRange: 1
+    modalsUsingThisRange: 01000000020000000300000004000000050000000600000007000000
+    backgrounds:
+    - background: {fileID: -2073500864, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 1
+    - background: {fileID: -1536293437, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 2
+    - background: {fileID: -959553960, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 3
+  - levelRange: 2
+    modalsUsingThisRange: 080000000a000000
+    backgrounds:
+    - background: {fileID: -2073500864, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 1
+  - levelRange: 3
+    modalsUsingThisRange: 0b0000000d000000
+    backgrounds:
+    - background: {fileID: -1536293437, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 2
+  - levelRange: 4
+    modalsUsingThisRange: 0c000000
+    backgrounds:
+    - background: {fileID: -959553960, guid: 50ca8f8f1ee26d541a252c8fc3d76f6e, type: 3}
+      level: 3
   modalTemplate: {fileID: 9197481963319205126, guid: 26a308b528e2584458ff1bafe0719d10, type: 3}
   transitionSpeed: 1
 --- !u!114 &1453211062

@@ -1,6 +1,8 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Universal%20Stuff/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3#Universal_Styles" />
     <CustomUXML.UI.aspect-ratio-panel aspect-ratio-y="1" aspect-ratio-x="1">
-        <ui:VisualElement name="Modal" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Gameplay/Sprites/Modal%20Sprites/Border.png?fileID=2800000&amp;guid=ed318b95217ca2c3b8660d13e58c6788&amp;type=3#Border&quot;);" />
+        <ui:VisualElement name="Modal_Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Gameplay/Sprites/Modal%20Sprites/Border.png?fileID=2800000&amp;guid=ed318b95217ca2c3b8660d13e58c6788&amp;type=3#Border&quot;);">
+            <ui:VisualElement name="Modal_State" style="flex-grow: 1; bottom: 12.5%; right: 12.5%; top: 12.5%; left: 12.5%; position: absolute;" />
+        </ui:VisualElement>
     </CustomUXML.UI.aspect-ratio-panel>
 </ui:UXML>

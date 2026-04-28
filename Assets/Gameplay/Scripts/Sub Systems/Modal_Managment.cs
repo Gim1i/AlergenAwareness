@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,8 +7,10 @@ public class Modal_Managment : MonoBehaviour
 {
     private enum playerStatLevel { none, low, medium, high }
     private enum modalVariant { happy, sad, angry, pain, tired, stress, bored, feelingSick, tinglingThroat, itchy, runnyNose, tightChest, hardToBreath, sick }
+    private enum availableLevels { good_lowToHigh, bad_lowToHigh, low, mid, high }
 
     [SerializeField] private StateSprites[] statesArray;
+    [SerializeField] private spriteBackgroundRanges[] backgroundRanges;
     [SerializeField] private VisualTreeAsset modalTemplate;
     [SerializeField] private float transitionSpeed;
     private VisualElement[] modalSlots = new VisualElement[5];
@@ -62,7 +65,7 @@ public class Modal_Managment : MonoBehaviour
                         RemoveModal(modVarEquv);
                     }
                     else { //Else update the modal to match its new level
-                        activeModals[j].AlterModalLevel(currentLevel, ref statesArray);
+                        activeModals[j].AlterModalLevel(currentLevel, ref backgroundRanges);
                     }
                     hasActiveModal = true;
                     break;
@@ -121,7 +124,8 @@ public class Modal_Managment : MonoBehaviour
     //
     private void CreateNewModal(modalVariant variant, bool isEmotion, short level)
     {
-        activeModals[filledModalSlots] = new ModalInfo(modalTemplate, ref statesArray, variant, isEmotion, level); //Create the modal
+        if (filledModalSlots >= 5) { return; }
+        activeModals[filledModalSlots] = new ModalInfo(modalTemplate, ref statesArray, variant, isEmotion, level, ref backgroundRanges); //Create the modal
         modalSlots[filledModalSlots].Add(activeModals[filledModalSlots].GetModal()); //Put the modal into its proper slot (Visual Element)
         Debug.Log("Created " + variant + "-" + level + " modal");
         filledModalSlots++; //Move highest empty slot down one
@@ -155,24 +159,35 @@ public class Modal_Managment : MonoBehaviour
         private bool isEmotion;
         private short level;
         private modalVariant variant;
-        private short spriteArrayIndex; //The location of the variant in the spriteArray (don't gotta search it every time)
+        private int levelRange; //Easy reference for changing the background sprite
 
-        public ModalInfo(VisualTreeAsset template, ref StateSprites[] sprites, modalVariant variant, bool isEmotion, short level) //Initialise modal
+        public ModalInfo(VisualTreeAsset template, ref StateSprites[] sprites, modalVariant variant, bool isEmotion, short level, ref spriteBackgroundRanges[] bgRanges) //Initialise modal
         {
+            Debug.Log("Modal setup");
             visElmnt = template.Instantiate();
             visElmnt.AddToClassList("Modal"); //Add its proper class
-            for (int i = 0; i < sprites.Length; i++)
+            for (short i = 0; i < sprites.Length; i++)
             {
                 if (sprites[i].IsThisVariant(variant)) { //Locate the variant in the spites store
-                    spriteArrayIndex = (short)i; //Save the loaction for easy use later
-                    visElmnt.Q<VisualElement>("Modal").style.backgroundImage = new StyleBackground(sprites[spriteArrayIndex].GetSprite(level)); //Set the new sprite
+                    visElmnt.Q<VisualElement>("Modal_State").style.backgroundImage = new StyleBackground(sprites[i].GetStateSprite()); //Set the new sprite's state
                     break;
                 }
             }
 
+            for (short i = 0; i < bgRanges.Length; i++) //Look though all background ranges
+            {
+                if (bgRanges[i].IsVariantUsingRange(variant)) //If this variant is in this range
+                {
+                    levelRange = i;
+                    break;
+                }
+            }
+            visElmnt.Q<VisualElement>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(level))); //Set the new sprite's background
+
             this.variant = variant;
             this.isEmotion = isEmotion;
             this.level = level;
+            Debug.Log("Modal setup end");
         }
 
         public bool IsThisModalLookedFor(modalVariant vari) //Check if the modal is the one being searched for
@@ -186,13 +201,13 @@ public class Modal_Managment : MonoBehaviour
         //
         // Alter the current modal in some way
         //
-        public void AlterModalLevel(short newLevel, ref StateSprites[] sprites) //Update the modal's display sprite
+        public void AlterModalLevel(short newLevel, ref spriteBackgroundRanges[] bgRanges) //Update the modal's background sprite
         {
-            if (isEmotion) //Be sure this is an emotion (never run this with afflicts
+            if (isEmotion) //Be sure this is an emotion (never run this with afflicts)
             {
                 if (ShortToPlyrStat(level) != ShortToPlyrStat(newLevel)) //If there is enough of a change to go up or down a level
                 {
-                    visElmnt.Q<VisualElement>("Modal").style.backgroundImage = new StyleBackground(sprites[spriteArrayIndex].GetSprite(newLevel)); //Set the new sprite
+                    visElmnt.Q<VisualElement>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(newLevel))); //Set the new background
                 }
                 level = newLevel;
             }
@@ -212,25 +227,14 @@ public class Modal_Managment : MonoBehaviour
     class StateSprites
     {
         [SerializeField] private modalVariant variant;
+        [SerializeField] private Sprite sprite;
         [SerializeField] private bool isEmotion;
-        [SerializeField] private spriteVariant[] levels;
+        [SerializeField] private availableLevels levelRange;
 
-        // Get the class name for the given level
-        public Sprite GetSprite(short? level)
-        {
-            if (!isEmotion) { return levels[0].GetClassName(); } //Skip search if afflict (only one level)
+        // Get the sprite
+        public Sprite GetStateSprite() { return sprite; }
 
-            if (level != null) { //Skip search if level missing
-                for (int i = 0; i < levels.Length; i++)
-                {
-                    if (levels[i].GetLevel() == ShortToPlyrStat(level.Value)) { //Locate the proper level
-                        return levels[i].GetClassName();
-                    }
-                }
-            }
-            else { Debug.Assert(false, "Level incorrectly missing from GetClassName. Default value returned"); }
-            return levels[0].GetClassName();
-        }
+        public availableLevels GetLevelRange() { return levelRange; }
 
         // Check for variant
         public bool IsThisVariant(modalVariant vari) {
@@ -243,13 +247,51 @@ public class Modal_Managment : MonoBehaviour
         }
     }
 
+    //
+    // Stores modal backgrounds along side the level they represent. Designed to allow for multiple different sets of levels
+    //
     [System.Serializable]
-    class spriteVariant
+    class spriteBackgroundRanges
     {
-        [SerializeField] private Sprite sprite;
+        [SerializeField] private availableLevels levelRange;
+        [SerializeField] private modalVariant[] modalsUsingThisRange;
+        [SerializeField] private spriteBackgrounds[] backgrounds;
+
+        // Look for the modal in this range
+        public bool IsVariantUsingRange(modalVariant variant)
+        {
+            for (int i = 0; i < modalsUsingThisRange.Length; ++i)
+            {
+                if (modalsUsingThisRange[i] == variant) { return true; }
+            }
+            return false;
+        }
+
+        // Check if this is the range input
+        public bool IsThisRangeLookedFor(availableLevels range)
+        {
+            if (levelRange == range) { return true; }
+            return false;
+        }
+
+        // Get the background asociated with the level
+        public Sprite GetBackground(playerStatLevel level)
+        {
+            for (int i = 0; i < backgrounds.Length; ++i)
+            {
+                if (backgrounds[i].GetLevel() == level) { return backgrounds[i].GetBackground(); }
+            }
+            return backgrounds[0].GetBackground();
+        }
+    }
+
+    [System.Serializable]
+    class spriteBackgrounds
+    {
+        [SerializeField] private Sprite background;
         [SerializeField] private playerStatLevel level;
 
-        public Sprite GetClassName() { return sprite; }
+        public Sprite GetBackground() { return background; }
         public playerStatLevel GetLevel() { return level; }
     }
 

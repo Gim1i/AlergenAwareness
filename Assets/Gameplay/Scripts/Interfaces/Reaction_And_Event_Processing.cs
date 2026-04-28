@@ -7,7 +7,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
     public Reactions reactions;
     public Events events = new Events();
 
-    private void Start()
+    private void Awake()
     {
         reactions = new Reactions(transform.GetComponent<Modal_Managment>());
     }
@@ -19,7 +19,8 @@ public class Reaction_And_Event_Processing : MonoBehaviour
         public enum foodReactionSource { jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, broughtInHomeFood, broughtInShopFood, workCelebration, none }
         public enum emotionState { happy, sad, angry, pain, tired, stress, bored, feelingSick } //Possible emotion modals
         public enum afflictState { tinglingThroat, itchy, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
-        
+        // The itchy afflict is unused right now as I was unable to come up with a good modal for it
+
         private enum reactionLevel { low, med, high }
 
         private Modal_Managment modalScript;
@@ -46,7 +47,6 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 if (eventNumber <= 0) { //If one of the reaction chances was rolled
                     Debug.Log("Rolled " + (reactionLevel)i + " reaction for " + eventID);
                     ApplyReactionChanges((reactionLevel)i);
-                    RefreshModals();
                     return;
                 }
             }
@@ -55,6 +55,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
         // A debug only method of testing reactions
         #if DEBUG
         public void TestReactions(int level) {
+            Debug.Log("Testing reaction level" + level);
             ApplyReactionChanges((reactionLevel)level);
         }
         #endif
@@ -65,13 +66,22 @@ public class Reaction_And_Event_Processing : MonoBehaviour
             var reactionChanges = sympoms[level]; //Get all listed changes for the reaction
             for (short e = 0; e < reactionChanges.emotions.Length; e++) //Update all emotion values
             {
-                int currentValue = PlayerPrefs.GetInt(reactionChanges.emotions[e].variant.ToString());
-                PlayerPrefs.SetInt(reactionChanges.emotions[e].variant.ToString(), currentValue + reactionChanges.emotions[e].change);
+                UpdateEmotionPlayerPref(reactionChanges.emotions[e].variant.ToString(), reactionChanges.emotions[e].change);
             }
             for (short a = 0; a < reactionChanges.afflicts.Length; a++) //Update all afflict states
             {
                 PlayerPrefs.SetInt(reactionChanges.afflicts.ToString(), 1); //Sets afflict to true
             }
+            RefreshModals();
+        }
+
+        // Updates a PlayerPref. Has some useful issue checks
+        private void UpdateEmotionPlayerPref(string pref, int change)
+        {
+            int currentValue = PlayerPrefs.GetInt(pref);
+            int newValue = currentValue + change;
+            if (newValue > 100) { newValue = 100; } //Prevent it from going over the limit
+            PlayerPrefs.SetInt(pref, currentValue + change);
         }
 
         //
@@ -133,7 +143,6 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 },
                 //Afflicts
                 new[] {
-                    afflictState.itchy,
                     afflictState.runnyNose,
                     afflictState.hardToBreath,
                     afflictState.tinglingThroat
@@ -151,7 +160,6 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 },
                 //Afflicts
                 new[] {
-                    afflictState.itchy,
                     afflictState.runnyNose,
                     afflictState.hardToBreath,
                     afflictState.tinglingThroat,

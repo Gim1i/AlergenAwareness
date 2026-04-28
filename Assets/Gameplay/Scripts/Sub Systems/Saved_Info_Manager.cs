@@ -73,4 +73,34 @@ public class Saved_Info_Manager : MonoBehaviour
             }
         }
     }
+
+    //
+    // Resets all player prefs
+    //
+    public void ResetPrefs()
+    {
+        //Integer player pref keys
+        for (int i = 0; i < intPrefKeyList.Length; i++)
+        {
+            PlayerPrefs.SetInt(intPrefKeyList[i].prefKey, intPrefKeyList[i].defVal);
+        }
+
+        //Float player pref keys
+        for (int i = 0; i < floatPrefKeyList.Length; i++)
+        {
+            PlayerPrefs.SetFloat(floatPrefKeyList[i].prefKey, floatPrefKeyList[i].defVal);
+        }
+
+        //Emotion modal player pref keys
+        for (int i = 0; i < emotionPrefKeyList.Length; i++)
+        {
+            PlayerPrefs.SetInt(emotionPrefKeyList[i].prefKey.ToString(), (int)emotionPrefKeyList[i].defVal);
+        }
+
+        //Afflict modal player pref keys
+        for (int i = 0; i < afflictsPrefKeyList.Length; i++)
+        {
+            PlayerPrefs.SetInt(afflictsPrefKeyList[i].prefKey.ToString(), Convert.ToInt32(afflictsPrefKeyList[i].defVal));
+        }
+    }
 }

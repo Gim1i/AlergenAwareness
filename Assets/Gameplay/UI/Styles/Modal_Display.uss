@@ -1,12 +1,17 @@
 .Modal-Holder {
+    flex-grow: 1;
+    right: 0;
+    top: 0;
+    align-self: flex-end;
+    width: 15%;
 }
 
 .Modal-Slot {
-    height: 9%;
     margin-top: 10%;
     margin-right: 10%;
     margin-bottom: 0%;
     margin-left: 10%;
+    height: 7.5%;
 }
 
 .Modal {
@@ -16,14 +21,3 @@
     left: 0;
     position: absolute;
 }
-
-/* .Modal-Settings {
-    transition-property: scale;
-    transition-duration: 5s;
-    transition-delay: 3s;
-    transition-timing-function: linear;
-}
-
-.Modal-Settings:enabled {
-    scale: 1 0.1;
-} */

@@ -13,25 +13,20 @@ public class Modal_Managment : MonoBehaviour
     [SerializeField] private spriteBackgroundRanges[] backgroundRanges;
     [SerializeField] private VisualTreeAsset modalTemplate;
     [SerializeField] private float transitionSpeed;
-    private VisualElement[] modalSlots = new VisualElement[5];
-    private ModalInfo[] activeModals = new ModalInfo[5];
+    private VisualElement[] modalSlots = new VisualElement[8];
+    private ModalInfo[] activeModals = new ModalInfo[8];
     private int filledModalSlots = 0;
 
     private void Awake() //Get UI elements neccessary
     {
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
-        modalSlots[0] = gameDisplay.Q<VisualElement>("Slot_1");
-        modalSlots[1] = gameDisplay.Q<VisualElement>("Slot_2");
-        modalSlots[2] = gameDisplay.Q<VisualElement>("Slot_3");
-        modalSlots[3] = gameDisplay.Q<VisualElement>("Slot_4");
-        modalSlots[4] = gameDisplay.Q<VisualElement>("Slot_5");
-
         Debug.Assert(gameDisplay != null, "Couldn't find the UIDoc's root");
-        Debug.Assert(modalSlots[0] != null, "Couldn't find slot 1");
-        Debug.Assert(modalSlots[1] != null, "Couldn't find slot 2");
-        Debug.Assert(modalSlots[2] != null, "Couldn't find slot 3");
-        Debug.Assert(modalSlots[3] != null, "Couldn't find slot 4");
-        Debug.Assert(modalSlots[4] != null, "Couldn't find slot 5");
+
+        for (int i = 0; i < modalSlots.Length; i++) //Get all modal slots
+        {
+            modalSlots[i] = gameDisplay.Q<VisualElement>("Slot_" + i+1);
+            Debug.Assert(modalSlots[i] != null, "Couldn't find slot " + i + 1);
+        }
     }
 
     //

@@ -1,13 +1,16 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/Game/Styles/Modal_Display.uss?fileID=7433441132597879392&amp;guid=7273758a9cbc8d748a07c03c3fcc6889&amp;type=3#Modal_Display" />
-    <Style src="project://database/Assets/UI/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3#Universal_Styles" />
+    <Style src="project://database/Assets/Gameplay/UI/Styles/Modal_Display.uss?fileID=7433441132597879392&amp;guid=7273758a9cbc8d748a07c03c3fcc6889&amp;type=3#Modal_Display" />
+    <Style src="project://database/Assets/Universal%20Stuff/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3#Universal_Styles" />
     <CustomUXML.UI.aspect-ratio-panel aspect-ratio-y="320" aspect-ratio-x="200">
-        <ui:VisualElement name="Modal_Holder" class="Modal-Holder" style="flex-grow: 1; right: 0; top: 0; width: 20%; align-self: flex-end;">
+        <ui:VisualElement name="Modal_Holder" class="Modal-Holder">
             <ui:VisualElement name="Slot_1" class="Modal-Slot" />
             <ui:VisualElement name="Slot_2" class="Modal-Slot" />
             <ui:VisualElement name="Slot_3" class="Modal-Slot" />
             <ui:VisualElement name="Slot_4" class="Modal-Slot" />
             <ui:VisualElement name="Slot_5" class="Modal-Slot" />
+            <ui:VisualElement name="Slot_6" class="Modal-Slot" />
+            <ui:VisualElement name="Slot_7" class="Modal-Slot" />
+            <ui:VisualElement name="Slot_8" class="Modal-Slot" />
         </ui:VisualElement>
     </CustomUXML.UI.aspect-ratio-panel>
 </ui:UXML>

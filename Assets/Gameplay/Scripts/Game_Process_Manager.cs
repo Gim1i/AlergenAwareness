@@ -19,7 +19,7 @@ public class Game_Process_Manager : MonoBehaviour
     [SerializeField] private float textDisplayTime = 1f; //In seconds for easy alteration later
 
     private Dialogue_Manger dialogueSystem;
-    private Reaction_And_Event_Processing reactAndEventProcessor;
+    private Reaction_And_Event_Processing emotionAndEventProcessor;
     private Modal_Managment modalSystem;
     private VisualElement background;
     private Label textDisplay;
@@ -152,16 +152,16 @@ public class Game_Process_Manager : MonoBehaviour
     private void Start()
     {
         dialogueSystem = transform.GetComponent<Dialogue_Manger>();
-        reactAndEventProcessor = transform.GetComponent<Reaction_And_Event_Processing>();
+        emotionAndEventProcessor = transform.GetComponent<Reaction_And_Event_Processing>();
 
-        var events = reactAndEventProcessor.events.EvaliuateChanceEvents(); //Roll for any random event
+        var events = emotionAndEventProcessor.events.EvaliuateChanceEvents(); //Roll for any random event
         todaysChanceEvents = events.chanceEvents;
         savedEvents["heavyDrinking"] = events.isHeavyDrinking;
 
         PlayerPrefs.SetInt("lateHomeArival", 0);
         PlayerPrefs.SetInt("heavyDrinking", 0);
         SetApproprateBackground("bedroom.day");
-        reactAndEventProcessor.reactions.RefreshModals();
+        emotionAndEventProcessor.reactions.RefreshModals();
         NextSectionSetup();
     }
 
@@ -196,7 +196,7 @@ public class Game_Process_Manager : MonoBehaviour
                         if (reactionIDs[0] != -1 && reactionIDs[1] != -1) //Check if int cast worked
                         {
                             Debug.Log("Process reaction with ID: " + reactionIDs[0] + " & SubID: " + reactionIDs[1]);
-                            reactAndEventProcessor.reactions.RollEventReaction((Reaction_And_Event_Processing.Reactions.foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
+                            emotionAndEventProcessor.reactions.RollEventReaction((Reaction_And_Event_Processing.Reactions.foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
                         } else {
                             Debug.Assert(false, "React tag incorrectly set up");
                         }
@@ -226,7 +226,7 @@ public class Game_Process_Manager : MonoBehaviour
                         isDayEnd = true;
                         break;
                     case "prefChange": //Changes a PlayerPref by the value specified
-                        reactAndEventProcessor.emotions.UpdatePlayerPref(tagsToEval[1]);
+                        emotionAndEventProcessor.emotions.UpdatePlayerPref(tagsToEval[1]);
                         break;
                 }
             }

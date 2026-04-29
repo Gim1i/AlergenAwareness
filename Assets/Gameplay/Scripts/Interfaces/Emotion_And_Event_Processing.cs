@@ -313,11 +313,13 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 if (newValue > 99) { newValue = 99; } //Prevent it from going over the limit
                 if (newValue < 0) { newValue = 0; } //Also prevent it from going under
                 PlayerPrefs.SetInt(pref, newValue);
+                Debug.Log("Set " + pref + " to " + newValue);
             }
             else {
                 if (value == 0 || value == 1)
                 {
                     PlayerPrefs.SetInt(pref, value);
+                    Debug.Log("Set " + pref + " to " + value);
                 }
                 else { Debug.Assert(false, "Bool pref value not 0 or 1"); }
             }

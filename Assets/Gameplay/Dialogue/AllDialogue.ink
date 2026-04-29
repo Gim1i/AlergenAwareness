@@ -82,7 +82,7 @@ Why am I queueing for so long?
 If this keeps up I might not make it to work on time #prefChange #stress.1.5
 ...
 Finaly moving again
-\*Drives by a car crash* #bored.1.-2
+\*Drives by a car crash* #prefChange #bored.1.-2
 Ahh that makes sense
 -> END
 
@@ -96,7 +96,7 @@ Hopefully I can still make it to work on time #prefChange #stress.1.2
 
 //Car doesn't start
 = Ev3
-\*Tries to start car* #prefChange #stress.1.1
+\*Tries to start car* #prefChange #stress.1.3
 \*Tries again* #prefChange #stress.1.5
 ...
 Damn thing wont start
@@ -212,7 +212,7 @@ VAR prepLunch = false
 ~ randomLunchOrderNumber = RANDOM(100, 999)
 
 * [Local coffee shop]
-    \*Door bell dings* #back #coffeeShop.day
+    \*Door bell dings* #back #coffeeShop.day #prefChange #bored.1.-10 #prefChange #stress.1.-12
     Barista 1: What can I do for you today?
     - - (lcsJumpBack)
     What should I choose?
@@ -227,7 +227,7 @@ VAR prepLunch = false
         Barista 2: {randomLunchOrderNumber}!,
         Thats me, thanks
         Barista 2: Have a good day!
-        You too!
+        You too! #prefChange #happy.1.6
     * * [Tea and Cake]
         ~ temp randomCake = ""
         ~ randomCake = "{~Chocolate Cake|Sponge Cake|Cheese Cake}"
@@ -245,13 +245,13 @@ VAR prepLunch = false
         Barista 2: {randomLunchOrderNumber}!
         Thats me, thanks
         Barista 2: Enjoy your lunch!
-        Thank you!
+        Thank you! #prefChange #happy.1.7
     * * [Just a sandwitch]
         Can I get a {~Ham & Cheese Sandwitch|Ham & Cheese Sandwitch|Ham & Cheese Sandwitch|Ham Sandwitch|Tuna Salad Sandwitch}
         Barista 1: You can! Would you like anything else?
         No thanks, thats all I want
         Barista 1: Heres your sandwitch, have a good day!
-        Thanks, you too!
+        Thanks, you too! #prefChange #happy.1.5
     * * [Ask about allergies]
         I have an allergy to nuts, how are nuts handled here?
         Barista 1: We're a nut free shop, so you wont have to worry about that here!
@@ -260,7 +260,7 @@ VAR prepLunch = false
         -> lcsJumpBack
         
 * [Jenns]
-    Jenns worker: Hello, welcome to Jenns! What can I get for you today? #back #jenns.day
+    Jenns worker: Hello, welcome to Jenns! What can I get for you today? #back #jenns.day #prefChange #bored.1.-12 #prefChange #stress.1.-5
     - - (jJumpBack)
     What should I choose?
     * * [Sausage roll and a coffee]
@@ -270,7 +270,7 @@ VAR prepLunch = false
         Jenns worker: I'll grab those for you now then
         ...
         ...
-        Jenns worker: Heres your latte and Sausage Roll #react #0.0
+        Jenns worker: Heres your latte and Sausage Roll #react #0.0 #prefChange #happy.1.6
     * * [Baguete and a coffee]
         ~ temp randomBaguetteChoice = ""
         ~ randomBaguetteChoice = "{~spicy chicken baguette|ham and cheese baguette|chicken and mayonase baguette|chicken and mayonase baguette|chicken salad baguette|ham baguette|bacon baguette}"
@@ -279,7 +279,7 @@ VAR prepLunch = false
         Jenns worker: Yes, I'll grab those for you now
         ...
         ...
-        Jenns worker: Heres your latte and {randomBaguetteChoice} #react #0.1
+        Jenns worker: Heres your latte and {randomBaguetteChoice} #react #0.1 #prefChange #happy.1.8
     * * [Sausage roll and a Cookie]
         ~ temp randomCookieChoice = ""
         ~ randomCookieChoice = "{~Double Chocolate|Milk Chocolate|White Chocolate}"
@@ -291,7 +291,7 @@ VAR prepLunch = false
         Jenns worker: So a Sausage Roll and a {randomCookieChoice}?
         Yep, thats right
         Jenns worker: Ok, I'll grab those for you then
-        Jenns worker: Heres your {randomCookieChoice} and Sausage Roll #react #0.2
+        Jenns worker: Heres your {randomCookieChoice} and Sausage Roll #react #0.2 #prefChange #happy.1.8
     * * [Ask about allergies]
         I have an allergy to nuts, how are nuts handled here?
         Jenns worker: We are unable to garantee there are no nuts in our products due to us using nuts in our kitchen
@@ -308,7 +308,7 @@ VAR prepLunch = false
     You too!
     
 * [Salad deli bar]
-    Deli cashier: Welcome to Sarah's Salad Deli! #back #saladDeli.day
+    Deli cashier: Welcome to Sarah's Salad Deli! #back #saladDeli.day #prefChange #bored.1.-16 #prefChange #stress.1.-10
     Deli cashier: What can I do for you?
     - - (sdbJumpBack)
     * * [Ask for table]
@@ -333,7 +333,7 @@ VAR prepLunch = false
             Deli server 1: Is that all?
             Yes. Thank you!
             Deli server 1: Your welcome!
-            ... 20 minutes later ... #react #1.0
+            ... 20 minutes later ... #react #1.0 #prefChange #happy.1.4
             This deli bar hasn't been that bad, I'll definitely consider coming again
         * * * [Lasagne with chips]
             Can I get the Lasagne please?",
@@ -347,7 +347,7 @@ VAR prepLunch = false
             Deli server 2: Lasagne with chips?
             Yes thats mine. Thanks
             Hmm, this looks good!
-            ... #react #1.1
+            ... #react #1.1 #prefChange #happy.1.5
             That was some good lasagne, I should come here again!
         * * * [Mac & Cheese]
             Can I get the Mac & Cheese please?
@@ -360,7 +360,7 @@ VAR prepLunch = false
             Deli server 2: The Mac & Cheese?
             Yep thats mine. Thanks
             Hmm, this looks good!
-            ... #react #1.2
+            ... #react #1.2 #prefChange #happy.1.5
             That Mac & Cheese was fairly good, I should consider coming here again!
         - - - \*Gets up and leaves*
         Deli cashier: Thank you for visiting today, and I hope to see you again soon!
@@ -377,7 +377,7 @@ VAR prepLunch = false
         Deli cashier: What can I help you with today then?
         - - - -> sdbJumpBack
 
-* { prepLunch } [Have prepared Lunch instead] #back #officeBreakRoom.day
+* { prepLunch } [Have prepared Lunch instead] #back #officeBreakRoom.day #prefChange #bored.1.10 #prefChange #stress.1.-5
     ...
     ...
     {~*Under breath* Needs more mayo|mmmm|...|...|...|...Hmm, kinda plain}
@@ -393,11 +393,14 @@ Time to get back working
 //
 === Sec4 === 
 #back #officeJob.day
+#prefChange #tired.1.5
 -> Ev0 //Here to prevent errors
 
 //Regular process
 = Ev0
-...
+Hi Tyler. Anything new?
+Tyler: Nope!
+Good to hear! #prefChange #bored.1.8
 -> END
 
 //Shop food
@@ -410,7 +413,7 @@ Tyler: Someone brought some {randomBroughtFood2} on their way to work
 Tyler: It's free so I recomend grabing some!
 Should I have some?
 * [Yes]
-    Will do! #react #8.0
+    Will do! #react #8.0 #prefChange #happy.1.15 #prefChange #bored.1.-6
 * [No]
     I'll pass on that, but thanks for offering
 - -> END
@@ -420,19 +423,19 @@ Should I have some?
 ...
 ...
 ...
-\*Looks out the window* Uhhh, that weather's looking real bad
+\*Looks out the window* Uhhh, that weather's looking real bad #prefChange #stress.1.10
 Hey Tyler, any chance we could finish early today?
 Getting home might become impossible for some if this weather keeps up
 Tyler: *Looks outside* Oh yea thats really bad, I might not make it home myself
 Tyler: Ok we'll finish early today, feel free to go and I'll let the rest of the office know shortly
-Thanks Tyler!
+Thanks Tyler! #prefChange #stress.1.-10
 Tyler: No problem!
 -> END
 
 //Down colleague (NOT RANDOMLY GENERATED)
 = Ev3
 Tyler: Just a reminder, we're short-staffed so I'd appreciate if you got on with work promptly
-Oh yea, I forgot about that
+Oh yea, I forgot about that #prefChange #stress.1.3 #prefChange #tired.1.8
 I'll get on with it immediately then
 \*Tyler give a thumbs up*
 -> END
@@ -457,10 +460,10 @@ I'll get on with it immediately then
 ...
 ...
 Why am I queueing for so long?
-If this keeps up I might not have much time this evening
+If this keeps up I might not have much time this evening #prefChange #stress.1.5
 ...
 Finaly moving again,
-\*Drives by a car crash*
+\*Drives by a car crash* #prefChange #bored.1.-2
 Oh, that explains the delay
 -> END
 
@@ -474,13 +477,13 @@ I guess I'm going to have to switch route this week
 //Car doesn't start
 = Ev3
 ...
-\*Tries to start car*
-\*Tries again*
+\*Tries to start car* #prefChange #stress.1.2
+\*Tries again* #prefChange #stress.1.3
 Damn thing wont start
 \*Sigh* I guess I'm not doing anything tonight
 Hopefully I can still make it into work tommorow
 ...
-Luckly the issue was quite minor so the car will be fixed by tommorow morning #save #afternoonDriveDelay
+Luckly the issue was quite minor so the car will be fixed by tommorow morning #save #afternoonDriveDelay #prefChange #happy.1.3
 -> END
 
 
@@ -506,7 +509,7 @@ VAR heavyDrinking = false
 }
 
 * [Relax at home]
-    I don't really fancy going out tonight
+    I don't really fancy going out tonight #prefChange #stress.1.-10 #prefChange #bored.1.5 #prefChange #happy.1.3
     { shuffle:
       - Actualy didn't a new show come out on fetnlix? I should watch that tonight
         ...
@@ -523,7 +526,7 @@ VAR heavyDrinking = false
     }
     -> HomeDinner
 * [Go to the gym]
-    I should head to the gym, I've been slacking on excercie lately
+    I should head to the gym, I've been slacking on excercise lately #prefChange #stress.1.-9 #prefChange #bored.1.-11 #prefChange #happy.1.5
     \*Heads to the gym* #back #gym.day
     { shuffle:
       - Hmm, I should go for a new personal record
@@ -533,7 +536,7 @@ VAR heavyDrinking = false
           - ...
             So close. I can definitely get there soon
           - ...
-            Yes! Finaly got that new record
+            Yes! Finaly got that new record #prefChange #happy.1.3
         }
       - It's really quiet today, I wonder why?
         { shuffle:
@@ -542,7 +545,7 @@ VAR heavyDrinking = false
           - ...
             ...
           - ...
-            It's surprisingly nice when its quiet here
+            It's surprisingly nice when its quiet here #prefChange #happy.1.1
         }
       - Wow its busy
         ...
@@ -562,7 +565,7 @@ VAR heavyDrinking = false
         Can I get a table for 1 please?
         Waterside cashier: Sure, follow me
         ...
-        Waterside cashier: Right here please. A waiter will come take your order shortly.
+        Waterside cashier: Right here please. A waiter will come take your order shortly. #prefChange #bored.1.-12 #prefChange #stress.1.-4
         ...
         Waterside waiter: Hello! Are you ready to order yet?
         { shuffle:
@@ -618,13 +621,19 @@ VAR heavyDrinking = false
         Yep that's mine
         Waterside waiter: Have a good meal!
         Thank you!
-        This is looking really good
+        This is looking really good #prefChange #happy.1.14
         ...
         ...
         {~That was a good meal... I should order it again next time|Even though that was good. I should order something different next time|Not too bad|Finished!}
         Time to go home then
         Waterside cashier: Thank you for visiting The Waterside. We hope to see you again soon!
         {~I definitely will!|Will do!|You too!}
+        Hmm, I feel way too tired to drive
+        I should call a taxi to get home
+        \*Calls a taxi to go home*
+        ...
+        Taxi diver: Where to?
+        \*Home address* please
     * * [Ask about allergies]
         I'm allergic to nuts, how are they handled here?
         Waterside cashier: While we do employ a rigorous anti-contaimination policy...
@@ -653,7 +662,7 @@ VAR heavyDrinking = false
         ...
         I should head out if I want to make it
         ~ wasInvited = true
-    } #back #pub.afternoon
+    } #back #pub.afternoon #prefChange #bored.1.-10 #prefChange #stress.1.-6
     \*Leaves to go to the party*
     ...
     { wasInvited:
@@ -666,7 +675,7 @@ VAR heavyDrinking = false
           - Co-worker: We're still waiting on one more person to arive
             ...
             Co-worker: Ah, there they are. I'll go grab them and then we'll head in
-        }
+        } #prefChange #happy.1.6
     }
     ... 30 minutes later ...
     { heavyDrinking:
@@ -681,7 +690,7 @@ VAR heavyDrinking = false
 = HomeDinner
 What should I for dinner? #back #livingRoom.afternoon
 * [Cook]
-    I'll just cook at home, no need for anything fancy today
+    I'll just cook at home, no need for anything fancy today #prefChange #stress.1.-5 #prefChange #bored.1.2 #prefChange #happy.1.3
     {~Spaghetti bolognaise sounds good|Chicken strips would be nice and easy to make|I fancy chili con carne tonight... Wait did I get beef mince?|Chicken soup sounds like a good idea tonight|Mac & cheese should be easy to make|Bacon & mushroom risotto would be a good choice, the bacon needs to be using anyway|I should try and make that ghormeh sabzi recipie I found earlier}
     ...
     {~I should use less salt next time|...|...|Huh, that was really good... I should write that down|\*Sigh* I still have to clean up}
@@ -714,7 +723,7 @@ What should I for dinner? #back #livingRoom.afternoon
         Mahjong driver: Here you go then
         Thanks, have a good night!
         Mahjong driver: Thank you, you too!
-        \*Opens lid* This is looking good, time to dig in! #react #6.0
+        \*Opens lid* This is looking good, time to dig in! #react #6.0 #prefChange #stress.1.-7 #prefChange #happy.1.8
         ...
         That was a good pizza
     * * [Chinese]
@@ -743,13 +752,13 @@ What should I for dinner? #back #livingRoom.afternoon
         Thank you!
         Serpent City driver: No problem!
         ...
-        That was some good {randomChineseChoice}, I should order that again. #react #7.0
+        That was some good {randomChineseChoice}, I should order that again. #react #7.0 #prefChange #stress.1.-7 #prefChange #happy.1.8
         
 - Guess its time for bed #save #skipHomeTravel
 -> END
 
 = heavyDrink
-Hmmm... I'm hungry
+Hmmm... I'm hungry #prefChange #stress.1.-15 #prefChange #bored.1.13 #prefChange #happy.1.14
 Where's the bar?
 \*Walks over to the bar*
 Bartender: What can I help you with?
@@ -767,14 +776,14 @@ Bartender: What can I help you with?
         Bartender: Ok those should be out in 5 minutes, please wait there
         ...
         Bartender: Here's your chips
-    }  #react #4.0
+    }  #react #4.0 #prefChange #happy.1.14
     \*Walks off* #back #resturaunt.evening
 * [Don't get snacks]
     Uh, nevermind
     Bartender: Ok, have a good night!
     Thanks! #back #resturaunt.evening
 
-- ... 1 hour later ...
+- ... 1 hour later ... #prefChange #tired.1.20
 ...
 Co-worker: Heya man, you seem very drunk
 Yea...
@@ -789,7 +798,7 @@ Huh? Oh, *Home address*
 -> END
 
 = lightDrink
-This is really fun, though I would love a snack
+This is really fun, though I would love a snack #prefChange #stress.1.-8 #prefChange #bored.1.7 #prefChange #happy.1.5
 Maybe the bar has some?
 \*Walks over to the bar*
 Bartender: What can I help you with?
@@ -809,7 +818,7 @@ Bartender: What can I help you with?
         Bartender: Ok those should be out in 5 minutes, please wait there
         ...
         Bartender: Here's your chips
-    } #react #3.0
+    } #react #3.0 #prefChange #happy.1.10
     Thanks! #back #resturaunt.evening
 * [Don't get snacks]
     On second thought, nevermind
@@ -825,7 +834,7 @@ Bartender: What can I help you with?
     * * [No]
         No thanks #back #resturaunt.evening
         
-- ... 1 hour later ...
+- ... 1 hour later ... #prefChange #tired.1.17
 Hey, it's getting kinda late I'm going to leave
 Co-worker: No problem. It's been fun
 Yep it has been. Be sure to let me know if you do this again, I'll definitely say yes
@@ -845,6 +854,7 @@ Taxi diver: Where to?
 //
 === Sec7 ===
 #back #driving.evening
+#prefChange #tired.1.7
 -> Ev0 //Here to prevent errors
 
 //Regular process
@@ -859,14 +869,14 @@ Taxi diver: Where to?
 Taxi diver: This queue is taking a long time to get though?
 ...
 Taxi diver: Finaly though it
-\*Drives by a car crash* #save #lateHomeArival
+\*Drives by a car crash* #save #lateHomeArival #prefChange #tired.1.12
 -> END
 
 //Road closure
 = Ev2
 ...
 Taxi diver: That road is closed now?
-Taxi diver: Damn, I'll have to take a different route #save #lateHomeArival
+Taxi diver: Damn, I'll have to take a different route #save #lateHomeArival #prefChange #tired.1.10
 -> END
 
 

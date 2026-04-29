@@ -360,5 +360,3 @@ public class Game_Process_Manager : MonoBehaviour
         }
     }
 }
-
-

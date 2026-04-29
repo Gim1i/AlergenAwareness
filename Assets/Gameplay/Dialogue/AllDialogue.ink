@@ -12,16 +12,19 @@
 #prefChange #sick.0.0
 
 // Reduce most negative emotions
-#prefChange #sad.1.-30
+#prefChange #sad.1.-22
 #prefChange #angry.1.-28
 #prefChange #pain.1.-25
-#prefChange #stress.1.-45
-#prefChange #feelingSick.1.-50
+#prefChange #stress.1.-20
+#prefChange #feelingSick.1.-45
+
+// Reduce happy to force the player into actions
+#prefChange #happy.1.-15
 -> Ev0 //Here to prevent errors
 
 //Regular process
 = Ev0
-\*Alarm beeping* #prefChange #tired.1.-30 #prefChange #happy.1.18 
+\*Alarm beeping* #prefChange #tired.1.-30 #prefChange #happy.1.6 
 ...
 Uuurg, damn it
 \*Gets up and dressed for work*
@@ -34,7 +37,7 @@ Should I prepare lunch today?
 ...
 Why don't I hear my alarm?
 \*Jolts out of bed and checks the clock*
-Oh I woke up early *Sigh*  #prefChange #happy.1.18
+Oh I woke up early *Sigh*  #prefChange #happy.1.6
 \*Gets dressed for work*
 Should I prepare lunch today?
 -> lunchPrepChoice
@@ -127,7 +130,7 @@ Luckly the issue was quite minor so the car will be fixed by this evening #save 
 Hi Tyler. Anything important I should know?
 Tyler: Nope, just a regular day!
 Good to hear! I'll get to working then
-\*Tyler give a thumbs up* #prefChange #bored.1.8
+\*Tyler give a thumbs up* #prefChange #bored.1.5
 -> END
 
 //Homemade food
@@ -377,7 +380,7 @@ VAR prepLunch = false
         Deli cashier: What can I help you with today then?
         - - - -> sdbJumpBack
 
-* { prepLunch } [Have prepared Lunch instead] #back #officeBreakRoom.day #prefChange #bored.1.10 #prefChange #stress.1.-5
+* { prepLunch } [Have prepared Lunch instead] #back #officeBreakRoom.day #prefChange #bored.1.5 #prefChange #stress.1.-5
     ...
     ...
     {~*Under breath* Needs more mayo|mmmm|...|...|...|...Hmm, kinda plain}
@@ -400,7 +403,7 @@ Time to get back working
 = Ev0
 Hi Tyler. Anything new?
 Tyler: Nope!
-Good to hear! #prefChange #bored.1.8
+Good to hear! #prefChange #bored.1.5
 -> END
 
 //Shop food
@@ -723,7 +726,7 @@ What should I for dinner? #back #livingRoom.afternoon
         Mahjong driver: Here you go then
         Thanks, have a good night!
         Mahjong driver: Thank you, you too!
-        \*Opens lid* This is looking good, time to dig in! #react #6.0 #prefChange #stress.1.-7 #prefChange #happy.1.8
+        \*Opens lid* This is looking good, time to dig in! #react #5.0 #prefChange #stress.1.-7 #prefChange #happy.1.8
         ...
         That was a good pizza
     * * [Chinese]
@@ -752,13 +755,13 @@ What should I for dinner? #back #livingRoom.afternoon
         Thank you!
         Serpent City driver: No problem!
         ...
-        That was some good {randomChineseChoice}, I should order that again. #react #7.0 #prefChange #stress.1.-7 #prefChange #happy.1.8
+        That was some good {randomChineseChoice}, I should order that again. #react #6.0 #prefChange #stress.1.-7 #prefChange #happy.1.8
         
 - Guess its time for bed #save #skipHomeTravel
 -> END
 
 = heavyDrink
-Hmmm... I'm hungry #prefChange #stress.1.-15 #prefChange #bored.1.13 #prefChange #happy.1.14
+Hmmm... I'm hungry #prefChange #stress.1.-15 #prefChange #bored.1.-13 #prefChange #happy.1.14
 Where's the bar?
 \*Walks over to the bar*
 Bartender: What can I help you with?
@@ -798,7 +801,7 @@ Huh? Oh, *Home address*
 -> END
 
 = lightDrink
-This is really fun, though I would love a snack #prefChange #stress.1.-8 #prefChange #bored.1.7 #prefChange #happy.1.5
+This is really fun, though I would love a snack #prefChange #stress.1.-8 #prefChange #bored.1.-7 #prefChange #happy.1.5
 Maybe the bar has some?
 \*Walks over to the bar*
 Bartender: What can I help you with?

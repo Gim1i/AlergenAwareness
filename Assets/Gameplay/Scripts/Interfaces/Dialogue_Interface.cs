@@ -51,6 +51,7 @@ public class Dialogue_Manger : MonoBehaviour
     public string[] GetKnotTags(string knot)
     {
         List<string> nextKnotTags = dialogueStoryStore.TagsForContentAtPath(knot);
+        Debug.Log(nextKnotTags.Count);
         if (nextKnotTags != null) {
             return nextKnotTags.ToArray();
         } else { return new string[0]; }

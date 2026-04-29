@@ -97,7 +97,9 @@ public class Game_Process_Manager : MonoBehaviour
 
     public void NextDialoguePressed()
     {
-        if (!isChoiceActive && !isTextDisplaying) { //Skip if choice is active or text is displaying
+        if (isChoiceActive) { return; } //Skip if choice is active
+
+		if (!isChoiceActive && !isTextDisplaying) { //If text isn't displaying
             char nextKind = dialogueSystem.NextDialogue();
             if (nextKind == 'D') //Sort next dialogue and check wether its a choice
             { //If dialogue
@@ -170,14 +172,15 @@ public class Game_Process_Manager : MonoBehaviour
     //
     private void EvaliuateTags(string[] tags) //Evaliuate any/all tags and execute anything needed
     {
+        string[] tagsToDo = tags.ToArray();
         if (tags.Length > 0) { //Skip if empty
-            for (int h = 0; h < (tag.Length/2); h++) //For each tag pair
+            for (int h = 0; h < (tags.Length/2); h++) //For each tag pair
             {
-                if (tags.Length == 1) { Debug.Assert(false, "TAG SERIOSLY BROKE " + tags[0]); break; }
-                if (tags.Length == 0) { break; }
+                if (tagsToDo.Length == 1) { Debug.Assert(false, "TAG SERIOSLY BROKE " + tagsToDo[0]); break; }
+                if (tagsToDo.Length == 0) { break; }
 
-                string[] tagsToEval = tags.Take(2).ToArray(); //Seperate out 2 tags
-                tags = tags.Skip(2).ToArray(); //And remove the 2 from the origonal array
+                string[] tagsToEval = tagsToDo.Take(2).ToArray(); //Seperate out 2 tags
+                tagsToDo = tagsToDo.Skip(2).ToArray(); //And remove the 2 from the origonal array
                 tagsToEval[0] = tagsToEval[0].Trim();
                 tagsToEval[1] = tagsToEval[1].Trim();
                 Debug.Log(tagsToEval[0] + ":" + tagsToEval[1]);
@@ -234,7 +237,7 @@ public class Game_Process_Manager : MonoBehaviour
                 }
             }
         }
-    }
+	}
 
     private void SetApproprateBackground(string bgDetails) //Get the proper background sprite
     {

@@ -6,6 +6,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
 {
     public Reactions reactions;
     public Events events = new Events();
+    public Emotion emotions = new Emotion();
 
     private void Awake()
     {
@@ -80,8 +81,9 @@ public class Reaction_And_Event_Processing : MonoBehaviour
         {
             int currentValue = PlayerPrefs.GetInt(pref);
             int newValue = currentValue + change;
-            if (newValue > 100) { newValue = 100; } //Prevent it from going over the limit
-            PlayerPrefs.SetInt(pref, currentValue + change);
+            if (newValue > 99) { newValue = 99; } //Prevent it from going over the limit
+            if (newValue < 0) { newValue = 0; } //Also prevent it from going under
+            PlayerPrefs.SetInt(pref, newValue);
         }
 
         //
@@ -124,7 +126,9 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 new (emotionState variant, short change)[] {
                     (emotionState.pain, 16),
                     (emotionState.feelingSick, 6),
-                    (emotionState.stress, 10)
+                    (emotionState.stress, 10),
+                    (emotionState.happy, -15),
+                    (emotionState.sad, 10)
                 },
                 //Afflicts
                 new[] {
@@ -139,7 +143,9 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 new (emotionState variant, short change)[] {
                     (emotionState.pain, 30),
                     (emotionState.feelingSick, 26),
-                    (emotionState.stress, 35)
+                    (emotionState.stress, 35),
+                    (emotionState.happy, -38),
+                    (emotionState.sad, 24)
                 },
                 //Afflicts
                 new[] {
@@ -156,7 +162,9 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                     (emotionState.pain, 64),
                     (emotionState.feelingSick, 80),
                     (emotionState.stress, 72),
-                    (emotionState.tired, 50)
+                    (emotionState.tired, 50),
+                    (emotionState.happy, -62),
+                    (emotionState.sad, 35)
                 },
                 //Afflicts
                 new[] {
@@ -278,6 +286,41 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 550, //Light drinking
                 450  //Heavy drinking
             };
+        }
+    }
+
+    public class Emotion
+    {
+        //
+        // Applies changes to emotions or afflicts. Run by dialogue though the game manager
+        //
+        public void UpdatePlayerPref(string tagInput)
+        {
+            int value = 0;
+            int isEmotion = 1;
+            string pref = "";
+
+            string[] splitTag = tagInput.Split('.'); //Split the main and sub id
+            int.TryParse(splitTag[1], out value); //Turn value to int
+            int.TryParse(splitTag[2], out isEmotion); //Turn emotion state to int
+            pref = splitTag[0];
+
+            if (isEmotion == 1) {
+                Debug.Assert(value > 0, "Value int parse failed (or was 0)");
+
+                int currentValue = PlayerPrefs.GetInt(pref);
+                int newValue = currentValue + value;
+                if (newValue > 99) { newValue = 99; } //Prevent it from going over the limit
+                if (newValue < 0) { newValue = 0; } //Also prevent it from going under
+                PlayerPrefs.SetInt(pref, newValue);
+            }
+            else {
+                if (value == 0 || value == 1)
+                {
+                    PlayerPrefs.SetInt(pref, value);
+                }
+                else { Debug.Assert(false, "Bool pref value not 0 or 1"); }
+            }
         }
     }
 }

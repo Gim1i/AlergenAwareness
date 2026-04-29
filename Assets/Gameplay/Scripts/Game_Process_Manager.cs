@@ -189,7 +189,7 @@ public class Game_Process_Manager : MonoBehaviour
                         break;
                     case "react":
                         int[] reactionIDs = new[] { -1, -1 };
-                        string[] idSplit = tagsToEval[1].Split('.').ToArray(); //Split the main and sub id
+                        string[] idSplit = tagsToEval[1].Split('.'); //Split the main and sub id
                         int.TryParse(idSplit[0], out reactionIDs[0]); //Turn ids to int
                         int.TryParse(idSplit[1], out reactionIDs[1]);
 
@@ -224,6 +224,9 @@ public class Game_Process_Manager : MonoBehaviour
                         break;
                     case "endday": //Executes the code to end the day. Does have a 2nd tag but its useless rn
                         isDayEnd = true;
+                        break;
+                    case "prefChange": //Changes a PlayerPref by the value specified
+                        reactAndEventProcessor.emotions.UpdatePlayerPref(tagsToEval[1]);
                         break;
                 }
             }

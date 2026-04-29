@@ -3,11 +3,25 @@
 //
 === Sec0 === 
 #back #bedroom.day
+
+// Reset all afflicts
+#prefChange #tinglingThroat.0.0
+#prefChange #runnyNose.0.0
+#prefChange #tightChest.0.0
+#prefChange #hardToBreath.0.0
+#prefChange #sick.0.0
+
+// Reduce most negative emotions
+#prefChange #sad.1.-30
+#prefChange #angry.1.-28
+#prefChange #pain.1.-25
+#prefChange #stress.1.-45
+#prefChange #feelingSick.1.-50
 -> Ev0 //Here to prevent errors
 
 //Regular process
 = Ev0
-\*Alarm beeping*
+\*Alarm beeping* #prefChange #tired.1.-30 #prefChange #happy.1.18 
 ...
 Uuurg, damn it
 \*Gets up and dressed for work*
@@ -16,22 +30,22 @@ Should I prepare lunch today?
 
 //Early wake
 = Ev1
-...
+...  #prefChange #tired.1.-22
 ...
 Why don't I hear my alarm?
 \*Jolts out of bed and checks the clock*
-Oh I woke up early *Sigh*
+Oh I woke up early *Sigh*  #prefChange #happy.1.18
 \*Gets dressed for work*
 Should I prepare lunch today?
 -> lunchPrepChoice
 
 //Late wake
 = Ev2
-...
+... #prefChange #tired.1.-22
 ...
 Why don't I hear my alarm?
 \*Jolts out of bed and checks the clock*
-Damn I'm late!
+Damn I'm late! #prefChange #stress.1.10
 \*Dressed for work as fast as possible*
 Theres no time to prepare lunch today
 \*Rushes out the door*
@@ -40,7 +54,7 @@ Theres no time to prepare lunch today
 //Prep Choice
 = lunchPrepChoice //(-> returnTo)
 * [Yes]
-    \*Prepares lunch* #save #prepLunch
+    \*Prepares lunch* #save #prepLunch #prefChange #bored.1.-3
 * [No]
 - Time to head to work then
 -> END
@@ -65,10 +79,10 @@ Theres no time to prepare lunch today
 ...
 ...
 Why am I queueing for so long?
-If this keeps up I might not make it to work on time
+If this keeps up I might not make it to work on time #prefChange #stress.1.5
 ...
 Finaly moving again
-\*Drives by a car crash*
+\*Drives by a car crash* #bored.1.-2
 Ahh that makes sense
 -> END
 
@@ -77,13 +91,13 @@ Ahh that makes sense
 ...
 That road is closed now?
 I guess I'm going to have to switch route this week
-Hopefully I can still make it to work on time
+Hopefully I can still make it to work on time #prefChange #stress.1.2
 -> END
 
 //Car doesn't start
 = Ev3
-\*Tries to start car*
-\*Tries again*
+\*Tries to start car* #prefChange #stress.1.1
+\*Tries again* #prefChange #stress.1.5
 ...
 Damn thing wont start
 \*Sigh* I've got to call Tyler
@@ -94,7 +108,7 @@ Tyler: Do you think you will be able to make get here by lunch time?
 Yea I can be there by lunch. Just have to give the car to the garage
 Tyler: Good to hear! I'll see you after the lunch break then
 \*Click*
-Luckly the issue was quite minor so the car will be fixed by this evening #save #skipFirstWork
+Luckly the issue was quite minor so the car will be fixed by this evening #save #skipFirstWork #prefChange #happy.1.5
 -> END //Skips first work
 
 
@@ -105,6 +119,7 @@ Luckly the issue was quite minor so the car will be fixed by this evening #save 
 //
 === Sec2 === 
 #back #officeJob.day
+#prefChange #tired.1.5
 -> Ev0 //Here to prevent errors
 
 //Regular process
@@ -112,7 +127,7 @@ Luckly the issue was quite minor so the car will be fixed by this evening #save 
 Hi Tyler. Anything important I should know?
 Tyler: Nope, just a regular day!
 Good to hear! I'll get to working then
-\*Tyler give a thumbs up*
+\*Tyler give a thumbs up* #prefChange #bored.1.8
 -> END
 
 //Homemade food
@@ -125,7 +140,7 @@ Tyler: Someone brought in some {randomHomeMadeFood}
 Tyler: It's really good, you should have some!
 Should I have some?
 * [Yes]
-    Will do! #react #7.0
+    Will do! #react #7.0 #prefChange #happy.1.15 #prefChange #bored.1.-6
 * [No]
     I'll pass on that, but thanks for offering
 - -> END
@@ -140,7 +155,7 @@ Tyler: Someone brought some {randomBroughtFood1} on their way to work
 Tyler: It's free so I recomend grabing some!
 Should I have some?
 * [Yes]
-    Will do! #react #8.0
+    Will do! #react #8.0 #prefChange #happy.1.15 #prefChange #bored.1.-6
 * [No]
     I'll pass on that, but thanks for offering
 - -> END
@@ -148,7 +163,7 @@ Should I have some?
 //Down colleague
 = Ev3
 Hi Tyler. Anything important I should know?
-Tyler: Someone called in sick earlier so we're going to be short-staffed today
+Tyler: Someone called in sick earlier so we're going to be short-staffed today #prefChange #stress.1.3 #prefChange #tired.1.8
 You know wether they'll be able to be here tommorow?
 Tyler: Luckly they said they should be here tommorow
 Good to hear! Give them a get well soon from me next time you speak to them
@@ -160,13 +175,13 @@ Tyler: Will do!
 = Ev4
 Hi Tyler. Why is the office is looking fun today?
 Tyler: Upper managment organised a party to celebrate us completing the project before the deadline
-Tyler: Theres free food and drinks if you want any
+Tyler: Theres free food and drinks if you want any #prefChange #happy.1.5
 Should I get some free food?
 * [Yes]
     ~ temp randomWorkPizzaChoice = ""
     ~ randomWorkPizzaChoice = "{~pepperoni|margherita}"
     
-    Will do! which do you recomend?
+    Will do! which do you recomend?  #prefChange #happy.1.12 #prefChange #bored.1.-10
     Tyler: The pepperoni was quite good when I tried it, though margherita is always a solid choice
     Yea {randomWorkPizzaChoice} sounds like a good choice. Thanks!
     Tyler: No problem! *Thumbs up*
@@ -187,6 +202,7 @@ Should I get some free food?
 === Sec3 === 
 //No background as it changes after chosing a lunch option
 #get #prepLunch
+#prefChange #stress.1.-15
 VAR prepLunch = false
 -> Ev0
 

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Saved_Info_Manager : MonoBehaviour
 {
-    private enum emotionState { happy, sad, angry, pain, tired, stress, bored, itchiness, feelingSick } //Possible emotion modals
-    private enum afflictState { tinglingThroat, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
+    private enum emotionState { happy, sad, angry, pain, tired, stress, bored, feelingSick } //Possible emotion modals
+    private enum afflictState { tinglingThroat, itchy, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
 
     [SerializeField] private static Saved_Info_Manager instance;
 
@@ -12,7 +12,7 @@ public class Saved_Info_Manager : MonoBehaviour
         ("lateHomeArival", 0), //Bool
         ("heavyDrinking", 0),  //Bool
         ("existingGame", 0),   //Bool
-        ("health", 0)
+        ("health", 100)
     };
     (string prefKey, float defVal)[] floatPrefKeyList = new[] {
         ("masterVolume", 1f),
@@ -28,7 +28,6 @@ public class Saved_Info_Manager : MonoBehaviour
         (emotionState.tired, 0),
         (emotionState.stress, 0),
         (emotionState.bored, 0),
-        (emotionState.itchiness, 0),
         (emotionState.feelingSick, 0)
     };
     (afflictState prefKey, bool defVal)[] afflictsPrefKeyList = new[] {
@@ -36,6 +35,7 @@ public class Saved_Info_Manager : MonoBehaviour
         (afflictState.runnyNose, false),
         (afflictState.tightChest, false),
         (afflictState.hardToBreath, false),
+        (afflictState.itchy, false),
         (afflictState.sick, false)
     };
 

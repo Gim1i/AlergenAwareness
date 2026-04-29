@@ -225,8 +225,11 @@ public class Game_Process_Manager : MonoBehaviour
                     case "endday": //Executes the code to end the day. Does have a 2nd tag but its useless rn
                         isDayEnd = true;
                         break;
-                    case "prefChange": //Changes a PlayerPref by the value specified
+                    case "prefchange": //Changes a PlayerPref by the value specified
                         emotionAndEventProcessor.emotions.UpdatePlayerPref(tagsToEval[1]);
+                        break;
+                    default:
+                        Debug.Assert(false, "Unable to identify tag of type " + tagsToEval[0]);
                         break;
                 }
             }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class Reaction_And_Event_Processing : MonoBehaviour
@@ -301,12 +302,12 @@ public class Reaction_And_Event_Processing : MonoBehaviour
             string pref = "";
 
             string[] splitTag = tagInput.Split('.'); //Split the main and sub id
-            int.TryParse(splitTag[1], out value); //Turn value to int
-            int.TryParse(splitTag[2], out isEmotion); //Turn emotion state to int
+            int.TryParse(splitTag[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out value); //Turn value to int (culture info enables negative numbers)
+            int.TryParse(splitTag[1], out isEmotion); //Turn emotion state to int
             pref = splitTag[0];
 
             if (isEmotion == 1) {
-                Debug.Assert(value > 0, "Value int parse failed (or was 0)");
+                Debug.Assert(value != 0, "Value int parse failed (or was 0)");
 
                 int currentValue = PlayerPrefs.GetInt(pref);
                 int newValue = currentValue + value;
@@ -315,7 +316,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 PlayerPrefs.SetInt(pref, newValue);
                 Debug.Log("Set " + pref + " to " + newValue);
             }
-            else {
+            else if (isEmotion == 0) {
                 if (value == 0 || value == 1)
                 {
                     PlayerPrefs.SetInt(pref, value);
@@ -323,6 +324,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 }
                 else { Debug.Assert(false, "Bool pref value not 0 or 1"); }
             }
+            else { Debug.Assert(false, "Tag incorrectly set up"); }
         }
     }
 }

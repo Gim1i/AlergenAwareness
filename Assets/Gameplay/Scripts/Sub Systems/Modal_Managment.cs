@@ -24,8 +24,8 @@ public class Modal_Managment : MonoBehaviour
 
         for (int i = 0; i < modalSlots.Length; i++) //Get all modal slots
         {
-            modalSlots[i] = gameDisplay.Q<VisualElement>("Slot_" + i+1);
-            Debug.Assert(modalSlots[i] != null, "Couldn't find slot " + i + 1);
+            modalSlots[i] = gameDisplay.Q<VisualElement>("Slot_" + (i+1));
+            Debug.Assert(modalSlots[i] != null, "Couldn't find slot " + (i + 1));
         }
     }
 

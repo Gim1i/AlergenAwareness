@@ -40,9 +40,11 @@ public class Input_Managment : MonoBehaviour
         Debug.Assert(optionButtons[2] != null, "Option 3 button missing");
         Debug.Assert(optionButtons[3] != null, "Option 4 button missing");
 
+        #if DEBUG
         testingReactions[0] = InputSystem.actions.FindAction("J");
         testingReactions[1] = InputSystem.actions.FindAction("K");
         testingReactions[2] = InputSystem.actions.FindAction("L");
+        #endif
     }
 
     private void Start() //Set input buttons up

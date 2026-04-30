@@ -568,9 +568,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "H",
+                    "name": "J",
                     "type": "Button",
                     "id": "ef290fa4-7e43-4b94-ae2d-2135ed40e769",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "K",
+                    "type": "Button",
+                    "id": "eefdd85e-292c-4d4f-9468-39b1d1080445",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "L",
+                    "type": "Button",
+                    "id": "03872aa0-f3e6-4e9e-8f24-47c741df297a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -658,11 +676,33 @@
                 {
                     "name": "",
                     "id": "aa97f3fe-e145-4cc4-bebe-745d1ea66abd",
-                    "path": "<Keyboard>/h",
+                    "path": "<Keyboard>/j",
                     "interactions": "Press",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "H",
+                    "action": "J",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f614e954-cc35-4df1-b7e6-295ec8a9fd03",
+                    "path": "<Keyboard>/k",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "K",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d6ccd19a-1b75-4dfb-842e-bf9c004332a9",
+                    "path": "<Keyboard>/l",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "L",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

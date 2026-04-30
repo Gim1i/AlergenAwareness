@@ -1,0 +1,23 @@
+.Modal-Holder {
+    flex-grow: 1;
+    right: 0;
+    top: 0;
+    align-self: flex-end;
+    width: 15%;
+}
+
+.Modal-Slot {
+    margin-top: 10%;
+    margin-right: 10%;
+    margin-bottom: 0%;
+    margin-left: 10%;
+    height: 7.5%;
+}
+
+.Modal {
+    bottom: 0;
+    right: 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+}

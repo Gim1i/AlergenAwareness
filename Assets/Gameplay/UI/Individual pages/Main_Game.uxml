@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Gameplay/UI/Styles/Background.uss?fileID=7433441132597879392&amp;guid=68dcae845a97867449f09fe687d0cbf2&amp;type=3#Background" />
+    <ui:VisualElement name="Backgrounds_Background" class="Backgrounds-Background" />
+    <CustomUXML.UI.AspectRatioPanel aspect-ratio-x="200" aspect-ratio-y="320">
+        <ui:VisualElement name="Background" class="Background" />
+        <CustomUXML.UI.aspect-ratio-label aspect-ratio-x="200" aspect-ratio-y="320" text="1. Option 1&#10;2. Option 2&#10;3. Option 3" text-size="40" name="TextBox" class="TextBox" />
+    </CustomUXML.UI.AspectRatioPanel>
+</ui:UXML>

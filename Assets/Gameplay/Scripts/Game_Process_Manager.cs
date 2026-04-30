@@ -12,7 +12,7 @@ public class Game_Process_Manager : MonoBehaviour
     public enum daySection { dayStart, workStartTravel, firstWork, lunch, secondWork, workEndTravel, afternoon, homeTravel, dayEnd }
 
     private enum backgroundTime { day, afternoon, evening };
-    private enum backgroundKind { bedroom, driving, officeJob, officeBreakRoom, coffeeShop, jenns, saladDeli, livingRoom, gym, resturant, pub};
+    private enum backgroundKind { bedroom, driving, officeJob, officeBreakRoom, coffeeShop, jenns, saladDeli, livingRoom, gym, resturaunt, pub};
     private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
 
     [SerializeField] private BackgroundSpriteSet[] backgroundSet;

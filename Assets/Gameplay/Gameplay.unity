@@ -495,57 +495,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game_Process_Manager
   backgroundSet:
   - sprites:
-    - sprite: {fileID: 1339667165, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 1705829998, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
-    - sprite: {fileID: 1283433664, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: -771830862, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 2
     kind: 0
   - sprites:
-    - sprite: {fileID: 1304404298, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: -847924443, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
-    - sprite: {fileID: 471770422, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 924241472, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 1
-    - sprite: {fileID: -488861455, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 10946916, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 2
     kind: 1
   - sprites:
-    - sprite: {fileID: 1454869064, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 957555714, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
     kind: 2
   - sprites:
-    - sprite: {fileID: -630093614, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: -414326606, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
     kind: 3
   - sprites:
-    - sprite: {fileID: 1727999959, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 757840863, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
     kind: 4
   - sprites:
-    - sprite: {fileID: 1267327800, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 1434023993, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
     kind: 5
   - sprites:
-    - sprite: {fileID: 1060934917, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 1416773786, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
     kind: 6
   - sprites:
-    - sprite: {fileID: -161793023, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 114140756, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
-    - sprite: {fileID: -197650578, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: -2065331853, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 1
     kind: 7
   - sprites:
-    - sprite: {fileID: -1389667162, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 1246723775, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 0
     kind: 8
   - sprites:
-    - sprite: {fileID: 445513299, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 471118798, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 1
     kind: 9
   - sprites:
-    - sprite: {fileID: 1576913064, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 754214685, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 1
-    - sprite: {fileID: 909340884, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
+    - sprite: {fileID: 309518614, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 2
     kind: 10
   textDisplayTime: 1

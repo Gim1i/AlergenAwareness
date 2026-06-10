@@ -25,16 +25,7 @@ public class Game_Process_Manager : MonoBehaviour
     private Label textDisplay;
     private VisualElement optionsTemplate;
     private Button[] optionButtons = new Button[4];
-    private bool isDayEnd = false;
 
-    private Dictionary<string, bool> savedEvents = new Dictionary<string, bool>() { //Any choice or event that might impact later options
-        { "prepLunch", false },
-        { "afternoonDriveDelay", false },
-        { "skipFirstWork", false },
-        { "skipHomeTravel", false },
-        { "heavyDrinking", false },
-        { "lateHomeArival", false }
-    };
     private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { //All the current day's events (by section)
         { daySection.dayStart, 0 },
         { daySection.workStartTravel, 0 },
@@ -50,6 +41,7 @@ public class Game_Process_Manager : MonoBehaviour
     private bool isChoiceActive = false;
     private UniTask currentDisplayTextTask;
     private bool isTextDisplaying = false;
+    private string currentDialogueText = "";
 
     // Grab the UIDoc's various elements so they can be used later
     private void Awake() {
@@ -100,30 +92,28 @@ public class Game_Process_Manager : MonoBehaviour
         if (isChoiceActive) { return; } //Skip if choice is active
 
 		if (!isChoiceActive && !isTextDisplaying) { //If text isn't displaying
-            char nextKind = dialogueSystem.NextDialogue();
-            if (nextKind == 'D') //Sort next dialogue and check wether its a choice
+            (int storyElement, string[] text) nextdialogue = dialogueSystem.NextDialogue();
+            if (nextdialogue.storyElement == 0) //Sort next dialogue and check wether its a choice
             { //If dialogue
-                (string dialogue, string[] tags) dialogue = dialogueSystem.GetDialogue();
-                EvaliuateTags(dialogue.tags);
-                currentDisplayTextTask = DisplayText(dialogue.dialogue, false); //Display text one character at a time
-                if (dialogue.dialogue == "") { //If empty skip line (fixes start of section questions)
+                currentDialogueText = nextdialogue.text[0];
+                currentDisplayTextTask = DisplayText(nextdialogue.text[0], false); //Display text one character at a time
+                if (nextdialogue.text[0] == "") { //If empty skip line (fixes start of section questions)
                     NextDialoguePressed();
                 }
                 return;
             }
-            else if (nextKind == 'C')
+            else if (nextdialogue.storyElement == 1)
             { //If choice
                 textDisplay.text = "";
-                string[] choices = dialogueSystem.GetChoices();
                 optionsTemplate.SetEnabled(true);
                 optionsTemplate.style.display = DisplayStyle.Flex;
 
-                for (int i = 0; i < choices.Length; i++) { //Setup buttons that need to be active
+                for (int i = 0; i < nextdialogue.text.Length; i++) { //Setup buttons that need to be active
                     optionButtons[i].style.display = DisplayStyle.Flex;
-                    optionButtons[i].text = i + 1 + ". " + choices[i];
+                    optionButtons[i].text = i + 1 + ". " + nextdialogue.text[i];
                     optionButtons[i].SetEnabled(true);
                 }
-                for (int i = choices.Length; i < optionButtons.Length; i++) { //Hide and clear buttons that dont need to be active
+                for (int i = nextdialogue.text.Length; i < optionButtons.Length; i++) { //Hide and clear buttons that dont need to be active
                     optionButtons[i].style.display = DisplayStyle.None;
                     optionButtons[i].text = "";
                     optionButtons[i].SetEnabled(false);
@@ -133,17 +123,13 @@ public class Game_Process_Manager : MonoBehaviour
             }
             else
             { //If end of Knot
-                if (isDayEnd) { //If its the end of the day run end-of-day code
-                    EndDay();
-                }
-                daysInfo.currentDaySection.NextSection();
-                NextSectionSetup();
+                NextSection();
                 return;
             }
         }
         else if (isTextDisplaying) { //If text is being displayed
             isTextDisplaying = false; //Stop displaying
-            textDisplay.text = dialogueSystem.GetDialogue().dialogue;//Update text to show its completed form
+            textDisplay.text = currentDialogueText;//Update text to show its completed form
             return;
         }
     }
@@ -158,88 +144,23 @@ public class Game_Process_Manager : MonoBehaviour
 
         var events = emotionAndEventProcessor.events.EvaliuateChanceEvents(); //Roll for any random event
         todaysChanceEvents = events.chanceEvents;
-        savedEvents["heavyDrinking"] = events.isHeavyDrinking;
+        dialogueSystem.SetSavedEvent("heavyDrinking", events.isHeavyDrinking);
 
         PlayerPrefs.SetInt("lateHomeArival", 0);
         PlayerPrefs.SetInt("heavyDrinking", 0);
         SetApproprateBackground("bedroom.day");
         emotionAndEventProcessor.reactions.RefreshModals();
-        NextSectionSetup();
+
+        //Part of the NextSection function to set up for the first section
+        Debug.Log("Up next: " + daysInfo.currentDaySection.section);
+        dialogueSystem.SetupSection((int)daysInfo.currentDaySection.section, todaysChanceEvents[daysInfo.currentDaySection.section]);
+        NextDialoguePressed();
     }
 
     //
     // Regular game flow
     //
-    private void EvaliuateTags(string[] tags) //Evaliuate any/all tags and execute anything needed
-    {
-        string[] tagsToDo = tags.ToArray();
-        if (tags.Length > 0) { //Skip if empty
-            for (int h = 0; h < (tags.Length/2); h++) //For each tag pair
-            {
-                if (tagsToDo.Length == 1) { Debug.Assert(false, "TAG SERIOSLY BROKE " + tagsToDo[0]); break; }
-                if (tagsToDo.Length == 0) { break; }
-
-                string[] tagsToEval = tagsToDo.Take(2).ToArray(); //Seperate out 2 tags
-                tagsToDo = tagsToDo.Skip(2).ToArray(); //And remove the 2 from the origonal array
-                tagsToEval[0] = tagsToEval[0].Trim();
-                tagsToEval[1] = tagsToEval[1].Trim();
-                Debug.Log(tagsToEval[0] + ":" + tagsToEval[1]);
-                switch (tagsToEval[0].ToLower()) //Execute appropriate action
-                {
-                    case "save": //Save information
-                        savedEvents[tagsToEval[1]] = true;
-                        Debug.Log(tagsToEval[1]+" set");
-                        break;
-                    case "react":
-                        int[] reactionIDs = new[] { -1, -1 };
-                        string[] idSplit = tagsToEval[1].Split('.'); //Split the main and sub id
-                        int.TryParse(idSplit[0], out reactionIDs[0]); //Turn ids to int
-                        int.TryParse(idSplit[1], out reactionIDs[1]);
-
-                        if (reactionIDs[0] != -1 && reactionIDs[1] != -1) //Check if int cast worked
-                        {
-                            Debug.Log("Process reaction with ID: " + reactionIDs[0] + " & SubID: " + reactionIDs[1]);
-                            emotionAndEventProcessor.reactions.RollEventReaction((Reaction_And_Event_Processing.Reactions.foodReactionSource)reactionIDs[0], reactionIDs[1]); //Run reaction chances
-                        } else {
-                            Debug.Assert(false, "React tag incorrectly set up");
-                        }
-                        break;
-                    case "back":
-                        SetApproprateBackground(tagsToEval[1]);
-                        break;
-                    case "open":
-                        //WIP. Will open the alergen table screen for different locations
-                        Debug.Log("Open alergen table " + tagsToEval[1]);
-                        break;
-                    case "get":
-                        Debug.Log("Get variable " + tagsToEval[1]);
-                        switch (tagsToEval[1]) {
-                            case "afternoonDriveDelay":
-                                dialogueSystem.SetDialogueBool("afternoonDriveDelay", savedEvents["afternoonDriveDelay"]);
-                                break;
-                            case "heavyDrinking":
-                                dialogueSystem.SetDialogueBool("heavyDrinking", savedEvents["heavyDrinking"]);
-                                break;
-                            case "prepLunch":
-                                dialogueSystem.SetDialogueBool("prepLunch", savedEvents["prepLunch"]);
-                                break;
-                        }
-                        break;
-                    case "endday": //Executes the code to end the day. Does have a 2nd tag but its useless rn
-                        isDayEnd = true;
-                        break;
-                    case "prefchange": //Changes a PlayerPref by the value specified
-                        emotionAndEventProcessor.emotions.UpdatePlayerPref(tagsToEval[1]);
-                        break;
-                    default:
-                        Debug.Assert(false, "Unable to identify tag of type " + tagsToEval[0]);
-                        break;
-                }
-            }
-        }
-	}
-
-    private void SetApproprateBackground(string bgDetails) //Get the proper background sprite
+    public void SetApproprateBackground(string bgDetails) //Get the proper background sprite
     {
         string[] splitDetails = bgDetails.Split('.');
         string bgKind = splitDetails[0];
@@ -255,31 +176,20 @@ public class Game_Process_Manager : MonoBehaviour
         }
         Debug.Assert(false, "Background texture asignment failed");
     }
-
-    private void NextSectionSetup() //Does all the setup for going to the next section
+    
+    private void NextSection() //Does all the setup for going to the next section
     {
-        int nextSection = (int)daysInfo.currentDaySection.section;
-        if (nextSection == (int)daySection.firstWork && savedEvents["skipFirstWork"]) { //Skip section if skip section flag is set
-            nextSection++;
+        daysInfo.currentDaySection.NextSection();
+        if (daysInfo.currentDaySection.section == daySection.firstWork && dialogueSystem.GetSavedEvent("skipFirstWork")) { //Skip section if skip section flag is set
             daysInfo.currentDaySection.NextSection();
         }
-        else if (nextSection == (int)daySection.homeTravel && savedEvents["skipHomeTravel"]) {
-            nextSection++;
+        else if (daysInfo.currentDaySection.section == daySection.homeTravel && dialogueSystem.GetSavedEvent("skipHomeTravel")) {
             daysInfo.currentDaySection.NextSection();
         }
 
-        Debug.Log("Up next: " + (daySection)nextSection);
-        dialogueSystem.SetEvent(nextSection, todaysChanceEvents[(daySection)nextSection]); //Sets the next dialogue event
-        string[] nextKnotTags = dialogueSystem.GetKnotTags("Sec" + nextSection); //Get next knot's tags
-        EvaliuateTags(nextKnotTags); //Act on tags
+        Debug.Log("Up next: " + daysInfo.currentDaySection.section);
+        dialogueSystem.SetupSection((int)daysInfo.currentDaySection.section, todaysChanceEvents[daysInfo.currentDaySection.section]);
         NextDialoguePressed();
-    }
-
-    private void EndDay() //Runs all of the end of day code along with closing the scene
-    {
-        PlayerPrefs.SetInt("heavyDrinking", Convert.ToInt32(savedEvents["heavyDrinking"]));
-        PlayerPrefs.SetInt("lateHomeArival", Convert.ToInt32(savedEvents["lateHomeArival"]));
-        SceneManager.LoadScene("Gameplay");
     }
 
     private async UniTask DisplayText(string textToDisplay, bool isChoice) //Takes the text to display to the user and updates it one character at a time

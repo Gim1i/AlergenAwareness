@@ -27,39 +27,48 @@ INCLUDE Sections/dayEnd.ink
 
 // Reduce happy to force the player into actions
 #prefChange #happy.1.-15
+#event #set.dayStart
 -> dayStart
 
 === Sec1 === 
 #back #driving.day
+#event #set.workStartTravel
 -> workStartTravel
 
 === Sec2 === 
 #back #officeJob.day
 #prefChange #tired.1.5
+#event #set.firstWork
 -> firstWork
 
 === Sec3 === //No background as it changes after chosing a lunch option
 #prefChange #stress.1.-15
+#event #set.lunch
 -> lunch
 
 === Sec4 === 
 #back #officeJob.day
 #prefChange #tired.1.5
+#event #set.secondWork
 -> secondWork
 
 === Sec5 === 
 #back #driving.day
+#event #set.workEndTravel
 -> workEndTravel
 
 === Sec6 ===
 #back #livingRoom.day
+#event #set.afternoon
 -> afternoon
 
 === Sec7 ===
 #back #driving.evening
 #prefChange #tired.1.7
+#event #set.homeTravel
 -> homeTravel
 
 === Sec8 ===
 #back #bedroom.evening
+#event #set.dayEnd
 -> dayEnd

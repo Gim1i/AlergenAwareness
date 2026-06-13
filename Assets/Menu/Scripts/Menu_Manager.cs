@@ -96,12 +96,14 @@ public class Menu : MonoBehaviour
         allSliders[sliders.music].value = 100 * PlayerPrefs.GetFloat("musicVolume");
         allSliders[sliders.ui].value = 100 * PlayerPrefs.GetFloat("uiVolume");
 
-        NavigateTo(menuScreen.home); //Set home as curren screen
+        NavigateTo(menuScreen.home); //Set home as current screen
     }
 
     //
-    // Functions run by buttons
+    // Main menu
     //
+    public void Settings() => NavigateTo(menuScreen.settingsMain); //To settings
+
     public void Continue() { //Pressing the continue button
         Debug.Log("Continuing game");
         SceneManager.LoadScene("Gameplay");
@@ -118,6 +120,24 @@ public class Menu : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
+
+    //
+    // Settings pages
+    //
+    public void ControlsNav() => NavigateTo(menuScreen.settingsControl); //To controls page
+    public void VolumeNav() => NavigateTo(menuScreen.settingsVolume); //To volume page
+    public void HowToPlayNav() => NavigateTo(menuScreen.howToPlay); //To how to play page
+    public void BackToHome() => NavigateTo(menuScreen.home); //To main menu
+
+    public void BackToSettings() => NavigateTo(menuScreen.settingsMain); //To settings main page (from all sub-pages)
+
+    //
+    // Controls settings page
+    //
+
+    //
+    // Volume settings page
+    //
     public void Apply() { //Pressing the exit button
         Debug.Log("Applying changes");
 
@@ -128,14 +148,13 @@ public class Menu : MonoBehaviour
         NavigateTo(menuScreen.settingsMain);
     }
 
-    //Menu navigation buttons
-    public void Settings() => NavigateTo(menuScreen.settingsMain);
-    public void ControlsNav() => NavigateTo(menuScreen.settingsControl);
-    public void VolumeNav() => NavigateTo(menuScreen.settingsVolume);
-    public void HowToPlayNav() => NavigateTo(menuScreen.howToPlay);
-    public void BackToSettings() => NavigateTo(menuScreen.settingsMain);
-    public void BackToHome() => NavigateTo(menuScreen.home);
+    //
+    // How to play page
+    //
 
+    //
+    // Other functions
+    //
     private void NavigateTo(menuScreen screenTo)
     {
         Debug.Log("To "+screenTo.ToString());

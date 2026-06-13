@@ -7,13 +7,13 @@ using UnityEngine.UIElements;
 public class Menu : MonoBehaviour
 {
     private enum menuScreen { home, settingsMain, settingsControl, settingsVolume, howToPlay }
-    private enum buttons { Continue, New, Settings, Exit, Control, Volume, Option1, Option2, Option3, Option4, HowToPlay, Back, Apply } //Caps to avoid key words
+    private enum buttons { Continue, New, Settings, Exit, Control, Volume, Option1, Option2, Option3, Option4, HowToPlay, Back, applyVolume, applyControls } //Caps to avoid key words
     private enum homeButtons { Continue, New, Settings, Exit }  //Caps to avoid key words
     private enum settingsMainButtons { Control, Volume, HowToPlay, Back }
-    private enum settingsControlButtons { Option1, Option2, Option3, Option4, Back }
-    private enum settingsVolumeButtons { Back, Apply }
+    private enum settingsControlButtons { Option1, Option2, Option3, Option4, Back, applyControls }
+    private enum settingsVolumeButtons { Back, applyVolume }
     private enum howToPlayButtons { Back }
-    private enum sliders { master, music, ui }
+    private enum sliders { master, music, ui, textSpeed }
 
     private Dictionary<homeButtons, Button> homeBtns;
     private Dictionary<settingsMainButtons, Button> settingsMainBtns;
@@ -61,12 +61,13 @@ public class Menu : MonoBehaviour
             { settingsControlButtons.Option2, pages[menuScreen.settingsControl].Q<Button>("Option_2") },
             { settingsControlButtons.Option3, pages[menuScreen.settingsControl].Q<Button>("Option_3") },
             { settingsControlButtons.Option4, pages[menuScreen.settingsControl].Q<Button>("Option_4") },
-            { settingsControlButtons.Back, pages[menuScreen.settingsControl].Q<Button>("Back") }
+            { settingsControlButtons.Back, pages[menuScreen.settingsControl].Q<Button>("Back") },
+            { settingsControlButtons.applyControls, pages[menuScreen.settingsControl].Q<Button>("Apply_Controls") }
         };
         settingsVolumeBtns = new Dictionary<settingsVolumeButtons, Button>()
         {
             { settingsVolumeButtons.Back, pages[menuScreen.settingsVolume].Q<Button>("Back") },
-            { settingsVolumeButtons.Apply, pages[menuScreen.settingsVolume].Q<Button>("Apply") }
+            { settingsVolumeButtons.applyVolume, pages[menuScreen.settingsVolume].Q<Button>("Apply_Volume") }
         };
         howToPlayBtns = new Dictionary<howToPlayButtons, Button>()
         {
@@ -76,7 +77,8 @@ public class Menu : MonoBehaviour
         allSliders = new Dictionary<sliders, Slider>() { //Save all sliders to their dictionary
             { sliders.master, pages[menuScreen.settingsVolume].Q<Slider>("Master_Slider") },
             { sliders.music, pages[menuScreen.settingsVolume].Q<Slider>("Music_Slider") },
-            { sliders.ui, pages[menuScreen.settingsVolume].Q<Slider>("UI_Slider") }
+            { sliders.ui, pages[menuScreen.settingsVolume].Q<Slider>("UI_Slider") },
+            { sliders.textSpeed, pages[menuScreen.settingsControl].Q<Slider>("Text_Speed_Slider") }
         };
 
         savedInfoManager = GameObject.Find("PermaLoader").transform.GetComponent<Saved_Info_Manager>();
@@ -95,6 +97,9 @@ public class Menu : MonoBehaviour
         allSliders[sliders.master].value = 100 * PlayerPrefs.GetFloat("masterVolume");
         allSliders[sliders.music].value = 100 * PlayerPrefs.GetFloat("musicVolume");
         allSliders[sliders.ui].value = 100 * PlayerPrefs.GetFloat("uiVolume");
+
+        //Set text speed slider value
+        allSliders[sliders.textSpeed].value = PlayerPrefs.GetFloat("textSpeed");
 
         NavigateTo(menuScreen.home); //Set home as current screen
     }
@@ -122,7 +127,7 @@ public class Menu : MonoBehaviour
     }
 
     //
-    // Settings pages
+    // Settings main page
     //
     public void ControlsNav() => NavigateTo(menuScreen.settingsControl); //To controls page
     public void VolumeNav() => NavigateTo(menuScreen.settingsVolume); //To volume page
@@ -134,11 +139,17 @@ public class Menu : MonoBehaviour
     //
     // Controls settings page
     //
+    public void ApplyControls() { //Pressing apply
+        Debug.Log("Applying changes");
+        PlayerPrefs.SetFloat("textSpeed", allSliders[sliders.textSpeed].value);
+
+        NavigateTo(menuScreen.settingsMain);
+    }
 
     //
     // Volume settings page
     //
-    public void Apply() { //Pressing the exit button
+    public void ApplyVolume() { //Pressing apply
         Debug.Log("Applying changes");
 
         PlayerPrefs.SetFloat("masterVolume", allSliders[sliders.master].value / 100);
@@ -191,11 +202,12 @@ public class Menu : MonoBehaviour
                 return;
             case menuScreen.settingsControl:
                 settingsControlBtns[settingsControlButtons.Back].clicked += BackToSettings;
+                settingsControlBtns[settingsControlButtons.applyControls].clicked += ApplyControls;
                 Debug.Log("Enabled " + section.ToString() + "'s buttons");
                 return;
             case menuScreen.settingsVolume:
                 settingsVolumeBtns[settingsVolumeButtons.Back].clicked += BackToSettings;
-                settingsVolumeBtns[settingsVolumeButtons.Apply].clicked += Apply;
+                settingsVolumeBtns[settingsVolumeButtons.applyVolume].clicked += ApplyVolume;
                 Debug.Log("Enabled " + section.ToString() + "'s buttons");
                 return;
             case menuScreen.howToPlay:
@@ -224,11 +236,12 @@ public class Menu : MonoBehaviour
                 return;
             case menuScreen.settingsControl:
                 settingsControlBtns[settingsControlButtons.Back].clicked -= BackToSettings;
+                settingsControlBtns[settingsControlButtons.applyControls].clicked -= ApplyControls;
                 Debug.Log("Disabled " + section.ToString() + "'s buttons");
                 return;
             case menuScreen.settingsVolume:
                 settingsVolumeBtns[settingsVolumeButtons.Back].clicked -= BackToSettings;
-                settingsVolumeBtns[settingsVolumeButtons.Apply].clicked -= Apply;
+                settingsVolumeBtns[settingsVolumeButtons.applyVolume].clicked -= ApplyVolume;
                 Debug.Log("Disabled " + section.ToString() + "'s buttons");
                 return;
             case menuScreen.howToPlay:

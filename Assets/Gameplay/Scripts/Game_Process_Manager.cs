@@ -16,7 +16,7 @@ public class Game_Process_Manager : MonoBehaviour
     private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
 
     [SerializeField] private BackgroundSpriteSet[] backgroundSet;
-    [SerializeField] private float textDisplayTime = 1f; //In seconds for easy alteration later
+    [SerializeField] private float textDisplayTime = 1f; //In seconds. 1 default value
 
     private Dialogue_Manger dialogueSystem;
     private Reaction_And_Event_Processing emotionAndEventProcessor;
@@ -71,6 +71,9 @@ public class Game_Process_Manager : MonoBehaviour
         modalSystem = transform.GetComponent<Modal_Managment>();
 
         Debug.Assert(optionButtons[3] != null, "Couldn't find option 4 button");
+
+        //Set Text speed to the saved setting
+        textDisplayTime = PlayerPrefs.GetFloat("textSpeed");
     }
 
     //

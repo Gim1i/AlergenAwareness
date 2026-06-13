@@ -18,7 +18,7 @@ public class Saved_Info_Manager : MonoBehaviour
         ("masterVolume", 1f),
         ("musicVolume", 1f),
         ("uiVolume", 1f),
-        ("textSpeed", 0.07f)
+        ("textSpeed", 1f)
     };
     (emotionState prefKey, int defVal)[] emotionPrefKeyList = new[] {
         (emotionState.happy, 70),

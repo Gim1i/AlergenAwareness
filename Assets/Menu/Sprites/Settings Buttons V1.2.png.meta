@@ -135,7 +135,7 @@ TextureImporter:
       name: Master
       rect:
         serializedVersion: 2
-        x: 94
+        x: 101
         y: 91
         width: 71
         height: 17
@@ -179,7 +179,7 @@ TextureImporter:
       name: Volume
       rect:
         serializedVersion: 2
-        x: 94
+        x: 101
         y: 73
         width: 73
         height: 17
@@ -223,7 +223,7 @@ TextureImporter:
       name: Back
       rect:
         serializedVersion: 2
-        x: 94
+        x: 101
         y: 55
         width: 49
         height: 17
@@ -267,7 +267,7 @@ TextureImporter:
       name: Option 2
       rect:
         serializedVersion: 2
-        x: 94
+        x: 101
         y: 37
         width: 85
         height: 17
@@ -311,7 +311,7 @@ TextureImporter:
       name: Option 4
       rect:
         serializedVersion: 2
-        x: 94
+        x: 101
         y: 19
         width: 85
         height: 17
@@ -338,7 +338,7 @@ TextureImporter:
         width: 54
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -347,6 +347,28 @@ TextureImporter:
       bones: []
       spriteID: bebe736d9f0c7b244961aba6fc9f1ad3
       internalID: 2081346893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Text Speed
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 1
+        width: 101
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33c2faf17f2a0c040a8bad557eeaa269
+      internalID: 431456039
       vertices: []
       indices: 
       edges: []
@@ -376,6 +398,7 @@ TextureImporter:
       Option 2: -1870045709
       Option 3: -2008784510
       Option 4: 1546459461
+      Text Speed: 431456039
       UI: -161554763
       Volume: 174879324
   mipmapLimitGroupName: 

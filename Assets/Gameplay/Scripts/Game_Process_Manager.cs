@@ -16,7 +16,6 @@ public class Game_Process_Manager : MonoBehaviour
     private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
 
     [SerializeField] private BackgroundSpriteSet[] backgroundSet;
-    [SerializeField] private float textDisplayTime = 1f; //In seconds. 1 default value
 
     private Dialogue_Manger dialogueSystem;
     private Reaction_And_Event_Processing emotionAndEventProcessor;
@@ -42,6 +41,8 @@ public class Game_Process_Manager : MonoBehaviour
     private UniTask currentDisplayTextTask;
     private bool isTextDisplaying = false;
     private string currentDialogueText = "";
+    private float textDisplayTime = 1f; //In seconds. 1 default value
+    private bool isDisplayAnimationEnabled = true;
 
     // Grab the UIDoc's various elements so they can be used later
     private void Awake() {
@@ -74,6 +75,7 @@ public class Game_Process_Manager : MonoBehaviour
 
         //Set Text speed to the saved setting
         textDisplayTime = PlayerPrefs.GetFloat("textSpeed");
+        if (textDisplayTime == 0) { isDisplayAnimationEnabled = false; }
     }
 
     //
@@ -99,8 +101,14 @@ public class Game_Process_Manager : MonoBehaviour
             if (nextdialogue.storyElement == 0) //Sort next dialogue and check wether its a choice
             { //If dialogue
                 currentDialogueText = nextdialogue.text[0];
-                currentDisplayTextTask = DisplayText(nextdialogue.text[0], false); //Display text one character at a time
-                if (nextdialogue.text[0] == "") { //If empty skip line (fixes start of section questions)
+                if (isDisplayAnimationEnabled) { // Check if the text display animation is enabled
+                    currentDisplayTextTask = DisplayText(nextdialogue.text[0], false); //Display text one character at a time
+                }
+                else {
+                    textDisplay.text = currentDialogueText; // Skip animation if disabled
+                }
+                if (nextdialogue.text[0] == "")
+                { //If empty skip line (fixes start of section questions)
                     NextDialoguePressed();
                 }
                 return;

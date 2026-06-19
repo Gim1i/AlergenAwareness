@@ -71,7 +71,7 @@ public class Game_Process_Manager : MonoBehaviour
         //Locate modal managment script
         modalSystem = transform.GetComponent<Modal_Managment>();
 
-        Debug.Assert(optionButtons[3] != null, "Couldn't find option 4 button");
+        Debug.Assert(modalSystem != null, "Couldn't find Modal_Managment script");
 
         //Set Text speed to the saved setting
         textDisplayTime = PlayerPrefs.GetFloat("textSpeed");

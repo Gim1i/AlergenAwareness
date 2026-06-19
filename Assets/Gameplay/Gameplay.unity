@@ -294,14 +294,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 13
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -346,7 +346,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShapeRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 1453211060}
   - component: {fileID: 1453211061}
   - component: {fileID: 1453211062}
+  - component: {fileID: 1453211063}
   m_Layer: 0
   m_Name: MainGame
   m_TagString: Untagged
@@ -548,7 +549,6 @@ MonoBehaviour:
     - sprite: {fileID: 309518614, guid: f51b39046dbc15740a297bd9633980b4, type: 3}
       time: 2
     kind: 10
-  textDisplayTime: 1
 --- !u!114 &1453211059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +688,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ade526166cc06745ae9b0310343e1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reaction_And_Event_Processing
+--- !u!114 &1453211063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453211056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f478e7ea22f91ef4e8d94dd8350c1cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pause_Menu_Manager
 --- !u!1 &1890821274
 GameObject:
   m_ObjectHideFlags: 0

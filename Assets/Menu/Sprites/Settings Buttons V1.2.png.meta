@@ -114,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 91
+        y: 109
         width: 93
         height: 17
       alignment: 0
@@ -136,7 +136,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 101
-        y: 91
+        y: 109
         width: 71
         height: 17
       alignment: 0
@@ -158,7 +158,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 73
+        y: 91
         width: 62
         height: 17
       alignment: 0
@@ -180,7 +180,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 101
-        y: 73
+        y: 91
         width: 73
         height: 17
       alignment: 0
@@ -202,7 +202,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 55
+        y: 73
         width: 29
         height: 17
       alignment: 0
@@ -224,7 +224,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 101
-        y: 55
+        y: 73
         width: 49
         height: 17
       alignment: 0
@@ -246,7 +246,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 37
+        y: 55
         width: 85
         height: 17
       alignment: 0
@@ -268,7 +268,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 101
-        y: 37
+        y: 55
         width: 85
         height: 17
       alignment: 0
@@ -290,7 +290,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 19
+        y: 37
         width: 85
         height: 17
       alignment: 0
@@ -312,7 +312,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 101
-        y: 19
+        y: 37
         width: 85
         height: 17
       alignment: 0
@@ -334,7 +334,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
+        y: 19
         width: 54
         height: 17
       alignment: 0
@@ -356,8 +356,30 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 101
-        y: 1
+        y: 19
         width: 101
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33c2faf17f2a0c040a8bad557eeaa269
+      internalID: 431456039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reset
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 55
         height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -367,8 +389,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33c2faf17f2a0c040a8bad557eeaa269
-      internalID: 431456039
+      spriteID: dccf072992aa8864499adab24caa4494
+      internalID: -1349636736
       vertices: []
       indices: 
       edges: []
@@ -398,6 +420,7 @@ TextureImporter:
       Option 2: -1870045709
       Option 3: -2008784510
       Option 4: 1546459461
+      Reset: -1349636736
       Text Speed: 431456039
       UI: -161554763
       Volume: 174879324

@@ -6,13 +6,10 @@ public class Input_Managment : MonoBehaviour
 {
     [SerializeField] private InputActionAsset inputActions;
     private Game_Process_Manager mainGameProcess;
-    private InputAction[] buttonsPressed = new InputAction[7];
+    private Pause_Menu_Manager pauseMenuHandler;
+    private InputAction[] buttonsPressed = new InputAction[6];
     private Button[] optionButtons = new Button[4];
 
-    #if DEBUG
-    private Reaction_And_Event_Processing reactions;
-    private InputAction[] testingReactions = new InputAction[3];
-    #endif
     //
     // Handles al input managment
     //
@@ -21,14 +18,17 @@ public class Input_Managment : MonoBehaviour
         inputActions.FindActionMap("Controls").Enable();
     }
 
-    private void Awake() //Store all button input managers
+    private void Awake() // Store all button input managers
     {
+        // Locate all Input System Package inputs set
         buttonsPressed[0] = InputSystem.actions.FindAction("Option_1");
         buttonsPressed[1] = InputSystem.actions.FindAction("Option_2");
         buttonsPressed[2] = InputSystem.actions.FindAction("Option_3");
         buttonsPressed[3] = InputSystem.actions.FindAction("Option_4");
         buttonsPressed[4] = InputSystem.actions.FindAction("Next");
+        buttonsPressed[5] = InputSystem.actions.FindAction("Pause");
 
+        // Save the 4 option selecting buttons
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
         optionButtons[0] = gameDisplay.Q<CustomUXML.UI.AspectRatioButton>("Option_1");
         optionButtons[1] = gameDisplay.Q<CustomUXML.UI.AspectRatioButton>("Option_2");
@@ -39,47 +39,35 @@ public class Input_Managment : MonoBehaviour
         Debug.Assert(optionButtons[1] != null, "Option 2 button missing");
         Debug.Assert(optionButtons[2] != null, "Option 3 button missing");
         Debug.Assert(optionButtons[3] != null, "Option 4 button missing");
-
-        #if DEBUG
-        testingReactions[0] = InputSystem.actions.FindAction("J");
-        testingReactions[1] = InputSystem.actions.FindAction("K");
-        testingReactions[2] = InputSystem.actions.FindAction("L");
-        #endif
     }
 
-    private void Start() //Set input buttons up
+    private void Start() // Set input buttons
     {
+        // Setup the 4 button's actions
         optionButtons[0].clicked += ClickedBnt1;
         optionButtons[1].clicked += ClickedBnt2;
         optionButtons[2].clicked += ClickedBnt3;
         optionButtons[3].clicked += ClickedBnt4;
 
         mainGameProcess = transform.GetComponent<Game_Process_Manager>();
-
-        #if DEBUG
-        reactions = transform.GetComponent<Reaction_And_Event_Processing>();
-        #endif
+        pauseMenuHandler = transform.GetComponent<Pause_Menu_Manager>();
     }
 
-private void Update()
+    private void Update() // All keyboard inputs (And tapping/clicking a screen)
     {
-        if (buttonsPressed[4].WasPressedThisFrame()) { //If any valid button to got to the next line of dialogue is pressed
+        if (buttonsPressed[4].WasPressedThisFrame()) { // If any valid button to got to the next line of dialogue is pressed
             mainGameProcess.NextDialoguePressed();
         }
-        for (int i = 0; i < 4; i++) //Run though the 4 option inputs
+        for (int i = 0; i < 4; i++) // Run though the 4 option inputs
         {
-            if (buttonsPressed[i].WasPressedThisFrame()) { //If option pressed
+            if (buttonsPressed[i].WasPressedThisFrame()) { // If option pressed
                 mainGameProcess.OptionSelected(i);
             }
         }
 
-        #if DEBUG
-        for (int i = 0; i < 3; i++) { //Run though the 3 test inputs
-            if (testingReactions[i].WasPressedThisFrame()) { //If input pressed
-                reactions.reactions.TestReactions(i);
-            }
+        if (buttonsPressed[5].WasPressedThisFrame()){ // Buttons to open the pause menu
+            pauseMenuHandler.EnableMenu();
         }
-        #endif
     }
 
     public void ClickedBnt1() { mainGameProcess.OptionSelected(0); }

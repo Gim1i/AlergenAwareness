@@ -11,7 +11,6 @@ public class Input_Managment : MonoBehaviour
 
     private Game_Process_Manager mainGameProcess;
     private Menu_Manager pauseMenuHandler;
-    private InputAction[] buttonsPressed = new InputAction[6];
     private Button[] optionButtons = new Button[4];
 
     private Dictionary<inputMap, InputActionMap> inputMaps; // Stores all the action maps
@@ -52,17 +51,6 @@ public class Input_Managment : MonoBehaviour
                 { "unpause", InputSystem.actions.FindAction("Unpause") }
             }}
         };
-        
-        buttonsPressed[0] = InputSystem.actions.FindAction("Option_1");
-        buttonsPressed[1] = InputSystem.actions.FindAction("Option_2");
-        buttonsPressed[2] = InputSystem.actions.FindAction("Option_3");
-        buttonsPressed[3] = InputSystem.actions.FindAction("Option_4");
-        buttonsPressed[4] = InputSystem.actions.FindAction("Next");
-        buttonsPressed[5] = InputSystem.actions.FindAction("Pause");
-
-        // Locate all Gameplay input actions
-        buttonsPressed[5] = InputSystem.actions.FindAction("Pause");
-
 
         // Save the 4 option selecting buttons
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
@@ -131,6 +119,7 @@ public class Input_Managment : MonoBehaviour
             inputMaps[inputMap.Gameplay].Enable();
             inputMaps[inputMap.PauseMenu].Disable();
 
+            mainGameProcess.ChangeGameProcessManagerPauseState(false);
             isGamePaused = false;
         }
         else
@@ -145,6 +134,7 @@ public class Input_Managment : MonoBehaviour
             inputMaps[inputMap.Gameplay].Disable();
             inputMaps[inputMap.PauseMenu].Enable();
 
+            mainGameProcess.ChangeGameProcessManagerPauseState(true);
             isGamePaused = true;
         }
     }

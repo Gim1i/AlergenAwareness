@@ -1,19 +1,16 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-//Home Driving Delays event         -> more likely to late wake
+// Home Driving Delays event         -> more likely to late wake
 public class Game_Process_Manager : MonoBehaviour
 {
     public enum daySection { dayStart, workStartTravel, firstWork, lunch, secondWork, workEndTravel, afternoon, homeTravel, dayEnd }
 
     private enum backgroundTime { day, afternoon, evening };
     private enum backgroundKind { bedroom, driving, officeJob, officeBreakRoom, coffeeShop, jenns, saladDeli, livingRoom, gym, resturaunt, pub};
-    private enum option { unchosen, one, two, three, four, alergy }; //If used as bool "one" is true and "two" is false
+    private enum option { unchosen, one, two, three, four, alergy }; // If used as bool "one" is true and "two" is false
 
     [SerializeField] private BackgroundSpriteSet[] backgroundSet;
 
@@ -25,7 +22,7 @@ public class Game_Process_Manager : MonoBehaviour
     private VisualElement optionsTemplate;
     private Button[] optionButtons = new Button[4];
 
-    private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { //All the current day's events (by section)
+    private Dictionary<daySection, int> todaysChanceEvents = new Dictionary<daySection, int>() { // All the current day's events (by section)
         { daySection.dayStart, 0 },
         { daySection.workStartTravel, 0 },
         { daySection.firstWork, 0 },
@@ -41,12 +38,11 @@ public class Game_Process_Manager : MonoBehaviour
     private UniTask currentDisplayTextTask;
     private bool isTextDisplaying = false;
     private string currentDialogueText = "";
-    private float textDisplayTime = 1f; //In seconds. 1 default value
-    private bool isDisplayAnimationEnabled = true;
+    private bool isGamePaused = false;
 
     // Grab the UIDoc's various elements so they can be used later
     private void Awake() {
-        //Get Main UI elements
+        // Get Main UI elements
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
         textDisplay = gameDisplay.Q<CustomUXML.UI.AspectRatioLabel>("TextBox");
         background = gameDisplay.Q<VisualElement>("Background");
@@ -55,7 +51,7 @@ public class Game_Process_Manager : MonoBehaviour
         Debug.Assert(textDisplay != null, "Couldn't find the text display");
         Debug.Assert(background != null, "Couldn't find the background");
 
-        //Get option buttons
+        // Get option buttons
         optionsTemplate = gameDisplay.Q<TemplateContainer>("Option_Input_Template");
         optionButtons[0] = optionsTemplate.Q<Button>("Option_1");
         optionButtons[1] = optionsTemplate.Q<Button>("Option_2");
@@ -68,21 +64,17 @@ public class Game_Process_Manager : MonoBehaviour
         Debug.Assert(optionButtons[2] != null, "Couldn't find option 3 button");
         Debug.Assert(optionButtons[3] != null, "Couldn't find option 4 button");
 
-        //Locate modal managment script
+        // Locate modal managment script
         modalSystem = transform.GetComponent<Modal_Managment>();
 
         Debug.Assert(modalSystem != null, "Couldn't find Modal_Managment script");
-
-        //Set Text speed to the saved setting
-        textDisplayTime = PlayerPrefs.GetFloat("textSpeed");
-        if (textDisplayTime == 0) { isDisplayAnimationEnabled = false; }
     }
 
     //
     // Input code activated by Input_Managment script
     //
-    public void OptionSelected(int option) { //Handles player input as one (Much easier)
-        if (isChoiceActive) { //Ensure choice input is required
+    public void OptionSelected(int option) { // Handles player input as one (Much easier)
+        if (isChoiceActive) { // Ensure choice input is required
             Debug.Log("Option " + (option + 1) + " chosen");
             dialogueSystem.ChooseChoice(option);
             isChoiceActive = false;
@@ -94,37 +86,37 @@ public class Game_Process_Manager : MonoBehaviour
 
     public void NextDialoguePressed()
     {
-        if (isChoiceActive) { return; } //Skip if choice is active
+        if (isChoiceActive) { return; } // Skip if choice is active
 
-		if (!isChoiceActive && !isTextDisplaying) { //If text isn't displaying
+		if (!isChoiceActive && !isTextDisplaying) { // If text isn't displaying
             (int storyElement, string[] text) nextdialogue = dialogueSystem.NextDialogue();
-            if (nextdialogue.storyElement == 0) //Sort next dialogue and check wether its a choice
-            { //If dialogue
+            if (nextdialogue.storyElement == 0) // Sort next dialogue and check wether its a choice
+            { // If dialogue
                 currentDialogueText = nextdialogue.text[0];
-                if (isDisplayAnimationEnabled) { // Check if the text display animation is enabled
-                    currentDisplayTextTask = DisplayText(nextdialogue.text[0], false); //Display text one character at a time
+                if (PlayerPrefs.GetFloat("textSpeed") > 0) { // Check if the text display animation is enabled
+                    currentDisplayTextTask = DisplayText(nextdialogue.text[0], false); // Display text one character at a time
                 }
                 else {
                     textDisplay.text = currentDialogueText; // Skip animation if disabled
                 }
                 if (nextdialogue.text[0] == "")
-                { //If empty skip line (fixes start of section questions)
+                { // If empty skip line (fixes start of section questions)
                     NextDialoguePressed();
                 }
                 return;
             }
             else if (nextdialogue.storyElement == 1)
-            { //If choice
+            { // If choice
                 textDisplay.text = "";
                 optionsTemplate.SetEnabled(true);
                 optionsTemplate.style.display = DisplayStyle.Flex;
 
-                for (int i = 0; i < nextdialogue.text.Length; i++) { //Setup buttons that need to be active
+                for (int i = 0; i < nextdialogue.text.Length; i++) { // Setup buttons that need to be active
                     optionButtons[i].style.display = DisplayStyle.Flex;
                     optionButtons[i].text = i + 1 + ". " + nextdialogue.text[i];
                     optionButtons[i].SetEnabled(true);
                 }
-                for (int i = nextdialogue.text.Length; i < optionButtons.Length; i++) { //Hide and clear buttons that dont need to be active
+                for (int i = nextdialogue.text.Length; i < optionButtons.Length; i++) { // Hide and clear buttons that dont need to be active
                     optionButtons[i].style.display = DisplayStyle.None;
                     optionButtons[i].text = "";
                     optionButtons[i].SetEnabled(false);
@@ -133,14 +125,14 @@ public class Game_Process_Manager : MonoBehaviour
                 return;
             }
             else
-            { //If end of Knot
+            { // If end of Knot
                 NextSection();
                 return;
             }
         }
-        else if (isTextDisplaying) { //If text is being displayed
-            isTextDisplaying = false; //Stop displaying
-            textDisplay.text = currentDialogueText;//Update text to show its completed form
+        else if (isTextDisplaying) { // If text is being displayed
+            isTextDisplaying = false; // Stop displaying
+            textDisplay.text = currentDialogueText;// Update text to show its completed form
             return;
         }
     }
@@ -153,7 +145,7 @@ public class Game_Process_Manager : MonoBehaviour
         dialogueSystem = transform.GetComponent<Dialogue_Manger>();
         emotionAndEventProcessor = transform.GetComponent<Reaction_And_Event_Processing>();
 
-        var events = emotionAndEventProcessor.events.EvaliuateChanceEvents(); //Roll for any random event
+        var events = emotionAndEventProcessor.events.EvaliuateChanceEvents(); // Roll for any random event
         todaysChanceEvents = events.chanceEvents;
         dialogueSystem.SetSavedEvent("heavyDrinking", events.isHeavyDrinking);
 
@@ -162,7 +154,7 @@ public class Game_Process_Manager : MonoBehaviour
         SetApproprateBackground("bedroom.day");
         emotionAndEventProcessor.reactions.RefreshModals();
 
-        //Part of the NextSection function to set up for the first section
+        // Part of the NextSection function to set up for the first section
         Debug.Log("Up next: " + daysInfo.currentDaySection.section);
         dialogueSystem.SetupSection((int)daysInfo.currentDaySection.section, todaysChanceEvents[daysInfo.currentDaySection.section]);
         NextDialoguePressed();
@@ -171,27 +163,27 @@ public class Game_Process_Manager : MonoBehaviour
     //
     // Regular game flow
     //
-    public void SetApproprateBackground(string bgDetails) //Get the proper background sprite
+    public void SetApproprateBackground(string bgDetails) // Get the proper background sprite
     {
         string[] splitDetails = bgDetails.Split('.');
         string bgKind = splitDetails[0];
         string bgTime = splitDetails[1];
 
-        for (int i = 0; i < backgroundSet.Length; i++) { //Locate the correct sprite for the input section
-            if (backgroundSet[i].isKind(bgKind) ) //If the kind in tag
+        for (int i = 0; i < backgroundSet.Length; i++) { // Locate the correct sprite for the input section
+            if (backgroundSet[i].isKind(bgKind) ) // If the kind in tag
             {
-                background.style.backgroundImage = new StyleBackground(backgroundSet[i].LocateTime(bgTime)); //Set background
+                background.style.backgroundImage = new StyleBackground(backgroundSet[i].LocateTime(bgTime)); // Set background
                 Debug.Log("Set background to " + bgDetails);
-                return; //and exit
+                return; // and exit
             }
         }
         Debug.Assert(false, "Background texture asignment failed");
     }
     
-    private void NextSection() //Does all the setup for going to the next section
+    private void NextSection() // Does all the setup for going to the next section
     {
         daysInfo.currentDaySection.NextSection();
-        if (daysInfo.currentDaySection.section == daySection.firstWork && dialogueSystem.GetSavedEvent("skipFirstWork")) { //Skip section if skip section flag is set
+        if (daysInfo.currentDaySection.section == daySection.firstWork && dialogueSystem.GetSavedEvent("skipFirstWork")) { // Skip section if skip section flag is set
             daysInfo.currentDaySection.NextSection();
         }
         else if (daysInfo.currentDaySection.section == daySection.homeTravel && dialogueSystem.GetSavedEvent("skipHomeTravel")) {
@@ -203,20 +195,29 @@ public class Game_Process_Manager : MonoBehaviour
         NextDialoguePressed();
     }
 
-    private async UniTask DisplayText(string textToDisplay, bool isChoice) //Takes the text to display to the user and updates it one character at a time
+    private async UniTask DisplayText(string textToDisplay, bool isChoice) // Takes the text to display to the user and updates it one character at a time
     {
         isTextDisplaying = true;
         textDisplay.text = "";
         int textLength = textToDisplay.Length;
-        float textDisplaySpeed = textDisplayTime / textLength; //Calculate the speed based of the time
-        for (int i = 0; i < textLength; i++) //For each character in the display text
+        for (int i = 0; i < textLength; i++) // For each character in the display text
         {
-            if (!isTextDisplaying) { return; } //If something else tells it to stop exit
-            textDisplay.text += textToDisplay[i]; //Add next character
-            await UniTask.Delay((int)(textDisplaySpeed * 1000)); //Wait
+            while (isGamePaused) { await UniTask.Yield(); } // Loops forever to "Pause" this function. One of the MOST cursed lines in this program
+            float textDisplayTime = PlayerPrefs.GetFloat("textSpeed"); // Get the text display time
+            if (textDisplayTime <= 0) { // If the text display time was set to 0, end display animation
+                textDisplay.text = textToDisplay;
+                break;
+            }
+
+            if (!isTextDisplaying) { return; } // If something else tells it to stop exit
+            textDisplay.text += textToDisplay[i]; // Add next character
+            await UniTask.Delay((int)((textDisplayTime / textLength) * 1000)); // Wait
         }
         isTextDisplaying = false;
     }
+
+    // A passthough for Input_Managment allowing the text display animation to pause when the pause menu is open
+    public void ChangeGameProcessManagerPauseState(bool state) { isGamePaused = state; }
 
     //
     // All information about the current day. Resets on the next day due to the scene being re-made
@@ -226,7 +227,7 @@ public class Game_Process_Manager : MonoBehaviour
         public static class currentDaySection
         {
             public static daySection section { get; private set; } = daySection.dayStart;
-            public static void NextSection() { //Move to next day section
+            public static void NextSection() { // Move to next day section
                 if (section != daySection.dayEnd) {
                     section = (daySection)((int)section + 1);
                 } else {

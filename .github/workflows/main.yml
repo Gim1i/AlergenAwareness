@@ -3,7 +3,7 @@ name: Build and deploy to Itch
 on:
   push: # On push to main, auto build and publish to itch (also activates on direct commit but shouldn't happen)
     branches:
-      - main
+      - live
   workflow_dispatch: # Manual activation for testing
 
 env:

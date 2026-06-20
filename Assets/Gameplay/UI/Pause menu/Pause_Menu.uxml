@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="Main_Pause_Page" src="project://database/Assets/Gameplay/UI/Pause%20menu/Main_Pause_Page.uxml?fileID=9197481963319205126&amp;guid=3f683cf4a2c5e4d48aba74788eb5d161&amp;type=3#Main_Pause_Page"/>
+    <ui:Template name="Menu_Settings_Main" src="project://database/Assets/Universal%20Stuff/UI/Pages/Menu_Settings_Main.uxml?fileID=9197481963319205126&amp;guid=a880ef2ab976cdd468583510323aaacc&amp;type=3#Menu_Settings_Main"/>
+    <ui:Template name="Settings_Controls" src="project://database/Assets/Universal%20Stuff/UI/Pages/Settings_Controls.uxml?fileID=9197481963319205126&amp;guid=665d3b7ff6a5bcc4d9f2516c6a831949&amp;type=3#Settings_Controls"/>
+    <ui:Template name="Settings_HowToPlay" src="project://database/Assets/Universal%20Stuff/UI/Pages/Settings_HowToPlay.uxml?fileID=9197481963319205126&amp;guid=445120672c7219f4f8d857ccb319ffb8&amp;type=3#Settings_HowToPlay"/>
+    <ui:Template name="Settings_Volume" src="project://database/Assets/Universal%20Stuff/UI/Pages/Settings_Volume.uxml?fileID=9197481963319205126&amp;guid=d2dee96ea4bedf543b951704614296d7&amp;type=3#Settings_Volume"/>
+    <Style src="project://database/Assets/Universal%20Stuff/UI/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3#Universal_Styles"/>
+    <ui:VisualElement name="PauseMenu_Background" style="right: 0; bottom: 0; left: 0; top: 0; background-color: rgba(0, 0, 0, 0.647); flex-grow: 1; visibility: hidden;"/>
+    <ui:Instance template="Settings_Controls" name="Controls_Template" enabled="false" class="Template" style="visibility: hidden;"/>
+    <ui:Instance template="Settings_HowToPlay" name="HowToPlay_Template" enabled="false" class="Template" style="visibility: hidden;"/>
+    <ui:Instance template="Settings_Volume" name="Volume_Template" enabled="false" class="Template" style="visibility: hidden;"/>
+    <ui:Instance template="Main_Pause_Page" name="MainPausePage_Template" enabled="false" class="Template" style="visibility: hidden;"/>
+    <ui:Instance template="Menu_Settings_Main" name="SettingsNav_Template" enabled="false" class="Template" style="visibility: hidden;"/>
+</ui:UXML>

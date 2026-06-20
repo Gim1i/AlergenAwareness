@@ -459,6 +459,7 @@ GameObject:
   - component: {fileID: 1453211061}
   - component: {fileID: 1453211062}
   - component: {fileID: 1453211063}
+  - component: {fileID: 1453211064}
   m_Layer: 0
   m_Name: MainGame
   m_TagString: Untagged
@@ -697,9 +698,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1453211056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f478e7ea22f91ef4e8d94dd8350c1cf9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d839a420c33a78479996e4b7b260bbd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Pause_Menu_Manager
+  m_EditorClassIdentifier: Assembly-CSharp::Menu_Manager
+  isMainMenu: 0
+  menuUIName: MainPausePage_Template
+  menuBackgroundName: PauseMenu_Background
+--- !u!114 &1453211064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453211056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07cb74080fa6f514b938e04c481629c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Settings_Handler
+  settingsUI: {fileID: 1890821276}
 --- !u!1 &1890821274
 GameObject:
   m_ObjectHideFlags: 0

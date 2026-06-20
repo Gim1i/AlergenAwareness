@@ -1,32 +1,68 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class Input_Managment : MonoBehaviour
 {
+    enum inputMap { Gameplay, PauseMenu }
+
     [SerializeField] private InputActionAsset inputActions;
+
     private Game_Process_Manager mainGameProcess;
-    private Pause_Menu_Manager pauseMenuHandler;
+    private Menu_Manager pauseMenuHandler;
     private InputAction[] buttonsPressed = new InputAction[6];
     private Button[] optionButtons = new Button[4];
+
+    private Dictionary<inputMap, InputActionMap> inputMaps; // Stores all the action maps
+    private Dictionary<inputMap, Dictionary<string, InputAction>> mappedButtons;
+    private bool isGamePaused = false;
 
     //
     // Handles al input managment
     //
     private void OnEnable()
     {
-        inputActions.FindActionMap("Controls").Enable();
+        inputMaps = new Dictionary<inputMap, InputActionMap>
+        {
+            { inputMap.Gameplay,  inputActions.FindActionMap("Gameplay")  },
+            { inputMap.PauseMenu, inputActions.FindActionMap("PauseMenu") }
+        };
+
+        inputMaps[inputMap.Gameplay].Enable();
     }
 
     private void Awake() // Store all button input managers
     {
-        // Locate all Input System Package inputs set
+        // Locate all the input actions in the game
+        mappedButtons = new Dictionary<inputMap, Dictionary<string, InputAction>>
+        {
+            // Gameplay
+            { inputMap.Gameplay, new Dictionary<string, InputAction> {
+                { "option 1", InputSystem.actions.FindAction("Option_1") },
+                { "option 2", InputSystem.actions.FindAction("Option_2") },
+                { "option 3", InputSystem.actions.FindAction("Option_3") },
+                { "option 4", InputSystem.actions.FindAction("Option_4") },
+                { "next",     InputSystem.actions.FindAction("Next")     },
+                { "pause",    InputSystem.actions.FindAction("Pause")    }
+            }},
+
+            // Pause Menu
+            { inputMap.PauseMenu, new Dictionary<string, InputAction> {
+                { "unpause", InputSystem.actions.FindAction("Unpause") }
+            }}
+        };
+        
         buttonsPressed[0] = InputSystem.actions.FindAction("Option_1");
         buttonsPressed[1] = InputSystem.actions.FindAction("Option_2");
         buttonsPressed[2] = InputSystem.actions.FindAction("Option_3");
         buttonsPressed[3] = InputSystem.actions.FindAction("Option_4");
         buttonsPressed[4] = InputSystem.actions.FindAction("Next");
         buttonsPressed[5] = InputSystem.actions.FindAction("Pause");
+
+        // Locate all Gameplay input actions
+        buttonsPressed[5] = InputSystem.actions.FindAction("Pause");
+
 
         // Save the 4 option selecting buttons
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
@@ -39,6 +75,9 @@ public class Input_Managment : MonoBehaviour
         Debug.Assert(optionButtons[1] != null, "Option 2 button missing");
         Debug.Assert(optionButtons[2] != null, "Option 3 button missing");
         Debug.Assert(optionButtons[3] != null, "Option 4 button missing");
+
+        pauseMenuHandler = transform.GetComponent<Menu_Manager>();
+        Debug.Assert(pauseMenuHandler != null, "Pause menu manager not present");
     }
 
     private void Start() // Set input buttons
@@ -50,23 +89,63 @@ public class Input_Managment : MonoBehaviour
         optionButtons[3].clicked += ClickedBnt4;
 
         mainGameProcess = transform.GetComponent<Game_Process_Manager>();
-        pauseMenuHandler = transform.GetComponent<Pause_Menu_Manager>();
+        pauseMenuHandler = transform.GetComponent<Menu_Manager>();
     }
 
     private void Update() // All keyboard inputs (And tapping/clicking a screen)
     {
-        if (buttonsPressed[4].WasPressedThisFrame()) { // If any valid button to got to the next line of dialogue is pressed
+        // If any valid button to got to the next line of dialogue is pressed
+        if (mappedButtons[inputMap.Gameplay]["next"].WasPressedThisFrame())
+        {
             mainGameProcess.NextDialoguePressed();
         }
-        for (int i = 0; i < 4; i++) // Run though the 4 option inputs
-        {
-            if (buttonsPressed[i].WasPressedThisFrame()) { // If option pressed
-                mainGameProcess.OptionSelected(i);
-            }
-        }
 
-        if (buttonsPressed[5].WasPressedThisFrame()){ // Buttons to open the pause menu
-            pauseMenuHandler.EnableMenu();
+        // Pausing the game
+        if (mappedButtons[inputMap.Gameplay]["pause"].WasPressedThisFrame()) { ToggleGamePause(); }
+
+        // Unpausing the game
+        if (mappedButtons[inputMap.PauseMenu]["unpause"].WasPressedThisFrame()) { ToggleGamePause(); }
+
+        // If any option is pressed
+        if (mappedButtons[inputMap.Gameplay]["option 1"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(0); }
+        if (mappedButtons[inputMap.Gameplay]["option 2"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(1); }
+        if (mappedButtons[inputMap.Gameplay]["option 3"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(2); }
+        if (mappedButtons[inputMap.Gameplay]["option 4"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(3); }
+    }
+
+    //
+    // Pausing the game when the Pause Menu is up
+    //
+    private void ToggleGamePause()
+    {
+        pauseMenuHandler.ToggleEntireMenuVisability();
+        if (isGamePaused)
+        {
+            // Re-enable the buttons
+            optionButtons[0].clicked += ClickedBnt1;
+            optionButtons[1].clicked += ClickedBnt2;
+            optionButtons[2].clicked += ClickedBnt3;
+            optionButtons[3].clicked += ClickedBnt4;
+
+            // Turn on the game controls again
+            inputMaps[inputMap.Gameplay].Enable();
+            inputMaps[inputMap.PauseMenu].Disable();
+
+            isGamePaused = false;
+        }
+        else
+        {
+            // Disable the buttons
+            optionButtons[0].clicked -= ClickedBnt1;
+            optionButtons[1].clicked -= ClickedBnt2;
+            optionButtons[2].clicked -= ClickedBnt3;
+            optionButtons[3].clicked -= ClickedBnt4;
+
+            // Turn off the game controls
+            inputMaps[inputMap.Gameplay].Disable();
+            inputMaps[inputMap.PauseMenu].Enable();
+
+            isGamePaused = true;
         }
     }
 

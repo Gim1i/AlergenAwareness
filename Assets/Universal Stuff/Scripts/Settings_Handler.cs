@@ -1,30 +1,32 @@
 using System.Collections.Generic;
-using TMPro;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class Menu : MonoBehaviour
+public class Settings_Handler : MonoBehaviour
 {
+    [SerializeField] private UIDocument settingsUI; // Stores the menu's template
+
     private Dictionary<ID, Button> menuButtons; // Stores all buttons
     private Dictionary<ID, Slider> menuSliders; // Stores all sliders
     private Dictionary<ID, TemplateContainer> pageTemplates; // Stores all page's TemplateContainer
 
-    private ID currentScreen = Page.homePage;
     private Saved_Info_Manager savedInfoManager;
+    private Menu_Manager menuManager;
+    private ID currentScreen = Page.closed;
 
     //
     // Setup
     //
     private void Awake()
     {
-        VisualElement UI = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
+        Debug.Assert(settingsUI != null, "Settings UI Document not set");
+        VisualElement UI = settingsUI.rootVisualElement;
 
         // Get and link each page's TemplateContainer to its internal Page ID
         pageTemplates = new Dictionary<ID, TemplateContainer>
         {
-            { Page.homePage,        UI.Q<TemplateContainer>("Home_Template")         },
-            { Page.settingsNavPage, UI.Q<TemplateContainer>("SettingsMain_Template") },
+            { Page.settingsNavPage, UI.Q<TemplateContainer>("SettingsNav_Template") },
             { Page.controlsPage,    UI.Q<TemplateContainer>("Controls_Template")     },
             { Page.volumePage,      UI.Q<TemplateContainer>("Volume_Template")       },
             { Page.howToPlayPage,   UI.Q<TemplateContainer>("HowToPlay_Template")    },
@@ -33,12 +35,6 @@ public class Menu : MonoBehaviour
         // Assign all buttons to their respective internal IDs
         menuButtons = new Dictionary<ID, Button>
         {
-            // Home buttons
-            { Page.home.buttons.Continue, pageTemplates[Page.homePage].Q<Button>("Continue") },
-            { Page.home.buttons.New,      pageTemplates[Page.homePage].Q<Button>("New")      },
-            { Page.home.buttons.settings, pageTemplates[Page.homePage].Q<Button>("Settings") },
-            { Page.home.buttons.exit,     pageTemplates[Page.homePage].Q<Button>("Exit")     },
-
             // Settings Nav buttons
             { Page.settingsNav.buttons.control,   pageTemplates[Page.settingsNavPage].Q<Button>("Controls")  },
             { Page.settingsNav.buttons.volume,    pageTemplates[Page.settingsNavPage].Q<Button>("Volume")    },
@@ -74,18 +70,17 @@ public class Menu : MonoBehaviour
             { Page.volume.sliders.ui,     pageTemplates[Page.volumePage].Q<Slider>("UI_Slider")     }
         };
 
+        // Try to locate the Saved_Info_Manager
         savedInfoManager = GameObject.Find("PermaLoader").transform.GetComponent<Saved_Info_Manager>();
         Debug.Assert(savedInfoManager != null, "Couldn't find the saved info manager");
+
+        // Get the Menu_Manager
+        menuManager = transform.GetComponent<Menu_Manager>();
+        Debug.Assert(menuManager != null, "Menu manager not present");
     }
 
     private void Start()
     {
-        if (PlayerPrefs.GetInt("existingGame") != 0) { // If theres a game saved
-            menuButtons[Page.home.buttons.Continue].SetEnabled(true); // Enable the continue button
-        } else {
-            menuButtons[Page.home.buttons.Continue].SetEnabled(false); //Disable if no saved game
-        }
-
         // Set values for volume sliders
         menuSliders[Page.volume.sliders.master].value = 100 * PlayerPrefs.GetFloat("masterVolume");
         menuSliders[Page.volume.sliders.music].value  = 100 * PlayerPrefs.GetFloat("musicVolume");
@@ -95,60 +90,38 @@ public class Menu : MonoBehaviour
         menuSliders[Page.controls.sliders.textSpeed].value = PlayerPrefs.GetFloat("textSpeed");
 
         EnableControls();
-        NavigateTo(Page.homePage); //Set home as current screen
-    }
-
-    //
-    // Main menu
-    //
-    public void Settings() => NavigateTo(Page.settingsNavPage); //To settings
-
-    public void Continue() { //Pressing the continue button
-        Debug.Log("Continuing game");
-        SceneManager.LoadScene("Gameplay");
-    }
-    public void New() { //Pressing the new button
-        Debug.Log("New game");
-        savedInfoManager.ResetGamePrefs();
-        PlayerPrefs.SetInt("existingGame", 1);
-        SceneManager.LoadScene("Gameplay");
-    }
-    public void Exit() { //Pressing the exit button
-        Application.Quit();
-        #if DEBUG //End unity debuger if debuging
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
     }
 
     //
     // Settings main page
     //
-    public void ControlsNav()  => NavigateTo(Page.controlsPage); //To controls page
-    public void VolumeNav()    => NavigateTo(Page.volumePage); //To volume page
-    public void HowToPlayNav() => NavigateTo(Page.howToPlayPage); //To how to play page
-    public void BackToHome()   => NavigateTo(Page.homePage); //To main menu
+    public void ControlsNav()  => NavigateTo(Page.controlsPage);   // To controls page
+    public void VolumeNav()    => NavigateTo(Page.volumePage);       // To volume page
+    public void HowToPlayNav() => NavigateTo(Page.howToPlayPage); // To how to play page
+    public void BackToHome()   => NavigateTo(Page.closed);          // To main menu
 
-    public void BackToSettings() => NavigateTo(Page.settingsNavPage); //To settings main page (from all sub-pages)
+    public void BackToSettings() => NavigateTo(Page.settingsNavPage); // To settings main page (from all sub-pages)
 
-    public void ResetSettings() //Reset settings
+    public void ResetSettings() // Reset settings
     {
         Debug.Log("Resetting settings");
         savedInfoManager.ResetSettingsPrefs();
 
         // Update all sliders to their new values
         menuSliders[Page.volume.sliders.master].value = 100 * PlayerPrefs.GetFloat("masterVolume");
-        menuSliders[Page.volume.sliders.music].value = 100 * PlayerPrefs.GetFloat("musicVolume");
-        menuSliders[Page.volume.sliders.ui].value = 100 * PlayerPrefs.GetFloat("uiVolume");
+        menuSliders[Page.volume.sliders.music].value  = 100 * PlayerPrefs.GetFloat("musicVolume");
+        menuSliders[Page.volume.sliders.ui].value     = 100 * PlayerPrefs.GetFloat("uiVolume");
 
         menuSliders[Page.controls.sliders.textSpeed].value = PlayerPrefs.GetFloat("textSpeed");
 
-        NavigateTo(Page.homePage); // To main menu (user feedback)
+        NavigateTo(Page.closed); // To main menu (user feedback)
     }
 
     //
     // Controls settings page
     //
-    public void ApplyControls() { //Pressing apply
+    public void ApplyControls() // Pressing apply
+    {
         Debug.Log("Applying changes");
         PlayerPrefs.SetFloat("textSpeed", menuSliders[Page.controls.sliders.textSpeed].value);
 
@@ -158,7 +131,8 @@ public class Menu : MonoBehaviour
     //
     // Volume settings page
     //
-    public void ApplyVolume() { //Pressing apply
+    public void ApplyVolume() // Pressing apply
+    {
         Debug.Log("Applying changes");
 
         PlayerPrefs.SetFloat("masterVolume", menuSliders[Page.volume.sliders.master].value / 100);
@@ -177,25 +151,56 @@ public class Menu : MonoBehaviour
     //
     private void NavigateTo(ID screenTo)
     {
-        Debug.Log("To "+screenTo.ToString());
-        pageTemplates[currentScreen].visible = false;
-        pageTemplates[currentScreen].SetEnabled(false);
-        pageTemplates[screenTo].visible = true;
-        pageTemplates[screenTo].SetEnabled(true);
-        currentScreen = screenTo;
+        // Exiting the menu if needed
+        if (screenTo == Page.closed)
+        {
+            pageTemplates[currentScreen].visible = false;
+            pageTemplates[currentScreen].SetEnabled(false);
+            currentScreen = screenTo;
+            Debug.Log("Closing settings");
+            menuManager.ToggleMainMenuVisability();
+        } else
+        {
+            Debug.Log("To " + screenTo);
+            pageTemplates[currentScreen].visible = false;
+            pageTemplates[currentScreen].SetEnabled(false);
+            pageTemplates[screenTo].visible = true;
+            pageTemplates[screenTo].SetEnabled(true);
+            currentScreen = screenTo;
+        }
+
+        // Reset the sliders (as any value input wasnt saved)
+        if (screenTo == Page.controlsPage) {
+            menuSliders[Page.controls.sliders.textSpeed].value = PlayerPrefs.GetFloat("textSpeed");
+        }
+
+        if (screenTo == Page.volumePage) {
+            menuSliders[Page.volume.sliders.master].value = 100 * PlayerPrefs.GetFloat("masterVolume");
+            menuSliders[Page.volume.sliders.music].value  = 100 * PlayerPrefs.GetFloat("musicVolume");
+            menuSliders[Page.volume.sliders.ui].value     = 100 * PlayerPrefs.GetFloat("uiVolume");
+        }
     }
+
+    // Open the settings from another script
+    public void OpenSettings()
+    {
+        Debug.Log("Opening settings");
+        currentScreen = Page.settingsNavPage;
+        pageTemplates[currentScreen].visible = true;
+        pageTemplates[currentScreen].SetEnabled(true);
+    }
+
+    // Resets game related player prefs (means I dont gotta store Saved_Info_Manager in the Menu_Manager)
+    public void ResetGamePrefs() { savedInfoManager.ResetGamePrefs(); }
+
+    // Force exit settings
+    public void ForceCloseSettings() { NavigateTo(Page.closed); }
 
     //
     //  Setup the buttons
     //
     private void EnableControls() //Turns on the buttons
     {
-        // Main page
-        menuButtons[Page.home.buttons.Continue].clicked += Continue;
-        menuButtons[Page.home.buttons.New].clicked      += New;
-        menuButtons[Page.home.buttons.settings].clicked += Settings;
-        menuButtons[Page.home.buttons.exit].clicked     += Exit;
-
         // Main settings page
         menuButtons[Page.settingsNav.buttons.control].clicked   += ControlsNav;
         menuButtons[Page.settingsNav.buttons.volume].clicked    += VolumeNav;
@@ -215,30 +220,14 @@ public class Menu : MonoBehaviour
         menuButtons[Page.howToPlay.buttons.back].clicked += BackToSettings;
         Debug.Log("Enabled buttons");
     }
-    
+
     //
     // Custom "enum" to categorise pages, buttons and sliders in a better format
     // Stores: the page its on, wether its a button or a slider and its unique ID
     //
     private static class Page
     {
-        //
-        // Home
-        //
-        public static readonly ID homePage = 1;
-        public static class home
-        {
-            // Buttons
-            public static readonly ID button = homePage[0];
-            public static class buttons
-            {
-                public static readonly ID Continue = button[0];
-                public static readonly ID New = button[1];
-                public static readonly ID settings = button[2];
-                public static readonly ID exit = button[3];
-            }
-        }
-
+        public static readonly ID closed = 1;
         //
         // Settings Nav
         //
@@ -249,11 +238,11 @@ public class Menu : MonoBehaviour
             public static readonly ID button = settingsNavPage[0];
             public static class buttons
             {
-                public static readonly ID control = button[0];
-                public static readonly ID volume = button[1];
+                public static readonly ID control   = button[0];
+                public static readonly ID volume    = button[1];
                 public static readonly ID howToPlay = button[2];
-                public static readonly ID back = button[3];
-                public static readonly ID reset = button[4];
+                public static readonly ID back      = button[3];
+                public static readonly ID reset     = button[4];
             }
         }
 
@@ -271,7 +260,7 @@ public class Menu : MonoBehaviour
                 public static readonly ID option2 = button[1];
                 public static readonly ID option3 = button[2];
                 public static readonly ID option4 = button[3];
-                public static readonly ID back = button[4];
+                public static readonly ID back    = button[4];
                 public static readonly ID applyControls = button[5];
             }
 
@@ -293,17 +282,17 @@ public class Menu : MonoBehaviour
             public static readonly ID button = volumePage[0];
             public static class buttons
             {
-                public static readonly ID back = button[0];
+                public static readonly ID back        = button[0];
                 public static readonly ID applyVolume = button[1];
             }
 
             // Sliders
-            public static readonly ID slider = controlsPage[1];
+            public static readonly ID slider = volumePage[1];
             public static class sliders
             {
                 public static readonly ID master = slider[0];
-                public static readonly ID music = slider[1];
-                public static readonly ID ui = slider[2];
+                public static readonly ID music  = slider[1];
+                public static readonly ID ui     = slider[2];
             }
         }
 

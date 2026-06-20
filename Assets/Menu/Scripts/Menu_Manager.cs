@@ -6,21 +6,11 @@ using UnityEngine.UIElements;
 
 public class Menu : MonoBehaviour
 {
-    private enum screen { home, settingsMain, settingsControl, settingsVolume, howToPlay }
-    private enum homeButtons { Continue, New, Settings, Exit }  //Caps to avoid key words
-    private enum settingsNavButtons { Control, Volume, HowToPlay, Back, Reset }
-    private enum controlsButtons { Option1, Option2, Option3, Option4, Back, ApplyControls }
-    private enum volumeButtons { Back, ApplyVolume }
-    private enum howToPlayButtons { Back }
-    private enum sliders { master, music, ui, textSpeed }
-
-    // Stores all buttons on the main menu
-    private Dictionary<ID, Button> menuButtons;
-    // Stores all sliders on the main menu
-    private Dictionary<ID, Slider> menuSliders;
+    private Dictionary<ID, Button> menuButtons; // Stores all buttons
+    private Dictionary<ID, Slider> menuSliders; // Stores all sliders
     private Dictionary<ID, TemplateContainer> pageTemplates; // Stores all page's TemplateContainer
 
-    private screen currentScreen = screen.home;
+    private ID currentScreen = Page.homePage;
     private Saved_Info_Manager savedInfoManager;
 
     //
@@ -105,13 +95,13 @@ public class Menu : MonoBehaviour
         menuSliders[Page.controls.sliders.textSpeed].value = PlayerPrefs.GetFloat("textSpeed");
 
         EnableControls();
-        NavigateTo(screen.home); //Set home as current screen
+        NavigateTo(Page.homePage); //Set home as current screen
     }
 
     //
     // Main menu
     //
-    public void Settings() => NavigateTo(screen.settingsMain); //To settings
+    public void Settings() => NavigateTo(Page.settingsNavPage); //To settings
 
     public void Continue() { //Pressing the continue button
         Debug.Log("Continuing game");
@@ -133,12 +123,12 @@ public class Menu : MonoBehaviour
     //
     // Settings main page
     //
-    public void ControlsNav()  => NavigateTo(screen.settingsControl); //To controls page
-    public void VolumeNav()    => NavigateTo(screen.settingsVolume); //To volume page
-    public void HowToPlayNav() => NavigateTo(screen.howToPlay); //To how to play page
-    public void BackToHome()   => NavigateTo(screen.home); //To main menu
+    public void ControlsNav()  => NavigateTo(Page.controlsPage); //To controls page
+    public void VolumeNav()    => NavigateTo(Page.volumePage); //To volume page
+    public void HowToPlayNav() => NavigateTo(Page.howToPlayPage); //To how to play page
+    public void BackToHome()   => NavigateTo(Page.homePage); //To main menu
 
-    public void BackToSettings() => NavigateTo(screen.settingsMain); //To settings main page (from all sub-pages)
+    public void BackToSettings() => NavigateTo(Page.settingsNavPage); //To settings main page (from all sub-pages)
 
     public void ResetSettings() //Reset settings
     {
@@ -152,7 +142,7 @@ public class Menu : MonoBehaviour
 
         menuSliders[Page.controls.sliders.textSpeed].value = PlayerPrefs.GetFloat("textSpeed");
 
-        NavigateTo(screen.home); // To main menu (user feedback)
+        NavigateTo(Page.homePage); // To main menu (user feedback)
     }
 
     //
@@ -162,7 +152,7 @@ public class Menu : MonoBehaviour
         Debug.Log("Applying changes");
         PlayerPrefs.SetFloat("textSpeed", menuSliders[Page.controls.sliders.textSpeed].value);
 
-        NavigateTo(screen.settingsMain);
+        NavigateTo(Page.settingsNavPage);
     }
 
     //
@@ -175,7 +165,7 @@ public class Menu : MonoBehaviour
         PlayerPrefs.SetFloat("musicVolume",  menuSliders[Page.volume.sliders.music].value  / 100);
         PlayerPrefs.SetFloat("uiVolume",     menuSliders[Page.volume.sliders.ui].value     / 100);
 
-        NavigateTo(screen.settingsMain);
+        NavigateTo(Page.settingsNavPage);
     }
 
     //
@@ -185,7 +175,7 @@ public class Menu : MonoBehaviour
     //
     // Other functions
     //
-    private void NavigateTo(screen screenTo)
+    private void NavigateTo(ID screenTo)
     {
         Debug.Log("To "+screenTo.ToString());
         pageTemplates[currentScreen].visible = false;
@@ -201,28 +191,28 @@ public class Menu : MonoBehaviour
     private void EnableControls() //Turns on the buttons
     {
         // Main page
-        menuElements[screen.home].Buttons[(short)homeButtons.Continue].clicked += Continue;
-        menuElements[screen.home].Buttons[(short)homeButtons.New].clicked      += New;
-        menuElements[screen.home].Buttons[(short)homeButtons.Settings].clicked += Settings;
-        menuElements[screen.home].Buttons[(short)homeButtons.Exit].clicked     += Exit;
+        menuButtons[Page.home.buttons.Continue].clicked += Continue;
+        menuButtons[Page.home.buttons.New].clicked      += New;
+        menuButtons[Page.home.buttons.settings].clicked += Settings;
+        menuButtons[Page.home.buttons.exit].clicked     += Exit;
 
         // Main settings page
-        menuElements[screen.settingsMain].Buttons[(short)settingsNavButtons.Control].clicked   += ControlsNav;
-        menuElements[screen.settingsMain].Buttons[(short)settingsNavButtons.Volume].clicked    += VolumeNav;
-        menuElements[screen.settingsMain].Buttons[(short)settingsNavButtons.HowToPlay].clicked += HowToPlayNav;
-        menuElements[screen.settingsMain].Buttons[(short)settingsNavButtons.Back].clicked      += BackToHome;
-        menuElements[screen.settingsMain].Buttons[(short)settingsNavButtons.Reset].clicked     += ResetSettings;
+        menuButtons[Page.settingsNav.buttons.control].clicked   += ControlsNav;
+        menuButtons[Page.settingsNav.buttons.volume].clicked    += VolumeNav;
+        menuButtons[Page.settingsNav.buttons.howToPlay].clicked += HowToPlayNav;
+        menuButtons[Page.settingsNav.buttons.back].clicked      += BackToHome;
+        menuButtons[Page.settingsNav.buttons.reset].clicked     += ResetSettings;
 
         // Controls page
-        menuElements[screen.settingsControl].Buttons[(short)controlsButtons.Back].clicked          += BackToSettings;
-        menuElements[screen.settingsControl].Buttons[(short)controlsButtons.ApplyControls].clicked += ApplyControls;
+        menuButtons[Page.controls.buttons.back].clicked          += BackToSettings;
+        menuButtons[Page.controls.buttons.applyControls].clicked += ApplyControls;
 
         //Volume page
-        menuElements[screen.settingsVolume].Buttons[(short)volumeButtons.Back].clicked        += BackToSettings;
-        menuElements[screen.settingsVolume].Buttons[(short)volumeButtons.ApplyVolume].clicked += ApplyVolume;
+        menuButtons[Page.volume.buttons.back].clicked        += BackToSettings;
+        menuButtons[Page.volume.buttons.applyVolume].clicked += ApplyVolume;
 
         // How to play page
-        menuElements[screen.howToPlay].Buttons[(short)howToPlayButtons.Back].clicked += BackToSettings;
+        menuButtons[Page.howToPlay.buttons.back].clicked += BackToSettings;
         Debug.Log("Enabled buttons");
     }
     

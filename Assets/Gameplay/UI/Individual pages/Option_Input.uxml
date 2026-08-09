@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Gameplay/UI/Styles/Option_Inputs.uss?fileID=7433441132597879392&amp;guid=d6372f2d2e627dd41acddf4fae18db4f&amp;type=3#Option_Inputs"/>
     <CustomUXML.UI.AspectRatioPanel aspect-ratio-x="200" aspect-ratio-y="320" name="aspect-ratio-panel" style="flex-direction: column-reverse;">
-        <ui:VisualElement name="Options_Container" class="Options-Container" style="flex-grow: 1;">
+        <ui:VisualElement name="Options_Container" class="Options-Container">
             <CustomUXML.UI.aspect-ratio-button aspect-ratio-y="320" text-size="200" text="Button" name="Option_1" class="Option-Button"/>
             <CustomUXML.UI.aspect-ratio-button aspect-ratio-y="320" text-size="200" text="Button" name="Option_2" class="Option-Button"/>
             <CustomUXML.UI.aspect-ratio-button aspect-ratio-y="320" text-size="200" text="Button" name="Option_3" class="Option-Button"/>

@@ -17,11 +17,7 @@
 }
 
 .TextBox {
-    background-image: url("project://database/Assets/Gameplay/Sprites/Temporary_TextBox.png?fileID=2800000&guid=42838e41bdb309546ad7512de1807309&type=3#Temporary_TextBox");
     height: 20%;
-    bottom: 0;
-    right: 0;
-    left: 0;
     top: auto;
     position: absolute;
     margin: 0;
@@ -31,4 +27,11 @@
     color: rgb(255, 255, 255);
     font-size: 350%;
     white-space: normal;
+    width: 97.92%;
+    align-self: center;
+    right: auto;
+    left: auto;
+    bottom: 0.5%;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.918);
+    background-image: url("project://database/Assets/Gameplay/Sprites/TextBoxes.png?fileID=-770086865&guid=1cd11fcdd3f221d4bb35294cfbc77ef2&type=3#TextBoxes_3");
 }

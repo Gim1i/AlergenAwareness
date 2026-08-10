@@ -17,6 +17,11 @@ public class Input_Managment : MonoBehaviour
     private Dictionary<inputMap, Dictionary<string, InputAction>> mappedButtons;
     private bool isGamePaused = false;
 
+    #if DEBUG // Unity Debugger exclusive debugging controls
+    private Dictionary<string, InputAction> debugControls;
+    private Reaction_And_Event_Processing emotionController;
+    #endif
+
     //
     // Handles al input managment
     //
@@ -29,6 +34,10 @@ public class Input_Managment : MonoBehaviour
         };
 
         inputMaps[inputMap.Gameplay].Enable();
+
+        #if DEBUG // Enable the debug controls
+        inputActions.FindActionMap("Debug").Enable();
+        #endif
     }
 
     private void Awake() // Store all button input managers
@@ -52,6 +61,20 @@ public class Input_Managment : MonoBehaviour
             }}
         };
 
+        #if DEBUG // Locate all debug inputs
+        debugControls = new Dictionary<string, InputAction> {
+            { "tired",          InputSystem.actions.FindAction("Tired")           },
+            { "stress",         InputSystem.actions.FindAction("Stress")          },
+            { "happy",          InputSystem.actions.FindAction("Happy")           },
+            { "tinglingThroat", InputSystem.actions.FindAction("Tingling_Throat") },
+            { "sick",           InputSystem.actions.FindAction("Sick")            },
+            { "clearAll",       InputSystem.actions.FindAction("Clear_All")       }
+        };
+
+        emotionController = transform.GetComponent<Reaction_And_Event_Processing>();
+        Debug.Assert(pauseMenuHandler != null, "Emotion controller not present");
+        #endif
+
         // Save the 4 option selecting buttons
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
         optionButtons[0] = gameDisplay.Q<CustomUXML.UI.AspectRatioButton>("Option_1");
@@ -65,7 +88,10 @@ public class Input_Managment : MonoBehaviour
         Debug.Assert(optionButtons[3] != null, "Option 4 button missing");
 
         pauseMenuHandler = transform.GetComponent<Menu_Manager>();
+        mainGameProcess = transform.GetComponent<Game_Process_Manager>();
+
         Debug.Assert(pauseMenuHandler != null, "Pause menu manager not present");
+        Debug.Assert(mainGameProcess  != null, "Main game manager not present" );
     }
 
     private void Start() // Set input buttons
@@ -75,9 +101,6 @@ public class Input_Managment : MonoBehaviour
         optionButtons[1].clicked += ClickedBnt2;
         optionButtons[2].clicked += ClickedBnt3;
         optionButtons[3].clicked += ClickedBnt4;
-
-        mainGameProcess = transform.GetComponent<Game_Process_Manager>();
-        pauseMenuHandler = transform.GetComponent<Menu_Manager>();
     }
 
     private void Update() // All keyboard inputs (And tapping/clicking a screen)
@@ -95,10 +118,19 @@ public class Input_Managment : MonoBehaviour
         if (mappedButtons[inputMap.PauseMenu]["unpause"].WasPressedThisFrame()) { ToggleGamePause(); }
 
         // If any option is pressed
-        if (mappedButtons[inputMap.Gameplay]["option 1"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(0); }
-        if (mappedButtons[inputMap.Gameplay]["option 2"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(1); }
-        if (mappedButtons[inputMap.Gameplay]["option 3"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(2); }
-        if (mappedButtons[inputMap.Gameplay]["option 4"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(3); }
+        if      (mappedButtons[inputMap.Gameplay]["option 1"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(0); }
+        else if (mappedButtons[inputMap.Gameplay]["option 2"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(1); }
+        else if (mappedButtons[inputMap.Gameplay]["option 3"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(2); }
+        else if (mappedButtons[inputMap.Gameplay]["option 4"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(3); }
+
+        #if DEBUG
+        if      (debugControls["tired"         ].WasPressedThisFrame()) { emotionController.reactions.IncreaseEmotionForTest("tired"); }
+        else if (debugControls["stress"        ].WasPressedThisFrame()) { emotionController.reactions.IncreaseEmotionForTest("stress"); }
+        else if (debugControls["happy"         ].WasPressedThisFrame()) { emotionController.reactions.IncreaseEmotionForTest("happy"); }
+        else if (debugControls["tinglingThroat"].WasPressedThisFrame()) { emotionController.reactions.SetAfflictForTest("tinglingThroat"); }
+        else if (debugControls["sick"          ].WasPressedThisFrame()) { emotionController.reactions.SetAfflictForTest("sick"); }
+        else if (debugControls["clearAll"      ].WasPressedThisFrame()) { emotionController.reactions.TestingClearAll(); }
+        #endif
     }
 
     //

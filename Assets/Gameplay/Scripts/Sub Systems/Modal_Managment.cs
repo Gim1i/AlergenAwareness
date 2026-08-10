@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class Modal_Managment : MonoBehaviour
 {
     private enum playerStatLevel { none, low, medium, high }
-    private enum modalVariant { happy, sad, angry, pain, tired, stress, bored, feelingSick, tinglingThroat, itchy, runnyNose, tightChest, hardToBreath, sick }
+    private enum modalVariant { happy, sad, angry, pain, tired, stress, bored, feelingSick, tinglingThroat, itchy, runnyNose, tightChest, hardToBreathe, sick }
     private enum availableLevels { good_lowToHigh, bad_lowToHigh, low, mid, high }
 
     [SerializeField] private StateSprites[] statesArray;
@@ -14,15 +14,15 @@ public class Modal_Managment : MonoBehaviour
     [SerializeField] private VisualTreeAsset modalTemplate;
     [SerializeField] private float transitionSpeed;
     private VisualElement[] modalSlots = new VisualElement[8];
-    private ModalInfo[] activeModals = new ModalInfo[8];
+    private List<ModalInfo> activeModals = new List<ModalInfo>();
     private int filledModalSlots = 0;
 
-    private void Awake() //Get UI elements neccessary
+    private void Awake() // Get UI elements neccessary
     {
         VisualElement gameDisplay = transform.GetChild(0).GetComponent<UIDocument>().rootVisualElement;
         Debug.Assert(gameDisplay != null, "Couldn't find the UIDoc's root");
 
-        for (int i = 0; i < modalSlots.Length; i++) //Get all modal slots
+        for (int i = 0; i < modalSlots.Length; i++) // Get all modal slots
         {
             modalSlots[i] = gameDisplay.Q<VisualElement>("Slot_" + (i+1));
             Debug.Assert(modalSlots[i] != null, "Couldn't find slot " + (i + 1));
@@ -37,10 +37,10 @@ public class Modal_Managment : MonoBehaviour
         //
         // Check if any emotion has changed enough to need a new modal, their modal removed or their modal changed
         //
-        for (int i = 0; i < Enum.GetNames(typeof(Reaction_And_Event_Processing.Reactions.emotionState)).Length; i++) //For every emotion
+        for (int i = 0; i < Enum.GetNames(typeof(Reaction_And_Event_Processing.Reactions.emotionState)).Length; i++) // For every emotion
         {
             string emotStr = ((Reaction_And_Event_Processing.Reactions.emotionState)i).ToString();
-            modalVariant modVarEquv = modalVariant.happy; //The modalVariant equivlant of its emotionState. Happy is the default state
+            modalVariant modVarEquv = modalVariant.happy; // The modalVariant equivlant of its emotionState. Happy is the default state
             for (int m = 0; m < Enum.GetNames(typeof(modalVariant)).Length; m++)
             {
                 if (emotStr == ((modalVariant)m).ToString()) {
@@ -50,16 +50,16 @@ public class Modal_Managment : MonoBehaviour
             }
             Debug.Assert(!(modVarEquv == modalVariant.happy && i != 0), "Modal variant not located (and not happy). Default value used");
 
-            short currentLevel = (short)PlayerPrefs.GetInt(emotStr); //Get its current level
+            short currentLevel = (short)PlayerPrefs.GetInt(emotStr); // Get its current level
             bool hasActiveModal = false;
-            for (int j = 0; j < filledModalSlots; j++)
+            for (int j = 0; j < activeModals.Count; j++)
             {
-                if (activeModals[j].GetVariant() == modVarEquv) //If the emotion already has an active modal
+                if (activeModals[j].GetVariant() == modVarEquv) // If the emotion already has an active modal
                 {
-                    if (ShortToPlyrStat(currentLevel) == 0) { //Remove modal if level is too low
+                    if (ShortToPlyrStat(currentLevel) == 0) { // Remove modal if level is too low
                         RemoveModal(modVarEquv);
                     }
-                    else { //Else update the modal to match its new level
+                    else { // Else update the modal to match its new level
                         activeModals[j].AlterModalLevel(currentLevel, ref backgroundRanges);
                     }
                     hasActiveModal = true;
@@ -67,19 +67,19 @@ public class Modal_Managment : MonoBehaviour
                 }
             }
 
-            if (!hasActiveModal) //If there is or was no active modal for the emotion
+            if (!hasActiveModal) // If there is or was no active modal for the emotion
             {
-                if (ShortToPlyrStat(currentLevel) > 0) { //Check wether it should get one or not
+                if (ShortToPlyrStat(currentLevel) > 0) { // Check wether it should get one or not
                     CreateNewModal(modVarEquv, true, currentLevel);
                 }
             }
             
         }
 
-        for (int i = 0; i < Enum.GetNames(typeof(Reaction_And_Event_Processing.Reactions.afflictState)).Length; i++) //For every afflict
+        for (int i = 0; i < Enum.GetNames(typeof(Reaction_And_Event_Processing.Reactions.afflictState)).Length; i++) // For every afflict
         {
             string aflctStr = ((Reaction_And_Event_Processing.Reactions.afflictState)i).ToString();
-            modalVariant modVarEquv = modalVariant.tinglingThroat; //The modalVariant equivlant of its afflictState. TinglingThroat is the default state
+            modalVariant modVarEquv = modalVariant.tinglingThroat; // The modalVariant equivlant of its afflictState. TinglingThroat is the default state
             for (int m = 0; m < Enum.GetNames(typeof(modalVariant)).Length; m++)
             {
                 if (aflctStr == ((modalVariant)m).ToString()) {
@@ -87,31 +87,33 @@ public class Modal_Managment : MonoBehaviour
                     break;
                 }
             }
-            Debug.Assert(!(modVarEquv == modalVariant.tinglingThroat && i != 0), "Modal variant not located (and not TinglingThroat). Default value used");
+            Debug.Assert(!(modVarEquv == modalVariant.tinglingThroat && i != 0), "Modal variant (" + aflctStr + ") not located (and not TinglingThroat). Default value used");
 
-            bool currentState = Convert.ToBoolean(PlayerPrefs.GetInt(aflctStr)); //Get its current state
+            bool currentState = Convert.ToBoolean(PlayerPrefs.GetInt(aflctStr)); // Get its current state
             short activeModalLocation = -1;
-            for (int j = 0; j < filledModalSlots; j++)
+            for (int j = 0; j < activeModals.Count; j++)
             {
-                if (activeModals[j].GetVariant() == modVarEquv) { //If the afflict already has an active modal
-                    activeModalLocation = (short)j; //Save its location
+                if (activeModals[j].GetVariant() == modVarEquv) { // If the afflict already has an active modal
+                    activeModalLocation = (short)j; // Save its location
                     break;
                 }
             }
 
-            if (activeModalLocation == -1) //If theres no active modal for the afflict
+            if (activeModalLocation == -1) // If theres no active modal for the afflict
             {
-                if (currentState) { //Create one if it should have one
+                if (currentState) { // Create one if it should have one
                     CreateNewModal(modVarEquv, false, 0);
                 }
-            } else //If there is an active modal for the afflict
+            } else // If there is an active modal for the afflict
             {
-                if (!currentState) { //Remove modal if it shouldn't exist
+                if (!currentState) { // Remove modal if it shouldn't exist
                     RemoveModal(modVarEquv);
                 }
             }
             
         }
+
+        RefreshDisplayedModals();
     }
 
     //
@@ -119,34 +121,39 @@ public class Modal_Managment : MonoBehaviour
     //
     private void CreateNewModal(modalVariant variant, bool isEmotion, short level)
     {
-        if (filledModalSlots >= 5) { return; }
-        activeModals[filledModalSlots] = new ModalInfo(modalTemplate, ref statesArray, variant, isEmotion, level, ref backgroundRanges); //Create the modal
-        modalSlots[filledModalSlots].Add(activeModals[filledModalSlots].GetModal()); //Put the modal into its proper slot (Visual Element)
+        activeModals.Add(new ModalInfo(modalTemplate, ref statesArray, variant, isEmotion, level, ref backgroundRanges)); // Create the modal
         Debug.Log("Created " + variant + "-" + level + " modal");
-        filledModalSlots++; //Move highest empty slot down one
     }
 
     private void RemoveModal(modalVariant variant)
     {
-        for (int i = 0; i < filledModalSlots; i++) { //Locate the modal requested to be removed
-            if (activeModals[i].IsThisModalLookedFor(variant)) {
-                modalSlots[i].Clear();
-                activeModals[i] = null;
+        for (int i = 0; i < activeModals.Count; i++) { // Locate the modal requested to be removed
+            if (activeModals[i].IsThisModalLookedFor(variant))
+            {
+                activeModals.RemoveAt(i);
                 Debug.Log("Removed " + variant + " modal");
-                filledModalSlots--;
-
-                if (i != filledModalSlots) { //Moving Modals up check
-                    for (int h = i+1; h < filledModalSlots; h++) { //Move modals up
-                        modalSlots[h - 1].Add(activeModals[h].GetModal());
-                    }
-                }
                 return;
             }
         }
     }
 
+    private void RefreshDisplayedModals()
+    {
+        // Refresh the displayed modal list
+        filledModalSlots = activeModals.Count;
+        if (filledModalSlots > 8) { filledModalSlots = 8; }
+        for (int g = 0; g < activeModals.Count; g++)
+        {
+            modalSlots[g].Clear(); // Clear the slot
+            modalSlots[g].Add(activeModals[g].GetModal()); // Insert the proper modal
+        }
+        for (int h = activeModals.Count; h < modalSlots.Length; h++) { // Clears the rest of the modal slots
+            modalSlots[h].Clear();
+        } 
+    }
+
     //
-    // Data store for modals (as they no longer have gameobjet to store it in)
+    // Data store for modals (as they no longer have gameobjects to be stored in)
     //
     class ModalInfo
     {
@@ -154,30 +161,30 @@ public class Modal_Managment : MonoBehaviour
         private bool isEmotion;
         private short level;
         private modalVariant variant;
-        private int levelRange; //Easy reference for changing the background sprite
+        private int levelRange; // Easy reference for changing the background sprite
 
-        public ModalInfo(VisualTreeAsset template, ref StateSprites[] sprites, modalVariant variant, bool isEmotion, short level, ref spriteBackgroundRanges[] bgRanges) //Initialise modal
+        public ModalInfo(VisualTreeAsset template, ref StateSprites[] sprites, modalVariant variant, bool isEmotion, short level, ref spriteBackgroundRanges[] bgRanges) // Initialise modal
         {
             Debug.Log("Modal setup");
             visElmnt = template.Instantiate();
-            visElmnt.AddToClassList("Modal"); //Add its proper class
+            visElmnt.AddToClassList("Modal"); // Add its proper class
             for (short i = 0; i < sprites.Length; i++)
             {
-                if (sprites[i].IsThisVariant(variant)) { //Locate the variant in the spites store
-                    visElmnt.Q<VisualElement>("Modal_State").style.backgroundImage = new StyleBackground(sprites[i].GetStateSprite()); //Set the new sprite's state
+                if (sprites[i].IsThisVariant(variant)) { // Locate the variant in the spites store
+                    visElmnt.Q<VisualElement>("Modal_State").style.backgroundImage = new StyleBackground(sprites[i].GetStateSprite()); // Set the new sprite's state
                     break;
                 }
             }
 
-            for (short i = 0; i < bgRanges.Length; i++) //Look though all background ranges
+            for (short i = 0; i < bgRanges.Length; i++) // Look though all background ranges
             {
-                if (bgRanges[i].IsVariantUsingRange(variant)) //If this variant is in this range
+                if (bgRanges[i].IsVariantUsingRange(variant)) // If this variant is in this range
                 {
                     levelRange = i;
                     break;
                 }
             }
-            visElmnt.Q<VisualElement>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(level))); //Set the new sprite's background
+            visElmnt.Q<VisualElement>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(level))); // Set the new sprite's background
 
             this.variant = variant;
             this.isEmotion = isEmotion;
@@ -185,7 +192,7 @@ public class Modal_Managment : MonoBehaviour
             Debug.Log("Modal setup end");
         }
 
-        public bool IsThisModalLookedFor(modalVariant vari) //Check if the modal is the one being searched for
+        public bool IsThisModalLookedFor(modalVariant vari) // Check if the modal is the one being searched for
         {
             if (vari == variant) {
                 return true;
@@ -196,13 +203,13 @@ public class Modal_Managment : MonoBehaviour
         //
         // Alter the current modal in some way
         //
-        public void AlterModalLevel(short newLevel, ref spriteBackgroundRanges[] bgRanges) //Update the modal's background sprite
+        public void AlterModalLevel(short newLevel, ref spriteBackgroundRanges[] bgRanges) // Update the modal's background sprite
         {
-            if (isEmotion) //Be sure this is an emotion (never run this with afflicts)
+            if (isEmotion) // Be sure this is an emotion (never run this with afflicts)
             {
-                if (ShortToPlyrStat(level) != ShortToPlyrStat(newLevel)) //If there is enough of a change to go up or down a level
+                if (ShortToPlyrStat(level) != ShortToPlyrStat(newLevel)) // If there is enough of a change to go up or down a level
                 {
-                    visElmnt.Q<VisualElement>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(newLevel))); //Set the new background
+                    visElmnt.Q<VisualElement>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(newLevel))); // Set the new background
                 }
                 level = newLevel;
             }
@@ -290,7 +297,7 @@ public class Modal_Managment : MonoBehaviour
         public playerStatLevel GetLevel() { return level; }
     }
 
-    static private playerStatLevel ShortToPlyrStat(short shrt){ //Turns a level into a player stat for easy use. Used in many places in this script
+    static private playerStatLevel ShortToPlyrStat(short shrt){ // Turns a level into a player stat for easy use. Used in many places in this script
         return (playerStatLevel)(shrt / 25);
     }
 }

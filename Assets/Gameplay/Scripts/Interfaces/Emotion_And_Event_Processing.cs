@@ -20,7 +20,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
     {
         public enum foodReactionSource { jenns, saladDeli, resturaunt, lightDrinking, heavyDrinking, pizza, chinese, broughtInHomeFood, broughtInShopFood, workCelebration, none }
         public enum emotionState { happy, sad, angry, pain, tired, stress, bored, feelingSick } //Possible emotion modals
-        public enum afflictState { tinglingThroat, itchy, runnyNose, tightChest, hardToBreath, sick } //Possible afflict modals
+        public enum afflictState { tinglingThroat, itchy, runnyNose, tightChest, hardToBreathe, sick } //Possible afflict modals
         // The itchy afflict is unused right now as I was unable to come up with a good modal for it
 
         private enum reactionLevel { low, med, high }
@@ -54,11 +54,28 @@ public class Reaction_And_Event_Processing : MonoBehaviour
             }
         }
 
-        // A debug only method of testing reactions
+        // Debug only methods of testing reactions, emotions and afflicts
         #if DEBUG
         public void TestReactions(int level) {
             Debug.Log("Testing reaction level" + level);
             ApplyReactionChanges((reactionLevel)level);
+        }
+
+        public void IncreaseEmotionForTest(string pref) {
+            UpdateEmotionPlayerPref(pref, 25);
+            RefreshModals();
+        }
+        public void SetAfflictForTest(string pref) {
+            PlayerPrefs.SetInt(pref, 1);
+            RefreshModals();
+        }
+
+        // Resets all emotions and afflicts
+        public void TestingClearAll() {
+
+            for (int e = 0; e < Enum.GetValues(typeof(emotionState)).Length; e++) { UpdateEmotionPlayerPref(((emotionState)e).ToString(), -100); }
+            for (int a = 0; a < Enum.GetValues(typeof(afflictState)).Length; a++) { PlayerPrefs.SetInt(((afflictState)a).ToString(), 0); }
+            RefreshModals();
         }
         #endif
 
@@ -151,7 +168,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 //Afflicts
                 new[] {
                     afflictState.runnyNose,
-                    afflictState.hardToBreath,
+                    afflictState.hardToBreathe,
                     afflictState.tinglingThroat
                 })
             },
@@ -170,7 +187,7 @@ public class Reaction_And_Event_Processing : MonoBehaviour
                 //Afflicts
                 new[] {
                     afflictState.runnyNose,
-                    afflictState.hardToBreath,
+                    afflictState.hardToBreathe,
                     afflictState.tinglingThroat,
                     afflictState.tightChest
                 })

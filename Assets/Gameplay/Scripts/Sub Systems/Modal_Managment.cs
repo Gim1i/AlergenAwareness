@@ -9,6 +9,8 @@ public class Modal_Managment : MonoBehaviour
     private enum modalVariant { happy, sad, angry, pain, tired, stress, bored, feelingSick, tinglingThroat, itchy, runnyNose, tightChest, hardToBreathe, sick }
     private enum availableLevels { good_lowToHigh, bad_lowToHigh, low, mid, high }
 
+    private Input_Managment inputManager;
+
     [SerializeField] private StateSprites[] statesArray;
     [SerializeField] private spriteBackgroundRanges[] backgroundRanges;
     [SerializeField] private VisualTreeAsset modalTemplate;
@@ -27,6 +29,10 @@ public class Modal_Managment : MonoBehaviour
             modalSlots[i] = gameDisplay.Q<VisualElement>("Slot_" + (i+1));
             Debug.Assert(modalSlots[i] != null, "Couldn't find slot " + (i + 1));
         }
+
+        inputManager = transform.GetComponent<Input_Managment>();
+        Debug.Assert(inputManager != null, "Input manager not present");
+
     }
 
     //
@@ -142,14 +148,31 @@ public class Modal_Managment : MonoBehaviour
         // Refresh the displayed modal list
         filledModalSlots = activeModals.Count;
         if (filledModalSlots > 8) { filledModalSlots = 8; }
+
+        Button[] modalButtons = new Button[filledModalSlots]; // Get all the active modal template's buttons
         for (int g = 0; g < activeModals.Count; g++)
         {
             modalSlots[g].Clear(); // Clear the slot
             modalSlots[g].Add(activeModals[g].GetModal()); // Insert the proper modal
+            modalButtons[g] = activeModals[g].GetModal().Q<Button>("Modal_Background"); // Get the button
         }
         for (int h = activeModals.Count; h < modalSlots.Length; h++) { // Clears the rest of the modal slots
             modalSlots[h].Clear();
-        } 
+        }
+
+        inputManager.UpdateModalTemplateButtons(modalButtons); // Update the button list in Input_Managment
+    }
+
+    //
+    // Getting the label stuff for Input_Managment
+    //
+    public Button[] GetModalTemplateButtons()
+    {
+        Button[] modalButtons = new Button[filledModalSlots];
+        for (int i = 0; i < modalButtons.Length; i++) {
+            modalButtons[i] = activeModals[i].GetModal().Q<Button>("Modal_Background");
+        }
+        return modalButtons;
     }
 
     //
@@ -184,7 +207,7 @@ public class Modal_Managment : MonoBehaviour
                     break;
                 }
             }
-            visElmnt.Q<VisualElement>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(level))); // Set the new sprite's background
+            visElmnt.Q<Button>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(level))); // Set the new sprite's background
 
             this.variant = variant;
             this.isEmotion = isEmotion;

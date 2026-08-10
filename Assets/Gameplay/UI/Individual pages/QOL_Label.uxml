@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Gameplay/UI/Styles/QOL_Label.uss?fileID=7433441132597879392&amp;guid=7c9ed86a85f1fb64f925e89bbb762088&amp;type=3#QOL_Label"/>
+    <ui:VisualElement name="Label" style="flex-grow: 1; position: absolute; flex-direction: row;">
+        <ui:Image name="Left_Border" class="Border"/>
+        <ui:Label text="Testing a long sentence" name="Label_Text" style="top: 0; bottom: 0; right: 0; left: 0; -unity-font-definition: url(&quot;project://database/Assets/Gameplay/Fonts/ttf%20files/Main%20(1%20Cataneo%20BT%20Regular).ttf?fileID=12800000&amp;guid=037fc5ad33fcc07aebc0827251b72a49&amp;type=3#Main (1 Cataneo BT Regular)&quot;); -unity-font-style: bold; color: rgb(217, 217, 217); position: relative;"/>
+        <ui:Image name="Right_Border"/>
+    </ui:VisualElement>
+</ui:UXML>

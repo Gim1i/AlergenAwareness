@@ -12,6 +12,7 @@ public class Input_Managment : MonoBehaviour
     private Game_Process_Manager mainGameProcess;
     private Menu_Manager pauseMenuHandler;
     private Button[] optionButtons = new Button[4];
+    private Button[] modalTemplateButtons = new Button[8];
 
     private Dictionary<inputMap, InputActionMap> inputMaps; // Stores all the action maps
     private Dictionary<inputMap, Dictionary<string, InputAction>> mappedButtons;
@@ -72,7 +73,7 @@ public class Input_Managment : MonoBehaviour
         };
 
         emotionController = transform.GetComponent<Reaction_And_Event_Processing>();
-        Debug.Assert(pauseMenuHandler != null, "Emotion controller not present");
+        Debug.Assert(emotionController != null, "Emotion controller not present");
         #endif
 
         // Save the 4 option selecting buttons
@@ -175,4 +176,9 @@ public class Input_Managment : MonoBehaviour
     public void ClickedBnt2() { mainGameProcess.OptionSelected(1); }
     public void ClickedBnt3() { mainGameProcess.OptionSelected(2); }
     public void ClickedBnt4() { mainGameProcess.OptionSelected(3); }
+
+    //
+    // Getting the modal template button stuff from Modal_Managment
+    //
+    public void UpdateModalTemplateButtons(Button[] newButtonArray) { modalTemplateButtons = newButtonArray; }
 }

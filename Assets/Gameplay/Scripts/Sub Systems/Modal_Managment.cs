@@ -160,7 +160,7 @@ public class Modal_Managment : MonoBehaviour
             modalSlots[h].Clear();
         }
 
-        inputManager.UpdateModalTemplateButtons(modalButtons); // Update the button list in Input_Managment
+        //inputManager.UpdateModalButtons(modalButtons); // Update the button list in Input_Managment
     }
 
     //

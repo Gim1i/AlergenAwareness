@@ -73,10 +73,6 @@ public class Settings_Handler : MonoBehaviour
         // Try to locate the Saved_Info_Manager
         savedInfoManager = GameObject.Find("PermaLoader").transform.GetComponent<Saved_Info_Manager>();
         Debug.Assert(savedInfoManager != null, "Couldn't find the saved info manager");
-
-        // Get the Menu_Manager
-        menuManager = transform.GetComponent<Menu_Manager>();
-        Debug.Assert(menuManager != null, "Menu manager not present");
     }
 
     private void Start()
@@ -88,8 +84,6 @@ public class Settings_Handler : MonoBehaviour
 
         // Set text speed slider value
         menuSliders[Page.controls.sliders.textSpeed].value = PlayerPrefs.GetFloat("textSpeed");
-
-        EnableControls();
     }
 
     //
@@ -159,6 +153,7 @@ public class Settings_Handler : MonoBehaviour
             currentScreen = screenTo;
             Debug.Log("Closing settings");
             menuManager.ToggleMainMenuVisability();
+            DisableControls();
         } else
         {
             Debug.Log("To " + screenTo);
@@ -185,7 +180,13 @@ public class Settings_Handler : MonoBehaviour
     public void OpenSettings()
     {
         Debug.Log("Opening settings");
+
+        // Get the Menu_Manager
+        menuManager = transform.GetComponent<Menu_Manager>();
+        Debug.Assert(menuManager != null, "Menu manager not present");
+
         currentScreen = Page.settingsNavPage;
+        EnableControls();
         pageTemplates[currentScreen].visible = true;
         pageTemplates[currentScreen].SetEnabled(true);
     }
@@ -194,7 +195,14 @@ public class Settings_Handler : MonoBehaviour
     public void ResetGamePrefs() { savedInfoManager.ResetGamePrefs(); }
 
     // Force exit settings
-    public void ForceCloseSettings() { NavigateTo(Page.closed); }
+    public void ForceCloseSettings()
+    {
+        pageTemplates[currentScreen].visible = false;
+        pageTemplates[currentScreen].SetEnabled(false);
+        currentScreen = Page.closed;
+        Debug.Log("Force closing settings");
+        DisableControls();
+    }
 
     //
     //  Setup the buttons
@@ -219,6 +227,28 @@ public class Settings_Handler : MonoBehaviour
         // How to play page
         menuButtons[Page.howToPlay.buttons.back].clicked += BackToSettings;
         Debug.Log("Enabled buttons");
+    }
+
+    private void DisableControls() //Turns on the buttons
+    {
+        // Main settings page
+        menuButtons[Page.settingsNav.buttons.control].clicked   -= ControlsNav;
+        menuButtons[Page.settingsNav.buttons.volume].clicked    -= VolumeNav;
+        menuButtons[Page.settingsNav.buttons.howToPlay].clicked -= HowToPlayNav;
+        menuButtons[Page.settingsNav.buttons.back].clicked      -= BackToHome;
+        menuButtons[Page.settingsNav.buttons.reset].clicked     -= ResetSettings;
+
+        // Controls page
+        menuButtons[Page.controls.buttons.back].clicked          -= BackToSettings;
+        menuButtons[Page.controls.buttons.applyControls].clicked -= ApplyControls;
+
+        //Volume page
+        menuButtons[Page.volume.buttons.back].clicked        -= BackToSettings;
+        menuButtons[Page.volume.buttons.applyVolume].clicked -= ApplyVolume;
+
+        // How to play page
+        menuButtons[Page.howToPlay.buttons.back].clicked -= BackToSettings;
+        Debug.Log("Disabled buttons");
     }
 
     //

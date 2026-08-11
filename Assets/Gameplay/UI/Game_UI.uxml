@@ -7,5 +7,5 @@
     <ui:Instance template="Main_Game" name="Main_Game_Template" class="Template"/>
     <ui:Instance template="Modal_Display" name="Modal_Display_Template" class="Template"/>
     <ui:Instance template="Option_Input" name="Option_Input_Template" enabled="false" class="Template" style="display: none;"/>
-    <ui:Instance template="Pause_Menu" name="Pause_Menu" class="Template"/>
+    <ui:Instance template="Pause_Menu" name="Pause_Menu" enabled="false" class="Template" style="visibility: hidden;"/>
 </ui:UXML>

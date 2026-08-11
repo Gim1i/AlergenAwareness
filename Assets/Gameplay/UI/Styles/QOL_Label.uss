@@ -1,4 +1,24 @@
+.Border-Sides {
+    flex-grow: 1;
+    background-image: url("project://database/Assets/Gameplay/Sprites/Label%20border.png?fileID=21300000&guid=f217fc07b0129df43b8ed215af52a3a3&type=3#Label border");
+    -unity-background-scale-mode: scale-to-fit;
+    width: 14px;
+    background-position-x: right 0;
+}
 
+.Border-Centre {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
 
-.Border {
+.Label-Text {
+    -unity-font-definition: url("project://database/Assets/Gameplay/Fonts/ttf%20files/Main%20(1%20Cataneo%20BT%20Regular).ttf?fileID=12800000&guid=037fc5ad33fcc07aebc0827251b72a49&type=3#Main (1 Cataneo BT Regular)");
+    -unity-font-style: bold;
+    color: rgb(231, 231, 231);
+    -unity-text-align: middle-left;
+    font-size: 13px;
+    padding: 4px 0px;    /* This is 4, 0, 4, 0 */
+    margin: 4px 0px 2px; /* This is 4, 0, 2, 0 */
 }

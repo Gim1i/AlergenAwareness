@@ -9,6 +9,6 @@
     <ui:Instance template="Settings_Controls" name="Controls_Template" enabled="false" class="Template" style="visibility: hidden;"/>
     <ui:Instance template="Settings_HowToPlay" name="HowToPlay_Template" enabled="false" class="Template" style="visibility: hidden;"/>
     <ui:Instance template="Settings_Volume" name="Volume_Template" enabled="false" class="Template" style="visibility: hidden;"/>
-    <ui:Instance template="Main_Pause_Page" name="MainPausePage_Template" enabled="false" class="Template" style="visibility: hidden;"/>
+    <ui:Instance template="Main_Pause_Page" name="MainPausePage_Template" class="Template"/>
     <ui:Instance template="Menu_Settings_Main" name="SettingsNav_Template" enabled="false" class="Template" style="visibility: hidden;"/>
 </ui:UXML>

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -12,7 +14,7 @@ public class Input_Managment : MonoBehaviour
     private Game_Process_Manager mainGameProcess;
     private Menu_Manager pauseMenuHandler;
     private Button[] optionButtons = new Button[4];
-    private Button[] modalTemplateButtons = new Button[8];
+    private List<Button> modalButtons = new List<Button>();
 
     private Dictionary<inputMap, InputActionMap> inputMaps; // Stores all the action maps
     private Dictionary<inputMap, Dictionary<string, InputAction>> mappedButtons;
@@ -48,11 +50,11 @@ public class Input_Managment : MonoBehaviour
         {
             // Gameplay
             { inputMap.Gameplay, new Dictionary<string, InputAction> {
+                { "next",     InputSystem.actions.FindAction("Next")     },
                 { "option 1", InputSystem.actions.FindAction("Option_1") },
                 { "option 2", InputSystem.actions.FindAction("Option_2") },
                 { "option 3", InputSystem.actions.FindAction("Option_3") },
                 { "option 4", InputSystem.actions.FindAction("Option_4") },
-                { "next",     InputSystem.actions.FindAction("Next")     },
                 { "pause",    InputSystem.actions.FindAction("Pause")    }
             }},
 
@@ -116,7 +118,7 @@ public class Input_Managment : MonoBehaviour
         if (mappedButtons[inputMap.Gameplay]["pause"].WasPressedThisFrame()) { ToggleGamePause(); }
 
         // Unpausing the game
-        if (mappedButtons[inputMap.PauseMenu]["unpause"].WasPressedThisFrame()) { ToggleGamePause(); }
+        else if (mappedButtons[inputMap.PauseMenu]["unpause"].WasPressedThisFrame()) { ToggleGamePause(); }
 
         // If any option is pressed
         if      (mappedButtons[inputMap.Gameplay]["option 1"].WasPressedThisFrame()) { mainGameProcess.OptionSelected(0); }
@@ -178,7 +180,31 @@ public class Input_Managment : MonoBehaviour
     public void ClickedBnt4() { mainGameProcess.OptionSelected(3); }
 
     //
-    // Getting the modal template button stuff from Modal_Managment
+    // Modal button stuff
     //
-    public void UpdateModalTemplateButtons(Button[] newButtonArray) { modalTemplateButtons = newButtonArray; }
+    public void UpdateModalButtons(Button[] newButtonArray) { // Updating the modal buttons list when the modals have changed
+        for (int b = 0; b < modalButtons.Count; b++) { // Remove all the previous buttons
+            modalButtons[b].clickable.clickedWithEventInfo -= ModalButtonClicked;
+            modalButtons[b].clicked -= ModalButtonTest;
+        }
+
+        modalButtons = newButtonArray.ToList();
+        for (int b = 0; b < modalButtons.Count; b++) { // Add all buttons back
+            modalButtons[b].clickable.clickedWithEventInfo += ModalButtonClicked;
+            modalButtons[b].clicked += ModalButtonTest;
+        }
+        Debug.Log("Updated modal buttons");
+        Debug.Log(modalButtons.Count + " Buttons");
+    }
+
+    // Handles displaying the label when a modal button is clicked
+    private void ModalButtonClicked(EventBase buttonClicked)
+    {
+        Debug.Log(buttonClicked);
+        Debug.Log(buttonClicked.ToString());
+    }
+    public void ModalButtonTest()
+    {
+        Debug.Log("Worked");
+    }
 }

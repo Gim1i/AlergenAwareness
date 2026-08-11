@@ -147,9 +147,9 @@ public class Menu_Manager : MonoBehaviour
     // Hide/Show the entire menu (only used by pause menu)
     public void ToggleEntireMenuVisability()
     {
-        Debug.Log("Toggle pause menu");
         if (visable) // Closing the pause menu
         {
+            Debug.Log("Closing pause menu");
             // A couple extra steps if closed from any settings menu
             if (isSettingsOpen)
             {
@@ -159,13 +159,18 @@ public class Menu_Manager : MonoBehaviour
 
             menuTemplate.visible = false; // Hide the main page
             menuTemplate.SetEnabled(false);
+            menuTemplate.parent.visible = false; // Disable the menu template
+            menuTemplate.parent.SetEnabled(false);
             visable = false;
             if (backgroundElement != null) { backgroundElement.visible = false; } // Hide background
         }
         else // Open the pause menu
         {
-            menuTemplate.visible = true; // Show this page
+            Debug.Log("Opening pause menu");
+            menuTemplate.visible = true; // Show the main page
             menuTemplate.SetEnabled(true);
+            menuTemplate.parent.visible = true; // Enable the menu template
+            menuTemplate.parent.SetEnabled(true);
             visable = true;
             if (backgroundElement != null) { backgroundElement.visible = true; } // Show background
         }

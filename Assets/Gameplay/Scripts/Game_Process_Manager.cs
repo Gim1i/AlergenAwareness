@@ -65,9 +65,13 @@ public class Game_Process_Manager : MonoBehaviour
         Debug.Assert(optionButtons[3] != null, "Couldn't find option 4 button");
 
         // Locate modal managment script
-        modalSystem = transform.GetComponent<Modal_Managment>();
+        modalSystem              = transform.GetComponent<Modal_Managment>();
+        dialogueSystem           = transform.GetComponent<Dialogue_Manger>();
+        emotionAndEventProcessor = transform.GetComponent<Reaction_And_Event_Processing>();
 
-        Debug.Assert(modalSystem != null, "Couldn't find Modal_Managment script");
+        Debug.Assert(modalSystem              != null, "Couldn't find modal manager"            );
+        Debug.Assert(dialogueSystem           != null, "Couldn't find dialogue manager"         );
+        Debug.Assert(emotionAndEventProcessor != null, "Couldn't find emotion and event manager");
     }
 
     //
@@ -142,9 +146,6 @@ public class Game_Process_Manager : MonoBehaviour
     //
     private void Start()
     {
-        dialogueSystem = transform.GetComponent<Dialogue_Manger>();
-        emotionAndEventProcessor = transform.GetComponent<Reaction_And_Event_Processing>();
-
         var events = emotionAndEventProcessor.events.EvaliuateChanceEvents(); // Roll for any random event
         todaysChanceEvents = events.chanceEvents;
         dialogueSystem.SetSavedEvent("heavyDrinking", events.isHeavyDrinking);

@@ -3,9 +3,11 @@
     <ui:Template name="Modal_Display" src="project://database/Assets/Gameplay/UI/Individual%20pages/Modal_Display.uxml?fileID=9197481963319205126&amp;guid=ea7bb432fea5e734d82d9a16b08ed809&amp;type=3#Modal_Display"/>
     <ui:Template name="Option_Input" src="project://database/Assets/Gameplay/UI/Individual%20pages/Option_Input.uxml?fileID=9197481963319205126&amp;guid=3b377e89f32f25241b991b11a5907000&amp;type=3#Option_Input"/>
     <ui:Template name="Pause_Menu" src="project://database/Assets/Gameplay/UI/Pause%20menu/Pause_Menu.uxml?fileID=9197481963319205126&amp;guid=46d66b69dcfcef2488c8a8d0e042e011&amp;type=3#Pause_Menu"/>
+    <ui:Template name="QOL_Label" src="project://database/Assets/Gameplay/UI/Individual%20pages/QOL_Label.uxml?fileID=9197481963319205126&amp;guid=0b7ada151c3b48e41b2c265568cdbd5a&amp;type=3#QOL_Label"/>
     <Style src="project://database/Assets/Universal%20Stuff/UI/Universal_Styles.uss?fileID=7433441132597879392&amp;guid=ad94cbbff37a38d4fa07539b0c921622&amp;type=3#Universal_Styles"/>
     <ui:Instance template="Main_Game" name="Main_Game_Template" class="Template"/>
-    <ui:Instance template="Modal_Display" name="Modal_Display_Template" class="Template"/>
     <ui:Instance template="Option_Input" name="Option_Input_Template" enabled="false" class="Template" style="display: none;"/>
     <ui:Instance template="Pause_Menu" name="Pause_Menu" enabled="false" class="Template" style="visibility: hidden;"/>
+    <ui:Instance template="Modal_Display" name="Modal_Display_Template" class="Template"/>
+    <ui:Instance template="QOL_Label" name="Label_Template" enabled="false" class="Template" style="visibility: hidden; opacity: 1;"/>
 </ui:UXML>

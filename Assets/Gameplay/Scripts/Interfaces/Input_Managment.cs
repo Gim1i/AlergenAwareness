@@ -13,6 +13,7 @@ public class Input_Managment : MonoBehaviour
 
     private Game_Process_Manager mainGameProcess;
     private Menu_Manager pauseMenuHandler;
+    private Label_Manager LabelManager;
     private Button[] optionButtons = new Button[4];
     private List<Button> modalButtons = new List<Button>();
 
@@ -92,9 +93,11 @@ public class Input_Managment : MonoBehaviour
 
         pauseMenuHandler = transform.GetComponent<Menu_Manager>();
         mainGameProcess = transform.GetComponent<Game_Process_Manager>();
+        LabelManager = transform.GetComponent<Label_Manager>();
 
         Debug.Assert(pauseMenuHandler != null, "Pause menu manager not present");
         Debug.Assert(mainGameProcess  != null, "Main game manager not present" );
+        Debug.Assert(LabelManager  != null, "Label manager not present" );
     }
 
     private void Start() // Set input buttons
@@ -185,26 +188,18 @@ public class Input_Managment : MonoBehaviour
     public void UpdateModalButtons(Button[] newButtonArray) { // Updating the modal buttons list when the modals have changed
         for (int b = 0; b < modalButtons.Count; b++) { // Remove all the previous buttons
             modalButtons[b].clickable.clickedWithEventInfo -= ModalButtonClicked;
-            modalButtons[b].clicked -= ModalButtonTest;
         }
 
         modalButtons = newButtonArray.ToList();
         for (int b = 0; b < modalButtons.Count; b++) { // Add all buttons back
             modalButtons[b].clickable.clickedWithEventInfo += ModalButtonClicked;
-            modalButtons[b].clicked += ModalButtonTest;
         }
         Debug.Log("Updated modal buttons");
-        Debug.Log(modalButtons.Count + " Buttons");
     }
 
     // Handles displaying the label when a modal button is clicked
-    private void ModalButtonClicked(EventBase buttonClicked)
+    private void ModalButtonClicked(EventBase clickEvent)
     {
-        Debug.Log(buttonClicked);
-        Debug.Log(buttonClicked.ToString());
-    }
-    public void ModalButtonTest()
-    {
-        Debug.Log("Worked");
+        LabelManager.CreateLabel(false, ((Button)clickEvent.target).tooltip);
     }
 }

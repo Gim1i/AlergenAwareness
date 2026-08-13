@@ -160,7 +160,7 @@ public class Modal_Managment : MonoBehaviour
             modalSlots[h].Clear();
         }
 
-        //inputManager.UpdateModalButtons(modalButtons); // Update the button list in Input_Managment
+        inputManager.UpdateModalButtons(modalButtons); // Update the button list in Input_Managment
     }
 
     //
@@ -208,6 +208,7 @@ public class Modal_Managment : MonoBehaviour
                 }
             }
             visElmnt.Q<Button>("Modal_Background").style.backgroundImage = new StyleBackground(bgRanges[levelRange].GetBackground(ShortToPlyrStat(level))); // Set the new sprite's background
+            visElmnt.Q<Button>("Modal_Background").tooltip = variant.ToString();
 
             this.variant = variant;
             this.isEmotion = isEmotion;

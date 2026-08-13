@@ -2,8 +2,8 @@
     flex-grow: 1;
     background-image: url("project://database/Assets/Gameplay/Sprites/Label%20border.png?fileID=21300000&guid=f217fc07b0129df43b8ed215af52a3a3&type=3#Label border");
     -unity-background-scale-mode: scale-to-fit;
-    width: 14px;
     background-position-x: right 0;
+    width: 23px;
 }
 
 .Border-Centre {
@@ -18,7 +18,7 @@
     -unity-font-style: bold;
     color: rgb(231, 231, 231);
     -unity-text-align: middle-left;
-    font-size: 13px;
-    padding: 4px 0px;    /* This is 4, 0, 4, 0 */
-    margin: 4px 0px 2px; /* This is 4, 0, 2, 0 */
+    padding: 4px 0;
+    margin: 4px 0 2px;
+    font-size: 32px;
 }

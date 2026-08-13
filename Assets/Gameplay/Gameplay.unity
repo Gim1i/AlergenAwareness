@@ -460,6 +460,7 @@ GameObject:
   - component: {fileID: 1453211062}
   - component: {fileID: 1453211063}
   - component: {fileID: 1453211064}
+  - component: {fileID: 1453211065}
   m_Layer: 0
   m_Name: MainGame
   m_TagString: Untagged
@@ -717,6 +718,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Settings_Handler
   settingsUI: {fileID: 1890821276}
+--- !u!114 &1453211065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453211056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178da06d18c42dd4992ee12dac5d7080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Label_Manager
+  labelTemplateName: Label_Template
 --- !u!1 &1890821274
 GameObject:
   m_ObjectHideFlags: 0

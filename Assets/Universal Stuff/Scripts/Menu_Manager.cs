@@ -9,7 +9,7 @@ public class Menu_Manager : MonoBehaviour
 
     [SerializeField] private bool isMainMenu = true;
     [SerializeField] private string menuUIName; // Stores the menu template's name
-    [SerializeField] private string menuBackgroundName; // Stores the menu template's name
+    [SerializeField] private string menuBackgroundName; // Stores the menu template's background element name
 
     private Dictionary<buttons, Button> menuButtons; // Stores all buttons
 
